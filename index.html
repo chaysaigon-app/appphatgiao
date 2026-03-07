@@ -3,91 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Viện Phật Giáo Cho Người Hữu Duyên</title>
+    <title>Thư Viện Phật Giáo - Tự Học Chánh Pháp</title>
     <style>
         :root {
-            --bg-ultra-dark: #000000; /* Đen tuyệt đối để nổi bật chữ */
-            --card-deep: #1e1e1e;
-            --accent-lime: #ccff00; /* Vàng chanh - cực rõ trên nền đen */
-            --text-main: #ffffff;
-            --text-sub: #cfd8dc;
-            /* 3 Màu phân biệt rõ rệt */
-            --color-kinh: #2e7d32; /* Xanh lá đậm */
-            --color-info: #f57c00; /* Cam đậm */
-            --color-video: #d32f2f; /* Đỏ đậm */
+            --den-tuyet-doi: #000000;
+            --nen-the: #1a1a1a;
+            --vang-chanh: #ccff00; 
+            --chu-trang: #ffffff;
+            --xanh-kinh: #2e7d32;
+            --cam-info: #e65100;
+            --do-video: #c62828;
         }
 
         body { 
-            background: var(--bg-ultra-dark); 
-            color: var(--text-main); 
-            font-family: Arial, Helvetica, sans-serif; /* Font không chân, nét dày dễ đọc */
-            margin: 0; padding-bottom: 100px;
-            font-size: 20px; /* Cỡ chữ cơ sở lớn */
+            background: var(--den-tuyet-doi); 
+            color: var(--chu-trang); 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; padding-bottom: 80px;
+            font-size: 22px; 
         }
 
-        header { text-align: center; padding: 50px 20px; border-bottom: 2px solid var(--accent-lime); }
-        h1 { font-size: 40px; color: var(--accent-lime); margin: 0; text-transform: uppercase; }
+        header { text-align: center; padding: 40px 20px; border-bottom: 3px solid var(--vang-chanh); background: #0a0a0a; }
+        h1 { font-size: 45px; color: var(--vang-chanh); text-transform: uppercase; margin: 0; letter-spacing: 2px; }
 
-        /* 3 Nút chính - To & Dễ bấm */
-        .main-nav { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 20px; }
-        @media (min-width: 600px) { .main-nav { grid-template-columns: 1fr 1fr 1fr; } }
+        .die-huong-chinh { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 30px 20px; }
+        @media (min-width: 800px) { .die-huong-chinh { grid-template-columns: 1fr 1fr 1fr; } }
         
-        .nav-btn { 
-            padding: 25px; border: none; border-radius: 15px; font-size: 22px; 
-            font-weight: 900; cursor: pointer; color: white; text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        .nut-bam { 
+            padding: 30px; border-radius: 20px; font-size: 26px; font-weight: 900; 
+            cursor: pointer; color: white; border: none; text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); text-decoration: none;
         }
-        .b1 { background: var(--color-kinh); border-bottom: 5px solid #1b5e20; }
-        .b2 { background: var(--color-info); border-bottom: 5px solid #e65100; }
-        .b3 { background: var(--color-video); border-bottom: 5px solid #b71c1c; }
+        .nut-kinh { background: var(--xanh-kinh); border-bottom: 8px solid #1b5e20; }
+        .nut-info { background: var(--cam-info); border-bottom: 8px solid #bf360c; }
+        .nut-video { background: var(--do-video); border-bottom: 8px solid #8e0000; }
 
-        /* 20 Chủ đề - Cuộn ngang nhưng nút to */
-        .topic-container { padding: 20px; border-bottom: 1px solid #333; background: #111; }
-        .topic-label { font-weight: bold; color: var(--accent-lime); margin-bottom: 15px; display: block; font-size: 24px; }
-        .topic-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: thin; }
-        .chip { 
-            background: #263238; color: white; padding: 12px 25px; border-radius: 30px; 
-            white-space: nowrap; border: 2px solid #444; font-size: 18px; font-weight: bold;
-        }
-        .chip:active { background: var(--accent-lime); color: black; }
-
-        /* Grid 9:16 Tiktok Style */
-        .container { padding: 20px; }
-        .grid-916 { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
-        
-        .card-tiktok { 
-            display: flex; background: var(--card-deep); border-radius: 20px; 
-            overflow: hidden; height: 320px; border: 2px solid #333;
+        .vung-chu-de { padding: 25px; background: #0a0a0a; border-bottom: 2px solid #333; }
+        .tieu-de-muc { color: var(--vang-chanh); font-size: 30px; font-weight: bold; margin-bottom: 20px; display: block; }
+        .danh-sach-chu-de { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
+        .the-chu-de { 
+            background: #263238; color: white; padding: 15px 30px; border-radius: 40px; 
+            white-space: nowrap; border: 2px solid var(--vang-chanh); font-size: 22px; font-weight: bold;
         }
 
-        .thumb-916 { 
-            width: 180px; height: 100%; position: relative; 
-            background: #000; background-size: cover; background-position: center;
+        .phan-muc { padding: 40px 20px; }
+        .phan-tieu-de { 
+            font-size: 35px; color: var(--vang-chanh); border-left: 10px solid; 
+            padding-left: 20px; margin-bottom: 30px; text-transform: uppercase;
         }
-        .thumb-tag {
-            position: absolute; bottom: 15px; left: 10px; right: 10px;
-            background: rgba(0,0,0,0.8); color: var(--accent-lime);
-            padding: 5px; font-size: 16px; font-weight: 900; text-align: center; border-radius: 5px;
+        .vach-kinh { border-color: var(--xanh-kinh); }
+        .vach-info { border-color: var(--cam-info); }
+        .vach-video { border-color: var(--do-video); }
+
+        .luoi-noi-dung { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 40px; }
+        .the-916 { 
+            display: flex; background: var(--nen-the); border-radius: 25px; 
+            overflow: hidden; height: 350px; border: 2px solid #333;
+        }
+        .anh-the { width: 200px; background-size: cover; background-position: center; position: relative; }
+        .ma-so { 
+            position: absolute; bottom: 0; background: rgba(0,0,0,0.8); 
+            width: 100%; color: var(--vang-chanh); text-align: center; padding: 10px 0; font-weight: 900;
+        }
+        .noi-dung-the { flex: 1; padding: 25px; display: flex; flex-direction: column; }
+        .noi-dung-the h3 { margin: 0 0 15px; font-size: 28px; line-height: 1.2; }
+        .noi-dung-the p { font-size: 20px; color: #b0bec5; line-height: 1.5; flex-grow: 1; }
+        .nut-doc-tiep { 
+            background: var(--vang-chanh); color: black; border: none; padding: 15px; 
+            border-radius: 12px; font-size: 22px; font-weight: 900; cursor: pointer;
         }
 
-        .info-panel { flex: 1; padding: 20px; display: flex; flex-direction: column; }
-        .info-panel h3 { margin: 0 0 15px; font-size: 24px; color: #fff; line-height: 1.2; }
-        .info-panel p { font-size: 18px; color: #b0bec5; margin: 0; line-height: 1.5; flex-grow: 1; }
-        
-        .btn-action { 
-            background: var(--accent-lime); color: #000; border: none; 
-            padding: 12px; border-radius: 10px; font-size: 20px; font-weight: 900;
-            cursor: pointer; text-transform: uppercase; margin-top: 15px;
-        }
-
-        /* Modal Đọc Kinh - Chữ cực to */
-        .modal { display: none; position: fixed; z-index: 9999; left:0; top:0; width:100%; height:100%; background: #000; }
-        .modal-content { 
-            padding: 40px; height: 90vh; overflow-y: auto; color: #fff; line-height: 1.8;
-        }
-        .m-header { font-size: 32px; color: var(--accent-lime); font-weight: 900; border-bottom: 3px solid var(--accent-lime); padding-bottom: 20px; margin-bottom: 30px; }
-        .m-text { font-size: 24px; text-align: justify; }
-        .close-modal { background: #555; color: white; padding: 15px 30px; border-radius: 10px; font-size: 20px; float: right; border: none; }
+        footer { text-align: center; padding: 50px; opacity: 0.6; font-size: 18px; border-top: 1px solid #333; }
     </style>
 </head>
 <body>
@@ -96,72 +82,77 @@
     <h1>THƯ VIỆN PHẬT GIÁO</h1>
 </header>
 
-<div class="main-nav">
-    <button class="nav-btn b1">1. HỌC BẢN GỐC<br>KINH NIKAYA</button>
-    <button class="nav-btn b2">2. HỌC TÓM TẮT<br>INFOGRAPHIC</button>
-    <button class="nav-btn b3">3. HỌC QUA VIDEO<br>BÀI GIẢNG</button>
+<div class="die-huong-chinh">
+    <a href="#phan-kinh" class="nut-bam nut-kinh">📖 1. BẢN GỐC<br>KINH NIKAYA</a>
+    <a href="#phan-info" class="nut-bam nut-info">🖼️ 2. TÓM TẮT<br>INFOGRAPHIC</a>
+    <a href="#phan-video" class="nut-bam nut-video">🎬 3. BÀI GIẢNG<br>VIDEO SHORTS</a>
 </div>
 
-<div class="topic-container">
-    <span class="topic-label">20 CHỦ ĐỀ ĐIỂN HÌNH:</span>
-    <div class="topic-scroll" id="topicList">
-        </div>
+<div class="vung-chu-de">
+    <span class="tieu-de-muc">🪷 CHỌN CHỦ ĐỀ QUAN TÂM:</span>
+    <div class="danh-sach-chu-de" id="topicList"></div>
 </div>
 
-<div class="container">
-    <div id="mainGrid" class="grid-916">
-        </div>
+<div class="phan-muc" id="phan-kinh">
+    <div class="phan-tieu-de vach-kinh">📜 I. HỌC BẢN GỐC KINH NIKAYA</div>
+    <div class="luoi-noi-dung" id="gridKinh"></div>
 </div>
 
-<div id="reader" class="modal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeReader()">ĐÓNG [X]</button>
-        <div id="mHeader" class="m-header"></div>
-        <div id="mText" class="m-text"></div>
-    </div>
+<div class="phan-muc" id="phan-info">
+    <div class="phan-tieu-de vach-info">🎨 II. HỌC QUA HÌNH ẢNH (INFOGRAPHIC)</div>
+    <div class="luoi-noi-dung" id="gridInfo"></div>
 </div>
+
+<div class="phan-muc" id="phan-video">
+    <div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO NGẮN</div>
+    <div class="luoi-noi-dung" id="gridVideo"></div>
+</div>
+
+<footer>
+    <p>Dịch giả: Cố Hòa Thượng Thích Minh Châu</p>
+    <p>Hỗ trợ: Zalo 0909108890</p>
+</footer>
 
 <script>
     const topics = [
-        "1. Chánh Kiến", "2. Làm Giàu", "3. Nuôi Dạy Con", "4. Vợ Chồng", "5. Báo Hiếu", 
-        "6. Sức Khỏe", "7. Vượt Qua Khổ", "8. Tứ Diệu Đế", "9. Nhân Quả", "10. Thiền Định",
-        "11. Giận Dữ", "12. Buông Xả", "13. Tình Thương", "14. Trí Tuệ", "15. Công Việc",
-        "16. Bạn Bè", "17. Lời Nói", "18. Ăn Chay", "19. Bố Thí", "20. Chết & Tái Sinh", "Chủ đề khác..."
+        "Chánh Kiến", "Làm Giàu", "Nuôi Con", "Vợ Chồng", "Báo Hiếu", 
+        "Sức Khỏe", "Vượt Khổ", "Tứ Diệu Đế", "Nhân Quả", "Thiền Định",
+        "Giận Dữ", "Buông Xả", "Tình Thương", "Trí Tuệ", "Công Việc",
+        "Bạn Bè", "Lời Nói", "Ăn Chay", "Bố Thí", "Tái Sinh"
     ];
 
-    const mockData = [
-        { id: "MN-01", title: "Căn Bản Mọi Pháp", desc: "Cách nhìn nhận đúng đắn về mọi sự vật hiện tượng xung quanh.", img: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=400" },
-        { id: "MN-10", title: "Bốn Nơi An Tâm", desc: "Phương pháp giữ tâm bình thản giữa những biến động cuộc đời.", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400" }
-    ];
+    const sampleData = {
+        kinh: [{id: "MN-01", title: "Căn Bản Mọi Pháp", desc: "Cách nhìn đúng đắn để không bị lầm lạc.", img: "https://images.unsplash.com/photo-1542353436-312f0ebbf670?w=400"}],
+        info: [{id: "IF-01", title: "Gieo Nhân Tài Lộc", desc: "5 cách tạo phước đức để giàu sang bền vững.", img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400"}],
+        video: [{id: "VD-01", title: "Lòng Biết Ơn", desc: "Sức mạnh của sự tri ân cha mẹ.", img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400"}]
+    };
 
-    function init() {
-        // Nạp chủ đề
-        document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip">${t}</div>`).join('');
+    function start() {
+        document.getElementById('topicList').innerHTML = topics.map(t => 
+            `<div class="the-chu-de">🪷 ${t}</div>`
+        ).join('');
 
-        // Nạp dữ liệu mẫu
-        document.getElementById('mainGrid').innerHTML = mockData.map(d => `
-            <div class="card-tiktok">
-                <div class="thumb-916" style="background-image: url('${d.img}')">
-                    <div class="thumb-tag">${d.id}</div>
+        const draw = (data, elementId) => {
+            document.getElementById(elementId).innerHTML = data.map(d => `
+                <div class="the-916">
+                    <div class="anh-the" style="background-image: url('${d.img}')">
+                        <div class="ma-so">${d.id}</div>
+                    </div>
+                    <div class="noi-dung-the">
+                        <h3>${d.title}</h3>
+                        <p>${d.desc}</p>
+                        <button class="nut-doc-tiep">BẤM ĐỂ HỌC TIẾP</button>
+                    </div>
                 </div>
-                <div class="info-panel">
-                    <h3>${d.title}</h3>
-                    <p>${d.desc}</p>
-                    <button class="btn-action" onclick="openReader('${d.title}')">Bấm Để Đọc Tiếp</button>
-                </div>
-            </div>
-        `).join('');
+            `).join('');
+        };
+
+        draw(sampleData.kinh, 'gridKinh');
+        draw(sampleData.info, 'gridInfo');
+        draw(sampleData.video, 'gridVideo');
     }
 
-    function openReader(title) {
-        document.getElementById('mHeader').innerText = title;
-        document.getElementById('mText').innerText = "Đây là nội dung bài giảng dành cho người lớn tuổi. Chữ được thiết kế to, rõ ràng, dễ đọc. Nội dung tóm tắt các ý chính giúp quý vị nắm bắt nhanh lời dạy của Đức Phật...";
-        document.getElementById('reader').style.display = 'block';
-    }
-
-    function closeReader() { document.getElementById('reader').style.display = 'none'; }
-
-    init();
+    start();
 </script>
 
 </body>
