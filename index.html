@@ -34,14 +34,14 @@
         /* Grid hiển thị Thẻ bài */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
         
-        /* Tăng chiều cao thẻ lên 210px để chứa đủ 4 dòng chữ */
-        .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 210px; border: 1px solid #333; }
+        /* Tăng chiều cao lên 220px để cân đối với cỡ chữ lớn hơn */
+        .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         
-        /* TIÊU ĐỀ: 18px, hiện 4 dòng, tự động viết hoa đầu mỗi từ */
+        /* TIÊU ĐỀ: Tăng lên 21px, hiện 4 dòng, tự động viết hoa đầu từ */
         .the-title { 
-            margin: 0; font-size: 18px; color: #fff; font-weight: bold; line-height: 1.4;
+            margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3;
             text-transform: capitalize !important; 
             display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; 
             word-break: break-word;
@@ -54,7 +54,7 @@
         .the-video { background: var(--nen-the); border-radius: 15px; overflow: hidden; border: 2px solid var(--do); }
         .video-box { position: relative; width: 100%; padding-bottom: 177.7%; height: 0; background: #000; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .video-title { padding: 12px; text-align: center; font-size: 18px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
+        .video-title { padding: 12px; text-align: center; font-size: 21px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
 
         /* Popup */
         #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
@@ -80,7 +80,7 @@
 <div id="modalDoc">
     <div class="modal-body-content">
         <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
-        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:2px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
+        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
         <img id="mImg" src="" class="img-popup">
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
     </div>
@@ -112,7 +112,6 @@
                 const id = doc.id; const d = doc.data(); 
                 if (d.hidden !== true) { 
                     window.baiHocData[id] = d;
-                    // Chuẩn hóa tiêu đề về chữ thường trước khi CSS capitalize xử lý
                     const displayTitle = (d.title || "Chưa có tựa").toLowerCase();
                     
                     if (name === "Video_Shorts") {
@@ -152,7 +151,7 @@
         }
     }
     function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; }
-    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ"];
+    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
     document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
     function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
     function locBai() {
