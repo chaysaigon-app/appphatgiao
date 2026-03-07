@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Trị Nội Dung - Thư Viện Phật Giáo</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --vang: #ccff00;
+            --border: #333;
+            --xanh: #2e7d32;
+            --cam: #e65100;
+            --do: #c62828;
+        }
+        body { background: var(--bg); color: #fff; font-family: Arial, sans-serif; padding: 30px; font-size: 20px; }
+        .admin-box { max-width: 800px; margin: auto; border: 2px solid var(--vang); padding: 30px; border-radius: 20px; }
+        
+        /* Nút chọn loại hình */
+        .type-selector { display: flex; gap: 10px; margin-bottom: 30px; }
+        .type-btn { flex: 1; padding: 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 18px; opacity: 0.6; }
+        .type-btn.active { opacity: 1; transform: scale(1.05); border: 2px solid #fff; }
+
+        /* Form nhập liệu */
+        .input-group { margin-bottom: 20px; display: none; }
+        .input-group.active { display: block; }
+        label { display: block; margin-bottom: 10px; color: var(--vang); font-weight: bold; }
+        input, textarea, select { 
+            width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid #444; 
+            color: #fff; border-radius: 10px; font-size: 20px; box-sizing: border-box;
+        }
+        textarea { height: 200px; resize: vertical; }
+
+        .save-btn { 
+            width: 100%; padding: 20px; background: var(--vang); color: #000; 
+            border: none; border-radius: 10px; font-size: 24px; font-weight: 900; 
+            cursor: pointer; margin-top: 20px; text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-box">
+    <h2 style="text-align: center; color: var(--vang);">NHẬP LIỆU BÀI HỌC MỚI</h2>
+
+    <div class="type-selector">
+        <button class="type-btn active" style="background: var(--xanh);" onclick="switchTab('kinh', this)">1. BẢN GỐC KINH</button>
+        <button class="type-btn" style="background: var(--cam);" onclick="switchTab('info', this)">2. INFOGRAPHIC</button>
+        <button class="type-btn" style="background: var(--do);" onclick="switchTab('video', this)">3. VIDEO SHORTS</button>
+    </div>
+
+    <div id="form-kinh" class="input-group active">
+        <label>Tựa bài kinh:</label>
+        <input type="text" id="kinh-title" placeholder="Ví dụ: Kinh Pháp Môn Căn Bản">
+        <label>Mô tả ngắn (ngắt chữ tự động):</label>
+        <input type="text" id="kinh-desc" placeholder="Tóm tắt ý chính của bài kinh...">
+        <label>Hình ảnh đại diện (Link):</label>
+        <input type="text" id="kinh-img" placeholder="Dán link ảnh tại đây...">
+        <label>Nội dung nguyên văn (HT. Thích Minh Châu):</label>
+        <textarea id="kinh-content" placeholder="Dán toàn bộ lời kinh vào đây..."></textarea>
+    </div>
+
+    <div id="form-info" class="input-group">
+        <label>Tiêu đề tranh tóm tắt:</label>
+        <input type="text" id="info-title" placeholder="Ví dụ: 5 Bước Làm Giàu">
+        <label>Mô tả bài học:</label>
+        <input type="text" id="info-desc" placeholder="Giải thích ngắn gọn nội dung tranh...">
+        <label>Link ảnh dọc (9:16):</label>
+        <input type="text" id="info-img" placeholder="Dán link ảnh đồ họa tại đây...">
+    </div>
+
+    <div id="form-video" class="input-group">
+        <label>Tiêu đề Video:</label>
+        <input type="text" id="video-title" placeholder="Ví dụ: Sức Mạnh Lòng Biết Ơn">
+        <label>Mô tả video:</label>
+        <input type="text" id="video-desc" placeholder="Nội dung video nói về gì?">
+        <label>Mã YouTube ID:</label>
+        <input type="text" id="video-id" placeholder="Ví dụ: dQw4w9WgXcQ">
+        <label>Link ảnh nền video:</label>
+        <input type="text" id="video-img" placeholder="Link ảnh đại diện cho video...">
+    </div>
+
+    <button class="save-btn" onclick="uploadData()">Lưu dữ liệu ngay</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+        authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+        projectId: "thuvienphatgiao-fd07e",
+        storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+        messagingSenderId: "342500331725",
+        appId: "1:342500331725:web:32795cf0146210f8019984"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let currentTab = 'kinh';
+
+    window.switchTab = (tab, btn) => {
+        currentTab = tab;
+        document.querySelectorAll('.input-group').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.type-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById('form-' + tab).classList.add('active');
+        btn.classList.add('active');
+    };
+
+    window.uploadData = async () => {
+        let data = {};
+        let colName = "";
+
+        if (currentTab === 'kinh') {
+            colName = "Nikaya_Texts";
+            data = {
+                title: document.getElementById('kinh-title').value,
+                desc: document.getElementById('kinh-desc').value,
+                img: document.getElementById('kinh-img').value,
+                content_full: document.getElementById('kinh-content').value,
+                type: 'kinh'
+            };
+        } else if (currentTab === 'info') {
+            colName = "Infographics_Library";
+            data = {
+                title: document.getElementById('info-title').value,
+                desc: document.getElementById('info-desc').value,
+                img: document.getElementById('info-img').value,
+                type: 'info'
+            };
+        } else {
+            colName = "Video_Shorts";
+            data = {
+                title: document.getElementById('video-title').value,
+                desc: document.getElementById('video-desc').value,
+                youtube_id: document.getElementById('video-id').value,
+                img: document.getElementById('video-img').value,
+                type: 'video'
+            };
+        }
+
+        try {
+            await addDoc(collection(db, colName), data);
+            alert("Đã lưu thành công bài học mới!");
+            location.reload(); 
+        } catch (e) {
+            alert("Lỗi: " + e.message);
+        }
+    };
+</script>
+
+</body>
+</html>
