@@ -20,7 +20,6 @@
         .search-box { padding: 20px; display: flex; justify-content: center; }
         #searchInput { width: 90%; max-width: 600px; padding: 15px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 22px; background: #000; color: #fff; text-align: center; }
         
-        /* 20 Chủ đề */
         .vung-chu-de { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #333; }
         .topic-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; }
         .chip { background: #263238; color: white; padding: 12px 25px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 20px; white-space: nowrap; cursor: pointer; }
@@ -41,8 +40,21 @@
         .noi-dung-the p { font-size: 18px; color: #b0bec5; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 12px; border-radius: 10px; font-size: 22px; font-weight: 900; cursor: pointer; margin-top: auto; width: 100%; text-transform: uppercase; }
 
-        /* Admin & Modal */
-        #adminPanel, #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; padding: 40px; box-sizing: border-box; overflow-y: auto; }
+        /* POPUP BÀI HỌC TRÀN MÀN HÌNH */
+        #modalDoc { 
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: var(--den); z-index: 99999; overflow-y: scroll; padding: 0; margin: 0;
+        }
+        .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; }
+        .btn-dong { 
+            position: sticky; top: 20px; right: 20px; z-index: 100000; float: right;
+            padding: 15px 30px; background: var(--vang-chanh); color: #000; 
+            border: none; font-size: 22px; font-weight: bold; border-radius: 10px; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        /* Admin Panel */
+        #adminPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 20000; padding: 40px; box-sizing: border-box; overflow-y: auto; }
         .admin-form { max-width: 600px; margin: auto; border: 2px solid var(--vang-chanh); padding: 20px; border-radius: 15px; }
         input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; background: #222; color: #fff; border: 1px solid #444; font-size: 18px; border-radius: 8px; }
     </style>
@@ -51,7 +63,7 @@
 
 <header><h1>THƯ VIỆN PHẬT GIÁO</h1></header>
 
-<div class="search-box"><input type="text" id="searchInput" placeholder="Gõ từ khóa để tìm bài..." onkeyup="locBai()"></div>
+<div class="search-box"><input type="text" id="searchInput" placeholder="Gõ từ khóa tìm kiếm..." onkeyup="locBai()"></div>
 
 <div class="vung-chu-de">
     <div class="topic-scroll" id="topicList"></div>
@@ -61,17 +73,19 @@
 <div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid"></div></div>
 
-<footer style="text-align:center; padding:50px; opacity:0.1" onclick="moAdmin()">⚙️</footer>
+<footer style="text-align:center; padding:50px; opacity:0.1" onclick="document.getElementById('adminPanel').style.display='block'">⚙️</footer>
 
 <div id="modalDoc">
-    <button onclick="dongBaiHoc()" style="float:right; padding:15px 25px; background:#ccff00; color:black; border:none; font-size:22px; font-weight:bold; border-radius:10px; cursor:pointer;">ĐÓNG [X]</button>
-    <h2 id="mTitle" style="color:var(--vang-chanh); font-size:38px; margin-top:60px; border-bottom:2px solid #333; padding-bottom:15px;"></h2>
-    <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; margin-top:30px; white-space: pre-wrap; color:#fff;"></div>
+    <div class="modal-body-content">
+        <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
+        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:42px; margin-top:80px; border-bottom:3px solid #333; padding-bottom:20px; line-height:1.3;"></h2>
+        <div id="mBody" style="font-size:28px; line-height:1.9; text-align:justify; margin-top:40px; white-space: pre-wrap; color:#fff;"></div>
+    </div>
 </div>
 
 <div id="adminPanel">
     <div class="admin-form">
-        <button onclick="dongAdmin()" style="float:right; color:red; font-weight:bold;">[HỦY]</button>
+        <button onclick="document.getElementById('adminPanel').style.display='none'" style="float:right; color:red;">[HỦY]</button>
         <h2 style="color:var(--vang-chanh)">NHẬP LIỆU MỚI</h2>
         <select id="aType">
             <option value="Nikaya_Texts">1. Kinh Gốc</option>
@@ -80,10 +94,10 @@
         </select>
         <input type="text" id="aTitle" placeholder="Tiêu đề bài">
         <input type="text" id="aDesc" placeholder="Mô tả ngắn ngoài thẻ">
-        <input type="text" id="aImg" placeholder="Link ảnh (Sử dụng link ảnh 9:16)">
-        <textarea id="aContent" placeholder="Dán nội dung diễn giải chi tiết hoặc lời kinh vào đây..."></textarea>
-        <input type="text" id="aVid" placeholder="YouTube ID (Nếu là video)">
-        <button id="btnLuu" style="width:100%; padding:20px; background:var(--vang-chanh); font-weight:bold; font-size:22px; cursor:pointer; border-radius:10px;">LƯU DỮ LIỆU</button>
+        <input type="text" id="aImg" placeholder="Link ảnh 9:16">
+        <textarea id="aContent" placeholder="Dán nội dung bài giảng chi tiết tại đây..."></textarea>
+        <input type="text" id="aVid" placeholder="YouTube ID">
+        <button id="btnLuu" style="width:100%; padding:20px; background:var(--vang-chanh); font-weight:bold; font-size:22px; cursor:pointer;">LƯU DỮ LIỆU</button>
     </div>
 </div>
 
@@ -114,53 +128,60 @@
         };
         try {
             await addDoc(collection(db, document.getElementById('aType').value), data);
-            alert("Đã lưu bài học thành công!");
+            alert("Đã lưu thành công!");
             location.reload();
         } catch (e) { alert("Lỗi: " + e.message); }
     };
 
-    // Tải dữ liệu
+    // Tải dữ liệu thật và lưu vào biến toàn cục để tránh lỗi ký tự đặc biệt
+    window.baiHocData = {};
+
     async function loadAll() {
         const fetchCol = async (name, gridId) => {
             const snap = await getDocs(collection(db, name));
             const grid = document.getElementById(gridId);
             grid.innerHTML = "";
             snap.forEach(doc => {
+                const id = doc.id;
                 const d = doc.data();
-                const cleanContent = (d.content_full || d.desc).replace(/'/g, "\\'").replace(/\n/g, "\\n");
+                window.baiHocData[id] = d; // Lưu vào biến global
+                
                 grid.innerHTML += `
                     <div class="the-916 item-the">
                         <div class="anh-the" style="background-image: url('${d.img}')"></div>
                         <div class="noi-dung-the">
                             <h3 class="search-title">${d.title}</h3>
                             <p>${d.desc}</p>
-                            <button class="nut-hoc" onclick="moBaiHoc('${d.title.replace(/'/g, "\\'")}', '${cleanContent}')">Học Ngay</button>
+                            <button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button>
                         </div>
                     </div>`;
             });
         };
-        fetchCol("Nikaya_Texts", "gridKinh");
-        fetchCol("Infographics_Library", "gridInfo");
-        fetchCol("Video_Shorts", "gridVideo");
+        await fetchCol("Nikaya_Texts", "gridKinh");
+        await fetchCol("Infographics_Library", "gridInfo");
+        await fetchCol("Video_Shorts", "gridVideo");
     }
     loadAll();
 </script>
 
 <script>
-    // Các hàm xử lý giao diện (Nằm ngoài module để HTML gọi được trực tiếp)
-    function moBaiHoc(t, c) {
-        document.getElementById('mTitle').innerText = t;
-        document.getElementById('mBody').innerText = c;
-        document.getElementById('modalDoc').style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Khóa cuộn trang chính
+    // Hàm hiển thị Popup tràn màn hình
+    function moBaiHoc(id) {
+        const d = window.baiHocData[id];
+        if (d) {
+            document.getElementById('mTitle').innerText = d.title;
+            document.getElementById('mBody').innerText = d.content_full || d.desc;
+            document.getElementById('modalDoc').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Khóa màn hình chính
+        }
     }
+    
     function dongBaiHoc() {
         document.getElementById('modalDoc').style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-    function moAdmin() { document.getElementById('adminPanel').style.display = 'block'; }
-    function dongAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
 
+    // Xử lý bộ lọc
     const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ"];
     document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
     
