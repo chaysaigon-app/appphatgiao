@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Viện Phật Giáo - Học Chánh Pháp</title>
+    <title>Thư Viện Tự Học Phật - Học Chánh Pháp</title>
     <style>
         :root {
             --den: #000000; --nen-the: #1a1a1a; --vang-chanh: #ccff00; 
@@ -34,12 +34,10 @@
         /* Grid hiển thị Thẻ bài */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
         
-        /* Tăng chiều cao lên 220px để cân đối với cỡ chữ lớn hơn */
         .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         
-        /* TIÊU ĐỀ: Tăng lên 21px, hiện 4 dòng, tự động viết hoa đầu từ */
         .the-title { 
             margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3;
             text-transform: capitalize !important; 
@@ -61,11 +59,14 @@
         .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
         .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
         .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
+
+        /* Footer hỗ trợ */
+        .support-text { font-size: 12px; color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 0 20px; }
     </style>
 </head>
 <body>
 
-<header><h1>THƯ VIỆN PHẬT GIÁO</h1></header>
+<header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
 
 <div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
 
@@ -75,7 +76,12 @@
 <div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid-video"></div></div>
 
-<footer style="text-align:center; padding:40px; opacity:0.1" onclick="location.href='admin.html'">⚙️</footer>
+<footer style="text-align:center; padding:40px 0 20px;">
+    <div class="support-text">
+        Nếu thấy hữu ích, Quý vị có thể giúp duy trì trang web tuhocphat.com thông qua trợ duyên tài lực 10K hoặc 20K về TK 0909108890 (Momo, Ngân hàng MB). Chúng tôi xin hồi hướng công đức này đến tất cả quý vị đã luôn ủng hộ chúng tôi!
+    </div>
+    <div style="opacity:0.1; margin-top:20px; cursor:pointer;" onclick="location.href='admin.html'">⚙️</div>
+</footer>
 
 <div id="modalDoc">
     <div class="modal-body-content">
