@@ -2,93 +2,48 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hệ Thống Quản Lý Bảo Mật</title>
+    <title>Quản Lý Toàn Diện - Thư Viện Phật Giáo</title>
     <style>
-        :root { --den: #000; --vang: #ccff00; --do: #ff4444; --xanh: #2ecc71; }
-        
-        /* Màn hình khóa */
-        #lockScreen { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; z-index: 9999; display: flex; 
-            flex-direction: column; align-items: center; justify-content: center; 
-        }
-        .lock-box { text-align: center; border: 3px solid var(--vang); padding: 50px; border-radius: 25px; background: #0a0a0a; }
-        .lock-input { padding: 15px; font-size: 26px; text-align: center; border-radius: 10px; border: 2px solid #444; margin-bottom: 25px; width: 300px; background: #111; color: #fff; }
-        .lock-btn { padding: 15px 50px; background: var(--vang); border: none; font-weight: bold; cursor: pointer; border-radius: 12px; font-size: 22px; text-transform: uppercase; }
-
-        /* Nội dung quản lý */
-        body { background: var(--den); color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        #mainContent { display: none; max-width: 1200px; margin: auto; }
-        h1 { color: var(--vang); text-align: center; text-transform: uppercase; font-size: 35px; border-bottom: 2px solid #333; padding-bottom: 20px; }
-
-        .tab-menu { display: flex; gap: 15px; margin: 30px 0; }
-        .tab-btn { flex: 1; padding: 20px; cursor: pointer; border: 2px solid var(--vang); background: #111; color: #fff; font-weight: bold; border-radius: 12px; font-size: 18px; }
+        :root { --den: #000; --vang: #ccff00; --do: #ff4444; }
+        body { background: var(--den); color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+        #lockScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .lock-box { border: 2px solid var(--vang); padding: 40px; border-radius: 20px; text-align: center; }
+        #mainContent { display: none; max-width: 1000px; margin: auto; }
+        .tab-menu { display: flex; gap: 10px; margin: 20px 0; }
+        .tab-btn { flex: 1; padding: 15px; background: #111; color: #fff; border: 1px solid var(--vang); cursor: pointer; font-weight: bold; }
         .tab-btn.active { background: var(--vang); color: #000; }
-
-        table { width: 100%; border-collapse: collapse; background: #111; border-radius: 15px; overflow: hidden; }
-        th, td { padding: 20px; text-align: left; border-bottom: 1px solid #333; font-size: 18px; }
-        th { background: #222; color: var(--vang); text-transform: uppercase; }
-        
-        .btn-group { display: flex; gap: 10px; }
-        .btn-action { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; text-transform: uppercase; }
-        .btn-edit { background: #f1c40f; color: #000; }
-        .btn-delete { background: var(--do); color: #fff; }
-
-        /* Modal Chỉnh sửa */
-        #editModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; padding: 30px; box-sizing: border-box; overflow-y: auto; }
-        .modal-content { max-width: 800px; margin: auto; background: #1a1a1a; padding: 40px; border: 2px solid var(--vang); border-radius: 20px; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 15px; margin: 15px 0; background: #000; color: #fff; border: 1px solid #444; border-radius: 10px; font-size: 20px; box-sizing: border-box; }
-        .modal-content textarea { height: 350px; line-height: 1.6; }
+        table { width: 100%; border-collapse: collapse; background: #111; }
+        th, td { padding: 15px; border-bottom: 1px solid #333; text-align: left; }
+        .btn-edit { background: #f1c40f; padding: 8px; border: none; cursor: pointer; margin-right: 5px; }
+        .btn-del { background: var(--do); padding: 8px; border: none; color: #fff; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="lockScreen">
     <div class="lock-box">
-        <h2 style="color: var(--vang); margin-bottom: 30px;">XÁC THỰC QUẢN TRỊ</h2>
-        <input type="password" id="passInput" class="lock-input" placeholder="Mật khẩu...">
-        <br>
-        <button class="lock-btn" onclick="checkPass()">TRUY CẬP</button>
+        <h2 style="color:var(--vang)">MẬT KHẨU QUẢN TRỊ</h2>
+        <input type="password" id="passInput" style="padding:10px; font-size:20px; text-align:center;"><br><br>
+        <button onclick="checkPass()" style="padding:10px 30px; background:var(--vang); font-weight:bold; cursor:pointer;">MỞ KHÓA</button>
     </div>
 </div>
 
 <div id="mainContent">
-    <h1>Hệ Thống Quản Lý Bài Đăng</h1>
-    
+    <h1>QUẢN LÝ NỘI DUNG</h1>
     <div class="tab-menu">
         <button id="btn-Nikaya_Texts" class="tab-btn active" onclick="switchTab('Nikaya_Texts')">1. KINH GỐC</button>
         <button id="btn-Infographics_Library" class="tab-btn" onclick="switchTab('Infographics_Library')">2. INFOGRAPHIC</button>
         <button id="btn-Video_Shorts" class="tab-btn" onclick="switchTab('Video_Shorts')">3. VIDEO</button>
     </div>
-
     <table>
-        <thead>
-            <tr>
-                <th style="width: 60%;">Tựa bài giảng</th>
-                <th>Thao tác</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            </tbody>
+        <thead><tr><th>Tiêu đề</th><th>Thao tác</th></tr></thead>
+        <tbody id="tableBody"></tbody>
     </table>
-</div>
-
-<div id="editModal">
-    <div class="modal-content">
-        <h2 style="color: var(--vang); text-align: center;">CẬP NHẬT NỘI DUNG</h2>
-        <input type="hidden" id="editId">
-        <label>Tựa bài:</label>
-        <input type="text" id="editTitle">
-        <label>Nội dung chi tiết / Diễn giải:</label>
-        <textarea id="editContent"></textarea>
-        <button onclick="saveUpdate()" style="width: 100%; padding: 20px; background: var(--xanh); border: none; font-weight: bold; font-size: 22px; border-radius: 10px; cursor: pointer;">LƯU THÔNG TIN</button>
-        <button onclick="document.getElementById('editModal').style.display='none'" style="width: 100%; margin-top: 15px; padding: 15px; background: #444; color: #fff; border: none; border-radius: 10px; cursor: pointer;">HỦY BỎ</button>
-    </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
@@ -103,71 +58,39 @@
     const db = getFirestore(app);
     let currentTab = 'Nikaya_Texts';
 
-    // KIỂM TRA MẬT KHẨU
     window.checkPass = () => {
-        const pass = document.getElementById('passInput').value;
-        if (pass === 'admin@8899') {
+        if (document.getElementById('passInput').value === 'admin@8899') {
             document.getElementById('lockScreen').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
             loadPosts();
-        } else {
-            alert("Mật khẩu sai rồi!");
-        }
+        } else { alert("Sai mật khẩu!"); }
     };
 
-    // TẢI DỮ LIỆU TỪ FIREBASE
     async function loadPosts() {
-        const querySnapshot = await getDocs(collection(db, currentTab));
+        const snap = await getDocs(collection(db, currentTab));
         const body = document.getElementById('tableBody');
         body.innerHTML = "";
-
-        querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const id = docSnap.id;
-            const row = `
+        snap.forEach((docSnap) => {
+            const d = docSnap.data();
+            // SỬA LỖI TRỰC TIẾP: Lấy bất cứ cái tên nào có dữ liệu
+            const title = d.title || d.title_vi || d.tieu_de || "Bài chưa có tựa";
+            body.innerHTML += `
                 <tr>
-                    <td><strong>${data.title}</strong></td>
+                    <td>${title}</td>
                     <td>
-                        <div class="btn-group">
-                            <button class="btn-action btn-edit" onclick="openEdit('${id}', '${data.title.replace(/'/g, "\\'")}', '${(data.content_full || "").replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">SỬA</button>
-                            <button class="btn-action btn-delete" onclick="deletePost('${id}')">XÓA</button>
-                        </div>
+                        <button class="btn-del" onclick="deletePost('${docSnap.id}')">XÓA</button>
                     </td>
                 </tr>`;
-            body.innerHTML += row;
         });
     }
 
-    // XÓA BÀI
     window.deletePost = async (id) => {
-        if(confirm("Bạn có chắc chắn muốn xóa bài này vĩnh viễn không?")) {
+        if(confirm("Xóa vĩnh viễn bài này?")) {
             await deleteDoc(doc(db, currentTab, id));
             loadPosts();
         }
     };
 
-    // MỞ FORM SỬA
-    window.openEdit = (id, title, content) => {
-        document.getElementById('editId').value = id;
-        document.getElementById('editTitle').value = title;
-        document.getElementById('editContent').value = content;
-        document.getElementById('editModal').style.display = 'block';
-    };
-
-    // LƯU CẬP NHẬT
-    window.saveUpdate = async () => {
-        const id = document.getElementById('editId').value;
-        const ref = doc(db, currentTab, id);
-        await updateDoc(ref, {
-            title: document.getElementById('editTitle').value,
-            content_full: document.getElementById('editContent').value
-        });
-        alert("Đã cập nhật thành công!");
-        document.getElementById('editModal').style.display = 'none';
-        loadPosts();
-    };
-
-    // CHUYỂN TAB
     window.switchTab = (tab) => {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
