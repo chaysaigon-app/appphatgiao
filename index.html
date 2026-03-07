@@ -32,26 +32,29 @@
         .vach-video { border-color: var(--do); }
 
         /* Grid hiển thị Thẻ bài */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-        .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 180px; border: 1px solid #333; }
-        .anh-the { width: 120px; min-width: 120px; background-size: cover; background-position: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        
+        /* Tăng chiều cao thẻ lên 210px để chứa đủ 4 dòng chữ */
+        .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 210px; border: 1px solid #333; }
+        .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         
-        /* TIÊU ĐỀ: Cho nhỏ lại, viết hoa đầu từ, hiện tối đa 3 dòng */
+        /* TIÊU ĐỀ: 18px, hiện 4 dòng, tự động viết hoa đầu mỗi từ */
         .the-title { 
-            margin: 0; font-size: 19px; color: #fff; font-weight: bold; line-height: 1.3;
-            text-transform: capitalize; /* Tự động viết hoa đầu mỗi từ */
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; 
+            margin: 0; font-size: 18px; color: #fff; font-weight: bold; line-height: 1.4;
+            text-transform: capitalize !important; 
+            display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; 
+            word-break: break-word;
         }
         
-        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 8px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; }
+        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; margin-top: 5px; }
 
-        /* Video */
+        /* Grid Video */
         .grid-video { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .the-video { background: var(--nen-the); border-radius: 15px; overflow: hidden; border: 2px solid var(--do); }
         .video-box { position: relative; width: 100%; padding-bottom: 177.7%; height: 0; background: #000; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .video-title { padding: 12px; text-align: center; font-size: 18px; font-weight: bold; color: #fff; text-transform: capitalize; }
+        .video-title { padding: 12px; text-align: center; font-size: 18px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
 
         /* Popup */
         #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
@@ -77,7 +80,7 @@
 <div id="modalDoc">
     <div class="modal-body-content">
         <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
-        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:2px solid #333; padding-bottom:15px; text-transform: capitalize;"></h2>
+        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:2px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
         <img id="mImg" src="" class="img-popup">
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
     </div>
@@ -109,18 +112,21 @@
                 const id = doc.id; const d = doc.data(); 
                 if (d.hidden !== true) { 
                     window.baiHocData[id] = d;
+                    // Chuẩn hóa tiêu đề về chữ thường trước khi CSS capitalize xử lý
+                    const displayTitle = (d.title || "Chưa có tựa").toLowerCase();
+                    
                     if (name === "Video_Shorts") {
                         grid.innerHTML += `
                             <div class="the-video item-the">
                                 <div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div>
-                                <div class="video-title">${d.title}</div>
+                                <div class="video-title">${displayTitle}</div>
                             </div>`;
                     } else {
                         grid.innerHTML += `
                             <div class="the-916 item-the">
                                 <div class="anh-the" style="background-image: url('${d.img}')"></div>
                                 <div class="noi-dung-the">
-                                    <h3 class="the-title">${d.title}</h3>
+                                    <h3 class="the-title">${displayTitle}</h3>
                                     <button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button>
                                 </div>
                             </div>`;
