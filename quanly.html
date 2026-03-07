@@ -2,48 +2,83 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Lý Toàn Diện - Thư Viện Phật Giáo</title>
+    <title>Hệ Thống Quản Trị Toàn Diện</title>
     <style>
-        :root { --den: #000; --vang: #ccff00; --do: #ff4444; }
+        :root { --den: #000; --vang: #ccff00; --do: #ff4444; --xanh: #2ecc71; --xanh-duong: #3498db; --xam: #7f8c8d; }
         body { background: var(--den); color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+        
+        /* Khóa bảo mật */
         #lockScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        .lock-box { border: 2px solid var(--vang); padding: 40px; border-radius: 20px; text-align: center; }
-        #mainContent { display: none; max-width: 1000px; margin: auto; }
-        .tab-menu { display: flex; gap: 10px; margin: 20px 0; }
-        .tab-btn { flex: 1; padding: 15px; background: #111; color: #fff; border: 1px solid var(--vang); cursor: pointer; font-weight: bold; }
+        .lock-box { border: 3px solid var(--vang); padding: 50px; border-radius: 20px; text-align: center; background: #0a0a0a; }
+        .lock-input { padding: 15px; font-size: 24px; text-align: center; border-radius: 10px; border: none; margin-bottom: 20px; width: 280px; background: #111; color: #fff; border: 1px solid #444; }
+        
+        /* Bố cục chính */
+        #mainContent { display: none; max-width: 1200px; margin: auto; }
+        h1 { color: var(--vang); text-align: center; text-transform: uppercase; border-bottom: 2px solid #333; padding-bottom: 20px; }
+        
+        .tab-menu { display: flex; gap: 10px; margin: 30px 0; }
+        .tab-btn { flex: 1; padding: 18px; background: #111; color: #fff; border: 2px solid var(--vang); cursor: pointer; font-weight: bold; border-radius: 10px; font-size: 18px; }
         .tab-btn.active { background: var(--vang); color: #000; }
-        table { width: 100%; border-collapse: collapse; background: #111; }
-        th, td { padding: 15px; border-bottom: 1px solid #333; text-align: left; }
-        .btn-edit { background: #f1c40f; padding: 8px; border: none; cursor: pointer; margin-right: 5px; }
-        .btn-del { background: var(--do); padding: 8px; border: none; color: #fff; cursor: pointer; }
+
+        /* Bảng danh sách */
+        table { width: 100%; border-collapse: collapse; background: #111; border-radius: 15px; overflow: hidden; }
+        th, td { padding: 20px; border-bottom: 1px solid #333; text-align: left; }
+        th { background: #222; color: var(--vang); text-transform: uppercase; }
+        
+        /* Bộ 4 nút chức năng */
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-act { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; text-transform: uppercase; min-width: 80px; }
+        .btn-view { background: var(--xanh-duong); color: #fff; }
+        .btn-edit { background: #f1c40f; color: #000; }
+        .btn-hide { background: var(--xam); color: #fff; }
+        .btn-show { background: var(--xanh); color: #fff; }
+        .btn-del { background: var(--do); color: #fff; }
+
+        /* Modal Sửa/Xem */
+        #editModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .modal-content { max-width: 800px; margin: 40px auto; background: #1a1a1a; padding: 40px; border: 2px solid var(--vang); border-radius: 20px; }
+        input, textarea { width: 100%; padding: 15px; margin: 15px 0; background: #000; color: #fff; border: 1px solid #444; border-radius: 10px; font-size: 18px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <div id="lockScreen">
     <div class="lock-box">
-        <h2 style="color:var(--vang)">MẬT KHẨU QUẢN TRỊ</h2>
-        <input type="password" id="passInput" style="padding:10px; font-size:20px; text-align:center;"><br><br>
-        <button onclick="checkPass()" style="padding:10px 30px; background:var(--vang); font-weight:bold; cursor:pointer;">MỞ KHÓA</button>
+        <h2 style="color:var(--vang)">XÁC THỰC QUẢN TRỊ</h2>
+        <input type="password" id="passInput" class="lock-input" placeholder="Mật khẩu..."><br>
+        <button onclick="checkPass()" style="padding:15px 50px; background:var(--vang); font-weight:bold; cursor:pointer; border-radius:10px; border:none; font-size:20px;">TRUY CẬP</button>
     </div>
 </div>
 
 <div id="mainContent">
-    <h1>QUẢN LÝ NỘI DUNG</h1>
+    <h1>QUẢN LÝ BÀI ĐĂNG</h1>
     <div class="tab-menu">
         <button id="btn-Nikaya_Texts" class="tab-btn active" onclick="switchTab('Nikaya_Texts')">1. KINH GỐC</button>
         <button id="btn-Infographics_Library" class="tab-btn" onclick="switchTab('Infographics_Library')">2. INFOGRAPHIC</button>
         <button id="btn-Video_Shorts" class="tab-btn" onclick="switchTab('Video_Shorts')">3. VIDEO</button>
     </div>
     <table>
-        <thead><tr><th>Tiêu đề</th><th>Thao tác</th></tr></thead>
+        <thead><tr><th>Tựa bài học</th><th>Trạng thái</th><th>Thao tác quản lý</th></tr></thead>
         <tbody id="tableBody"></tbody>
     </table>
 </div>
 
+<div id="editModal">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="color: var(--vang); text-align: center;">CẬP NHẬT</h2>
+        <input type="hidden" id="editId">
+        <label>Tiêu đề:</label><input type="text" id="editInpTitle">
+        <label>Nội dung chi tiết:</label><textarea id="editInpContent" style="height: 300px;"></textarea>
+        <div id="editActions">
+            <button onclick="saveUpdate()" style="width: 100%; padding: 20px; background: var(--xanh); border: none; font-weight: bold; font-size: 20px; border-radius: 10px; cursor: pointer;">LƯU THÔNG TIN</button>
+        </div>
+        <button onclick="document.getElementById('editModal').style.display='none'" style="width: 100%; margin-top: 15px; padding: 15px; background: #444; color: #fff; border: none; border-radius: 10px; cursor: pointer;">ĐÓNG</button>
+    </div>
+</div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
@@ -72,20 +107,65 @@
         body.innerHTML = "";
         snap.forEach((docSnap) => {
             const d = docSnap.data();
-            // SỬA LỖI TRỰC TIẾP: Lấy bất cứ cái tên nào có dữ liệu
-            const title = d.title || d.title_vi || d.tieu_de || "Bài chưa có tựa";
+            const id = docSnap.id;
+            const isHidden = d.hidden === true;
+            const title = d.title || d.title_vi || "Chưa có tựa";
+
             body.innerHTML += `
                 <tr>
-                    <td>${title}</td>
+                    <td><strong>${title}</strong></td>
+                    <td style="color: ${isHidden ? 'red' : 'lime'}">${isHidden ? 'ĐANG ẨN' : 'HIỂN THỊ'}</td>
                     <td>
-                        <button class="btn-del" onclick="deletePost('${docSnap.id}')">XÓA</button>
+                        <div class="btn-group">
+                            <button class="btn-act btn-view" onclick="viewPost('${id}')">XEM</button>
+                            <button class="btn-act btn-edit" onclick="openEdit('${id}')">SỬA</button>
+                            <button class="btn-act ${isHidden ? 'btn-show' : 'btn-hide'}" onclick="toggleHide('${id}', ${isHidden})">
+                                ${isHidden ? 'HIỆN' : 'ẨN'}
+                            </button>
+                            <button class="btn-act btn-del" onclick="deletePost('${id}')">XÓA</button>
+                        </div>
                     </td>
                 </tr>`;
         });
     }
 
+    window.viewPost = async (id) => {
+        const d = (await getDoc(doc(db, currentTab, id))).data();
+        document.getElementById('editInpTitle').value = d.title;
+        document.getElementById('editInpContent').value = d.content_full || d.desc;
+        document.getElementById('editActions').style.display = 'none';
+        document.getElementById('modalTitle').innerText = "XEM CHI TIẾT";
+        document.getElementById('editModal').style.display = 'block';
+    };
+
+    window.openEdit = async (id) => {
+        const d = (await getDoc(doc(db, currentTab, id))).data();
+        document.getElementById('editId').value = id;
+        document.getElementById('editInpTitle').value = d.title;
+        document.getElementById('editInpContent').value = d.content_full || d.desc;
+        document.getElementById('editActions').style.display = 'block';
+        document.getElementById('modalTitle').innerText = "CẬP NHẬT BÀI ĐĂNG";
+        document.getElementById('editModal').style.display = 'block';
+    };
+
+    window.saveUpdate = async () => {
+        const id = document.getElementById('editId').value;
+        await updateDoc(doc(db, currentTab, id), {
+            title: document.getElementById('editInpTitle').value,
+            content_full: document.getElementById('editInpContent').value
+        });
+        alert("Đã cập nhật!");
+        document.getElementById('editModal').style.display = 'none';
+        loadPosts();
+    };
+
+    window.toggleHide = async (id, currentHidden) => {
+        await updateDoc(doc(db, currentTab, id), { hidden: !currentHidden });
+        loadPosts();
+    };
+
     window.deletePost = async (id) => {
-        if(confirm("Xóa vĩnh viễn bài này?")) {
+        if(confirm("Xóa vĩnh viễn?")) {
             await deleteDoc(doc(db, currentTab, id));
             loadPosts();
         }
