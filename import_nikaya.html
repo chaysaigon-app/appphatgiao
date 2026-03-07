@@ -2,26 +2,25 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nạp Bài Kinh Pháp Cú</title>
+    <title>Nạp Pháp Cú Tập 2 - Kinh Gốc</title>
     <style>
         body { background: #000; color: #fff; font-family: Arial; padding: 50px; text-align: center; }
         .box { border: 2px solid #ccff00; padding: 30px; border-radius: 20px; display: inline-block; }
-        button { padding: 15px 30px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; }
+        button { padding: 15px 30px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2>Nạp Bài: Pháp Cú - Tập 1: Phẩm Song Yếu</h2>
-    <p>Nhấn nút bên dưới để đưa dữ liệu vào hệ thống</p>
-    <button id="uploadBtn">BẮT ĐẦU NẠP DỮ LIỆU</button>
+    <h2 style="color: #ccff00;">NẠP BÀI: PHÁP CÚ - TẬP 2: PHẨM KHÔNG PHÓNG DẬT</h2>
+    <p>Nhấn nút để đưa bài học vào mục Kinh Gốc</p>
+    <button id="uploadBtn">XÁC NHẬN NẠP DỮ LIỆU</button>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Cấu hình Firebase của bạn
     const firebaseConfig = {
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
         authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
@@ -36,60 +35,51 @@
 
     document.getElementById('uploadBtn').onclick = async () => {
         const postData = {
-            title: "Pháp Cú - Tập 1: Phẩm Song Yếu (Yamaka Vagga)",
-            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-001.jpg", // Bạn có thể thay link ảnh này
-            content_full: `SỐ CÂU KỆ: 01 ĐẾN 20
+            title: "Pháp Cú - Tập 2: Phẩm Không Phóng Dật (Appamada Vagga)",
+            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-002.jpg",
+            content_full: `SỐ CÂU KỆ: 21 ĐẾN 32
 
 1. GIỚI THIỆU SƠ LƯỢC
-"Song Yếu" có nghĩa là các cặp đối lập. Trong phẩm này, Đức Phật đưa ra các khái niệm ngược chiều nhau (Thiện - Ác, Khổ - Vui, Ghét - Thương) để giúp chúng ta nhận diện rõ quy luật nhân quả đang vận hành trong từng ý nghĩ và hành động hằng ngày.
+"Không Phóng Dật" (Appamada) nghĩa là sự tỉnh giác, không buông lung, luôn cẩn trọng trong từng ý nghĩ và hành động. Đây là chìa khóa để mở cánh cửa bất tử, giúp con người thoát khỏi sự chi phối của vô minh và khổ đau.
 
 2. NỘI DUNG KINH GỐC & GIẢI THÍCH
-● Cặp Kệ số 1 & 2: Sức mạnh của Ý dẫn đầu
-"Tâm dẫn đầu các pháp,
-Tâm làm chủ, tâm tạo;
-Nếu nói hay hành động,
-Với tâm ý ô nhiễm,
-Khổ não bước theo sau,
-Như bánh xe vật kéo." (Kệ số 1)
+● Kệ số 21: Con đường bất tử
+"Không phóng dật, đường sống,
+Phóng dật, con đường chết;
+Không phóng dật, không chết,
+Phóng dật, như chết rồi."
 
-"Tâm dẫn đầu các pháp,
-Tâm làm chủ, tâm tạo;
-Nếu nói hay hành động,
-Với tâm ý thanh tịnh,
-Hạnh phúc bước theo sau,
-Như bóng không rời hình." (Kệ số 2)
+Giải thích: Người sống có tỉnh thức, biết quan sát tâm mình là đang đi trên con đường dẫn đến sự giải thoát. Ngược lại, người sống buông thả, chỉ chạy theo dục vọng thì tâm trí mờ mịt, dù thân xác còn sống nhưng tinh thần đã như mê muội, không khác gì người đã khuất.
 
-Giải thích: Mọi việc bạn làm hay lời bạn nói đều bắt nguồn từ suy nghĩ. Nếu tâm bạn chứa đựng sự ích kỷ hay giận dữ, nỗi khổ sẽ bám theo bạn như vết bánh xe lún sâu trên đường. Ngược lại, nếu lòng bạn bình an và tử tế, niềm vui sẽ tự nhiên đi theo bạn như cái bóng.
+● Kệ số 24: Thành quả của sự nỗ lực
+"Nỗ lực, giữ chánh niệm,
+Trong sạch, việc khéo làm,
+Tự điều, sống theo Pháp,
+Không phóng dật, danh thơm."
 
-● Cặp Kệ số 3, 4 & 5: Hóa giải thù hận
-"Với hận diệt hận thù,
-Đời này không có được.
-Không hận diệt hận thù,
-Là định luật ngàn thu." (Kệ số 5)
+Giải thích: Một người kiên trì nỗ lực, luôn giữ tâm trong sáng và sống đúng với đạo lý thì tiếng thơm và sự an lạc sẽ tự nhiên tìm đến. Thành quả không đến từ may mắn, mà đến từ sự rèn luyện bền bỉ mỗi ngày.
 
-Giải thích: Dùng sự giận dữ để đáp trả giận dữ chỉ làm oán thù thêm sâu nặng. Chỉ có sự buông bỏ và lòng bao dung mới có thể chấm dứt hận thù một cách triệt để.
+● Kệ số 26 & 27: Giữ gìn sự tỉnh thức
+"Kẻ ngu hay phóng dật,
+Người trí giữ tỉnh thức,
+Như giữ kho báu vật,
+Không buông lung, không mê."
 
-● Cặp Kệ số 19 & 20: Học đi đôi với Hành
-"Dù tụng nhiều kinh điển,
-Không hành trì buông lung,
-Như kẻ chăn bò mướn,
-Đếm bò cho người khác." (Kệ số 19)
-
-Giải thích: Nếu bạn đọc triết lý nhiều nhưng không thay đổi thói quen xấu, kiến thức đó không giúp ích gì cho bạn.
+Giải thích: Đối với người có trí tuệ, sự tỉnh giác quan trọng hơn cả tiền bạc hay vật chất. Họ bảo vệ sự chú tâm của mình giống như bảo vệ một kho báu vô giá, không để những thú vui tạm bợ làm xao nhãng con đường tu học.
 
 3. BÀI HỌC ỨNG DỤNG
-- Chăm sóc tâm trí: Quan sát tâm mình đang "đục" hay "trong" trước khi hành động.
-- Dừng phán xét: Giảm việc nhắc lỗi người khác.
-- Thực hành ngay: Áp dụng ngay một điều tốt nhỏ vào cuộc sống.`,
+- Tập trung vào hiện tại: Đang làm việc gì, biết rõ mình đang làm việc đó, không để tâm trí trôi dạt về quá khứ hay tương lai.
+- Rèn luyện kỷ luật: Thiết lập những thói quen tốt và kiên trì thực hiện, không để sự lười biếng (phóng dật) lấn át.
+- Coi trọng thời gian: Hiểu rằng mỗi giây phút sống tỉnh thức là một bước tiến gần hơn đến hạnh phúc chân thực.`,
             hidden: false,
             createdAt: new Date()
         };
 
         try {
             await addDoc(collection(db, "Nikaya_Texts"), postData);
-            alert("Nạp bài Pháp Cú thành công!");
+            alert("Đã nạp thành công Pháp Cú Tập 2 vào mục Kinh Gốc!");
         } catch (e) {
-            alert("Lỗi: " + e.message);
+            alert("Lỗi nạp dữ liệu: " + e.message);
         }
     };
 </script>
