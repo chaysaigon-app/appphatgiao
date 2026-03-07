@@ -2,141 +2,83 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Viện Phật Giáo Nguyên Thủy</title>
+    <title>Thiết Lập Hệ Thống 3 Kho Độc Lập</title>
     <style>
-        :root { --main-color: #4a6741; --bg-color: #fdfcf0; --text-color: #2c3e50; --accent: #e0dcc5; }
-        body { background: var(--bg-color); color: var(--text-color); font-family: 'Times New Roman', serif; margin: 0; line-height: 1.6; }
-        header { text-align: center; padding: 50px 20px; border-bottom: 1px solid var(--accent); background: #fff; }
-        
-        /* Thanh tìm kiếm */
-        .search-container { margin: -25px auto 40px; max-width: 500px; padding: 0 20px; }
-        .search-box { display: flex; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 30px; overflow: hidden; border: 1px solid var(--accent); }
-        .search-box input { flex: 1; border: none; padding: 12px 20px; font-size: 16px; outline: none; }
-
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        
-        /* Thẻ bài giảng tinh gọn */
-        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; cursor: pointer; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: var(--main-color); }
-        .card-content { padding: 25px; text-align: center; }
-        .card-tag { font-size: 11px; color: var(--main-color); font-weight: bold; letter-spacing: 1px; margin-bottom: 10px; display: block; opacity: 0.7; }
-        .card-title { margin: 0; font-size: 19px; color: #1a1a1a; line-height: 1.4; }
-        
-        /* Cửa sổ Modal */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); }
-        .modal-content { background: #fdfcf0; margin: 5% auto; padding: 40px; border-radius: 10px; max-width: 700px; width: 85%; max-height: 80vh; overflow-y: auto; position: relative; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
-        .modal-header { border-bottom: 1px solid var(--main-color); margin-bottom: 25px; padding-bottom: 15px; text-align: center; }
-        .modal-body { font-size: 18px; line-height: 1.8; text-align: justify; color: #34495e; white-space: pre-line; }
-
-        .footer { text-align: center; padding: 60px; border-top: 1px solid var(--accent); margin-top: 80px; font-size: 14px; }
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #fdfcf0; }
+        .box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: inline-block; border: 2px solid #4a6741; }
+        button { background: #4a6741; color: white; border: none; padding: 20px 40px; font-size: 18px; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        button:hover { background: #3d5435; transform: scale(1.02); }
+        #status { margin-top: 25px; text-align: left; max-height: 250px; overflow-y: auto; font-family: monospace; font-size: 14px; color: #555; border-top: 1px solid #eee; padding-top: 15px; }
     </style>
 </head>
 <body>
-
-<header>
-    <h1 style="margin-bottom: 10px; font-size: 2.2em;">THƯ VIỆN PHẬT GIÁO</h1>
-    <p style="font-style: italic; opacity: 0.8;">Kho tàng Kinh điển Nikaya - HT. Thích Minh Châu dịch</p>
-</header>
-
-<div class="search-container">
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Tìm tên bài kinh hoặc mã số (MN-01)..." onkeyup="filterLessons()">
+    <div class="box">
+        <h1 style="color: #4a6741;">CÀI ĐẶT HỆ THỐNG PHẬT GIÁO</h1>
+        <p>Nhấn nút để xoá sạch dữ liệu cũ và khởi tạo 3 kho: Kinh văn, Ảnh, Video.</p>
+        <button onclick="runSystemUpdate()">KÍCH HOẠT HỆ THỐNG MỚI</button>
+        <div id="status">Sẵn sàng thực thi...</div>
     </div>
-</div>
 
-<div class="container">
-    <div id="lesson-grid" class="grid">
-        </div>
-</div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, deleteDoc, doc, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-<div id="contentModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalHeader" class="modal-header"></div>
-        <div id="modalBody" class="modal-body"></div>
-        <div id="modalFooter" style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 1px dotted #ccc;">
-            <p style="font-size: 14px; color: #7f8c8d;">Nguồn: Kinh điển Nikaya | Dịch giả: HT. Thích Minh Châu</p>
-        </div>
-    </div>
-</div>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+            authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+            projectId: "thuvienphatgiao-fd07e",
+            storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+            messagingSenderId: "342500331725",
+            appId: "1:342500331725:web:32795cf0146210f8019984"
+        };
 
-<footer class="footer">
-    <p>Liên hệ Admin: <strong>Zalo 0909108890</strong></p>
-</footer>
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
-      authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
-      projectId: "thuvienphatgiao-fd07e",
-      storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
-      messagingSenderId: "342500331725",
-      appId: "1:342500331725:web:32795cf0146210f8019984"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    let libraryData = [];
-
-    async function loadLibrary() {
-        const grid = document.getElementById('lesson-grid');
-        const querySnapshot = await getDocs(query(collection(db, "Nikaya_Library"), orderBy("id")));
-        
-        grid.innerHTML = "";
-        libraryData = [];
-
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            libraryData.push(data);
-            const card = document.createElement('div');
-            card.className = 'card lesson-item';
-            card.onclick = () => openModal(data.id);
-            card.innerHTML = `
-                <div class="card-content">
-                    <span class="card-tag">${data.id}</span>
-                    <h3 class="card-title">${data.title_vi}</h3>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    window.openModal = (id) => {
-        const item = libraryData.find(d => d.id === id);
-        if (item) {
-            document.getElementById('modalHeader').innerHTML = `<h2 style="color:#4a6741; margin-bottom:5px;">${item.title_vi}</h2><p style="margin:0; opacity:0.6;">${item.title_en || ''}</p>`;
-            document.getElementById('modalBody').innerText = item.content;
-            document.getElementById('contentModal').style.display = "block";
-            document.body.style.overflow = "hidden";
+        async function deleteCol(name) {
+            const snap = await getDocs(collection(db, name));
+            await Promise.all(snap.docs.map(d => deleteDoc(doc(db, name, d.id))));
+            return `> Đã dọn kho: ${name}<br>`;
         }
-    }
 
-    window.closeModal = () => {
-        document.getElementById('contentModal').style.display = "none";
-        document.body.style.overflow = "auto";
-    }
+        window.runSystemUpdate = async () => {
+            const log = document.getElementById('status');
+            log.innerHTML = "Đang dọn dẹp dữ liệu cũ...<br>";
+            try {
+                // Xoá sạch tàn dư cũ
+                log.innerHTML += await deleteCol("Nikaya_Library");
+                log.innerHTML += await deleteCol("Lessons");
+                log.innerHTML += await deleteCol("Categories");
 
-    window.filterLessons = () => {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const items = document.getElementsByClassName('lesson-item');
-        libraryData.forEach((data, index) => {
-            const match = data.title_vi.toLowerCase().includes(input) || data.id.toLowerCase().includes(input);
-            items[index].style.display = match ? "block" : "none";
-        });
-    }
+                // Khởi tạo 3 kho độc lập đúng ý tưởng
+                // 1. Kinh điển
+                await setDoc(doc(db, "Nikaya_Texts", "MN-01"), {
+                    id: "MN-01",
+                    title_vi: "Kinh Pháp Môn Căn Bản",
+                    content: "Bản dịch của HT. Thích Minh Châu: Đức Thế Tôn thuyết về cách liễu tri các pháp...",
+                    translator: "HT. Thích Minh Châu"
+                });
+                log.innerHTML += "> Tạo kho Kinh điển thành công.<br>";
 
-    window.onclick = (event) => {
-        if (event.target == document.getElementById('contentModal')) closeModal();
-    }
+                // 2. Infographic
+                await addDoc(collection(db, "Infographics_Library"), {
+                    url_916: "https://via.placeholder.com/1080x1920?text=Anh+Tom+Luoc+9:16",
+                    summary: "Tóm tắt tri thức Phật giáo qua hình ảnh trực quan.",
+                    topic: "Chủ đề Phước Đức"
+                });
+                log.innerHTML += "> Tạo kho Ảnh thành công.<br>";
 
-    loadLibrary();
-</script>
+                // 3. Video Shorts
+                await addDoc(collection(db, "Video_Shorts"), {
+                    youtube_id: "dQw4w9WgXcQ",
+                    title: "Bài giảng ngắn Chánh Kiến",
+                    description: "Trích đoạn bài giảng súc tích."
+                });
+                log.innerHTML += "> Tạo kho Video thành công.<br>";
+
+                log.innerHTML += "<br><strong style='color:green'>HOÀN TẤT! Hãy báo cho mình biết để mình gửi code HIỂN THỊ cho bạn dán đè vào file này.</strong>";
+            } catch (e) { log.innerHTML += `<br><strong style='color:red'>LỖI: ${e.message}</strong>`; }
+        };
+    </script>
 </body>
 </html>
