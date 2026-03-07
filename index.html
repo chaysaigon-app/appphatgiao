@@ -7,42 +7,44 @@
     <style>
         :root { --main-color: #4a6741; --bg-color: #fdfcf0; --text-color: #2c3e50; --accent: #e0dcc5; }
         body { background: var(--bg-color); color: var(--text-color); font-family: 'Times New Roman', serif; margin: 0; line-height: 1.6; }
-        header { text-align: center; padding: 60px 20px; border-bottom: 1px solid var(--accent); background: #fff; }
-        .search-box { margin: -30px auto 30px; max-width: 600px; display: flex; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 30px; overflow: hidden; }
-        .search-box input { flex: 1; border: none; padding: 15px 25px; font-size: 16px; outline: none; }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        header { text-align: center; padding: 50px 20px; border-bottom: 1px solid var(--accent); background: #fff; }
         
-        /* Card thiết kế thanh tịnh */
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .card-content { padding: 20px; flex-grow: 1; }
-        .card-tag { font-size: 12px; color: var(--main-color); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .card-title { margin: 0 0 10px; font-size: 20px; color: #1a1a1a; cursor: pointer; }
-        .card-title:hover { color: var(--main-color); }
-        .card-desc { font-size: 15px; color: #666; height: 75px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
-        .card-footer { padding: 15px 20px; background: #fafafa; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .btn-read { color: var(--main-color); text-decoration: none; font-weight: bold; cursor: pointer; }
+        /* Thanh tìm kiếm */
+        .search-container { margin: -25px auto 40px; max-width: 500px; padding: 0 20px; }
+        .search-box { display: flex; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 30px; overflow: hidden; border: 1px solid var(--accent); }
+        .search-box input { flex: 1; border: none; padding: 12px 20px; font-size: 16px; outline: none; }
 
-        /* Modal hiện nội dung Kinh văn */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
-        .modal-content { background: #fdfcf0; margin: 5% auto; padding: 40px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .close-btn { position: sticky; top: -20px; float: right; font-size: 30px; cursor: pointer; color: #999; }
-        .modal-body { font-size: 18px; line-height: 1.8; text-align: justify; white-space: pre-wrap; color: #2c3e50; }
-        .modal-header { border-bottom: 2px solid var(--main-color); margin-bottom: 20px; padding-bottom: 10px; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        
+        /* Thẻ bài giảng tinh gọn */
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; cursor: pointer; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: var(--main-color); }
+        .card-content { padding: 25px; text-align: center; }
+        .card-tag { font-size: 11px; color: var(--main-color); font-weight: bold; letter-spacing: 1px; margin-bottom: 10px; display: block; opacity: 0.7; }
+        .card-title { margin: 0; font-size: 19px; color: #1a1a1a; line-height: 1.4; }
+        
+        /* Cửa sổ Modal */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); }
+        .modal-content { background: #fdfcf0; margin: 5% auto; padding: 40px; border-radius: 10px; max-width: 700px; width: 85%; max-height: 80vh; overflow-y: auto; position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
+        .modal-header { border-bottom: 1px solid var(--main-color); margin-bottom: 25px; padding-bottom: 15px; text-align: center; }
+        .modal-body { font-size: 18px; line-height: 1.8; text-align: justify; color: #34495e; white-space: pre-line; }
 
-        .footer { text-align: center; padding: 60px; border-top: 1px solid var(--accent); margin-top: 100px; opacity: 0.8; }
+        .footer { text-align: center; padding: 60px; border-top: 1px solid var(--accent); margin-top: 80px; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 style="letter-spacing: 2px;">THƯ VIỆN PHẬT GIÁO NGUYÊN THỦY</h1>
-    <p style="font-style: italic;">"Pháp của Ta là để đến để thấy, không phải để mời đến để tin."</p>
+    <h1 style="margin-bottom: 10px; font-size: 2.2em;">THƯ VIỆN PHẬT GIÁO</h1>
+    <p style="font-style: italic; opacity: 0.8;">Kho tàng Kinh điển Nikaya - HT. Thích Minh Châu dịch</p>
 </header>
 
-<div class="search-box">
-    <input type="text" id="searchInput" placeholder="Tìm tên kinh, mã số (MN-01), từ khóa..." onkeyup="filterLessons()">
+<div class="search-container">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Tìm tên bài kinh hoặc mã số (MN-01)..." onkeyup="filterLessons()">
+    </div>
 </div>
 
 <div class="container">
@@ -55,12 +57,14 @@
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <div id="modalHeader" class="modal-header"></div>
         <div id="modalBody" class="modal-body"></div>
+        <div id="modalFooter" style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 1px dotted #ccc;">
+            <p style="font-size: 14px; color: #7f8c8d;">Nguồn: Kinh điển Nikaya | Dịch giả: HT. Thích Minh Châu</p>
+        </div>
     </div>
 </div>
 
 <footer class="footer">
-    <p><strong>Hệ Thống Kinh Điển Nikaya - Bản dịch Cố HT. Thích Minh Châu</strong></p>
-    <p>Mọi đóng góp và hỗ trợ kỹ thuật: <strong>Zalo 0909108890</strong></p>
+    <p>Liên hệ Admin: <strong>Zalo 0909108890</strong></p>
 </footer>
 
 <script type="module">
@@ -79,28 +83,25 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let allData = [];
+    let libraryData = [];
 
     async function loadLibrary() {
         const grid = document.getElementById('lesson-grid');
         const querySnapshot = await getDocs(query(collection(db, "Nikaya_Library"), orderBy("id")));
         
         grid.innerHTML = "";
+        libraryData = [];
+
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            allData.push(data);
+            libraryData.push(data);
             const card = document.createElement('div');
             card.className = 'card lesson-item';
-            card.setAttribute('data-id', data.id);
+            card.onclick = () => openModal(data.id);
             card.innerHTML = `
                 <div class="card-content">
-                    <span class="card-tag">${data.book} | ${data.id}</span>
-                    <h3 class="card-title" onclick="openModal('${data.id}')">${data.title_vi}</h3>
-                    <p class="card-desc">${data.content}</p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-read" onclick="openModal('${data.id}')">Đọc nguyên văn →</span>
-                    <span style="font-size: 12px; color: #999;">HT. Thích Minh Châu</span>
+                    <span class="card-tag">${data.id}</span>
+                    <h3 class="card-title">${data.title_vi}</h3>
                 </div>
             `;
             grid.appendChild(card);
@@ -108,12 +109,12 @@
     }
 
     window.openModal = (id) => {
-        const item = allData.find(d => d.id === id);
+        const item = libraryData.find(d => d.id === id);
         if (item) {
-            document.getElementById('modalHeader').innerHTML = `<h2>${item.id} - ${item.title_vi}</h2><p><em>${item.title_en || ''}</em></p>`;
-            document.getElementById('modalBody').innerText = item.content; // Hiển thị nội dung thực tế từ Firebase
+            document.getElementById('modalHeader').innerHTML = `<h2 style="color:#4a6741; margin-bottom:5px;">${item.title_vi}</h2><p style="margin:0; opacity:0.6;">${item.title_en || ''}</p>`;
+            document.getElementById('modalBody').innerText = item.content;
             document.getElementById('contentModal').style.display = "block";
-            document.body.style.overflow = "hidden"; // Chặn cuộn trang chính
+            document.body.style.overflow = "hidden";
         }
     }
 
@@ -125,13 +126,12 @@
     window.filterLessons = () => {
         const input = document.getElementById('searchInput').value.toLowerCase();
         const items = document.getElementsByClassName('lesson-item');
-        allData.forEach((data, index) => {
+        libraryData.forEach((data, index) => {
             const match = data.title_vi.toLowerCase().includes(input) || data.id.toLowerCase().includes(input);
-            items[index].style.display = match ? "flex" : "none";
+            items[index].style.display = match ? "block" : "none";
         });
     }
 
-    // Đóng modal khi click ra ngoài vùng trắng
     window.onclick = (event) => {
         if (event.target == document.getElementById('contentModal')) closeModal();
     }
