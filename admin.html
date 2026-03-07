@@ -2,84 +2,81 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Trị Nội Dung - Thư Viện Phật Giáo</title>
+    <title>Quản Trị Nội Dung - Đầy Đủ Diễn Giải</title>
     <style>
         :root {
-            --bg: #000000;
-            --vang: #ccff00;
-            --border: #333;
-            --xanh: #2e7d32;
-            --cam: #e65100;
-            --do: #c62828;
+            --bg: #000; --vang: #ccff00; --border: #333;
+            --xanh: #2e7d32; --cam: #e65100; --do: #c62828;
         }
-        body { background: var(--bg); color: #fff; font-family: Arial, sans-serif; padding: 30px; font-size: 20px; }
-        .admin-box { max-width: 800px; margin: auto; border: 2px solid var(--vang); padding: 30px; border-radius: 20px; }
+        body { background: var(--bg); color: #fff; font-family: Arial, sans-serif; padding: 20px; font-size: 20px; }
+        .admin-box { max-width: 850px; margin: auto; border: 3px solid var(--vang); padding: 30px; border-radius: 20px; }
         
-        /* Nút chọn loại hình */
-        .type-selector { display: flex; gap: 10px; margin-bottom: 30px; }
-        .type-btn { flex: 1; padding: 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 18px; opacity: 0.6; }
-        .type-btn.active { opacity: 1; transform: scale(1.05); border: 2px solid #fff; }
+        .type-selector { display: flex; gap: 10px; margin-bottom: 25px; }
+        .type-btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 18px; color: #fff; opacity: 0.5; }
+        .type-btn.active { opacity: 1; border: 3px solid #fff; transform: scale(1.05); }
 
-        /* Form nhập liệu */
-        .input-group { margin-bottom: 20px; display: none; }
+        .input-group { display: none; background: #111; padding: 20px; border-radius: 15px; border: 1px solid #444; }
         .input-group.active { display: block; }
-        label { display: block; margin-bottom: 10px; color: var(--vang); font-weight: bold; }
-        input, textarea, select { 
-            width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid #444; 
+        
+        label { display: block; margin: 15px 0 5px; color: var(--vang); font-weight: bold; font-size: 22px; }
+        input, textarea { 
+            width: 100%; padding: 15px; background: #000; border: 1px solid #555; 
             color: #fff; border-radius: 10px; font-size: 20px; box-sizing: border-box;
         }
-        textarea { height: 200px; resize: vertical; }
+        textarea { height: 300px; line-height: 1.6; }
 
         .save-btn { 
-            width: 100%; padding: 20px; background: var(--vang); color: #000; 
-            border: none; border-radius: 10px; font-size: 24px; font-weight: 900; 
-            cursor: pointer; margin-top: 20px; text-transform: uppercase;
+            width: 100%; padding: 25px; background: var(--vang); color: #000; 
+            border: none; border-radius: 15px; font-size: 26px; font-weight: 900; 
+            cursor: pointer; margin-top: 25px; text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
 <div class="admin-box">
-    <h2 style="text-align: center; color: var(--vang);">NHẬP LIỆU BÀI HỌC MỚI</h2>
+    <h2 style="text-align: center; color: var(--vang); font-size: 32px;">HỆ THỐNG NHẬP LIỆU CHUYÊN SÂU</h2>
 
     <div class="type-selector">
-        <button class="type-btn active" style="background: var(--xanh);" onclick="switchTab('kinh', this)">1. BẢN GỐC KINH</button>
+        <button class="type-btn active" style="background: var(--xanh);" onclick="switchTab('kinh', this)">1. KINH GỐC</button>
         <button class="type-btn" style="background: var(--cam);" onclick="switchTab('info', this)">2. INFOGRAPHIC</button>
-        <button class="type-btn" style="background: var(--do);" onclick="switchTab('video', this)">3. VIDEO SHORTS</button>
+        <button class="type-btn" style="background: var(--do);" onclick="switchTab('video', this)">3. VIDEO</button>
+    </div>
+
+    <div id="form-info" class="input-group">
+        <label>Tiêu đề Infographic:</label>
+        <input type="text" id="info-title" placeholder="Ví dụ: 5 Cách Gieo Nhân Tài Lộc">
+        <label>Mô tả cực ngắn (hiện ngoài thẻ):</label>
+        <input type="text" id="info-desc" placeholder="Tóm tắt nội dung trong 1 câu...">
+        <label>Link ảnh 9:16 (Ảnh tóm tắt):</label>
+        <input type="text" id="info-img" placeholder="Dán link hình ảnh tại đây...">
+        <label>Nội dung diễn giải chi tiết (Để người già đọc hiểu):</label>
+        <textarea id="info-content" placeholder="Tại đây bạn dán bài giảng chi tiết giải thích cho bức ảnh trên..."></textarea>
     </div>
 
     <div id="form-kinh" class="input-group active">
         <label>Tựa bài kinh:</label>
-        <input type="text" id="kinh-title" placeholder="Ví dụ: Kinh Pháp Môn Căn Bản">
-        <label>Mô tả ngắn (ngắt chữ tự động):</label>
-        <input type="text" id="kinh-desc" placeholder="Tóm tắt ý chính của bài kinh...">
-        <label>Hình ảnh đại diện (Link):</label>
-        <input type="text" id="kinh-img" placeholder="Dán link ảnh tại đây...">
-        <label>Nội dung nguyên văn (HT. Thích Minh Châu):</label>
-        <textarea id="kinh-content" placeholder="Dán toàn bộ lời kinh vào đây..."></textarea>
-    </div>
-
-    <div id="form-info" class="input-group">
-        <label>Tiêu đề tranh tóm tắt:</label>
-        <input type="text" id="info-title" placeholder="Ví dụ: 5 Bước Làm Giàu">
-        <label>Mô tả bài học:</label>
-        <input type="text" id="info-desc" placeholder="Giải thích ngắn gọn nội dung tranh...">
-        <label>Link ảnh dọc (9:16):</label>
-        <input type="text" id="info-img" placeholder="Dán link ảnh đồ họa tại đây...">
+        <input type="text" id="kinh-title">
+        <label>Mô tả ngắn:</label>
+        <input type="text" id="kinh-desc">
+        <label>Link ảnh đại diện:</label>
+        <input type="text" id="kinh-img">
+        <label>Nguyên văn Kinh Nikaya:</label>
+        <textarea id="kinh-content"></textarea>
     </div>
 
     <div id="form-video" class="input-group">
         <label>Tiêu đề Video:</label>
-        <input type="text" id="video-title" placeholder="Ví dụ: Sức Mạnh Lòng Biết Ơn">
+        <input type="text" id="video-title">
         <label>Mô tả video:</label>
-        <input type="text" id="video-desc" placeholder="Nội dung video nói về gì?">
-        <label>Mã YouTube ID:</label>
-        <input type="text" id="video-id" placeholder="Ví dụ: dQw4w9WgXcQ">
-        <label>Link ảnh nền video:</label>
-        <input type="text" id="video-img" placeholder="Link ảnh đại diện cho video...">
+        <input type="text" id="video-desc">
+        <label>YouTube ID:</label>
+        <input type="text" id="video-id">
+        <label>Link ảnh nền:</label>
+        <input type="text" id="video-img">
     </div>
 
-    <button class="save-btn" onclick="uploadData()">Lưu dữ liệu ngay</button>
+    <button class="save-btn" onclick="uploadData()">Lưu vào kho dữ liệu</button>
 </div>
 
 <script type="module">
@@ -97,14 +94,12 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     let currentTab = 'kinh';
 
     window.switchTab = (tab, btn) => {
         currentTab = tab;
         document.querySelectorAll('.input-group').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.type-btn').forEach(el => el.classList.remove('active'));
-        
         document.getElementById('form-' + tab).classList.add('active');
         btn.classList.add('active');
     };
@@ -128,6 +123,7 @@
                 title: document.getElementById('info-title').value,
                 desc: document.getElementById('info-desc').value,
                 img: document.getElementById('info-img').value,
+                content_full: document.getElementById('info-content').value, // Trường nội dung dài cho Info
                 type: 'info'
             };
         } else {
@@ -143,13 +139,10 @@
 
         try {
             await addDoc(collection(db, colName), data);
-            alert("Đã lưu thành công bài học mới!");
-            location.reload(); 
-        } catch (e) {
-            alert("Lỗi: " + e.message);
-        }
+            alert("Đã lưu bài học thành công!");
+            location.reload();
+        } catch (e) { alert("Lỗi: " + e.message); }
     };
 </script>
-
 </body>
 </html>
