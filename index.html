@@ -7,7 +7,7 @@
     <style>
         :root {
             --den: #000000; --nen-the: #1a1a1a; --vang-chanh: #ccff00; 
-            --chu-trang: #ffffff; --xanh: #2e7d32; --cam: #e65100; --do: #c62828;
+            --chu-trang: #ffffff; --xanh: #2e7d32; --cam: #e65100; --do: #c62828; --tim: #7b1fa2;
         }
         body { 
             background: var(--den); color: var(--chu-trang); 
@@ -30,29 +30,26 @@
         .vach-kinh { border-color: var(--xanh); }
         .vach-info { border-color: var(--cam); }
         .vach-video { border-color: var(--do); }
+        .vach-audio { border-color: var(--tim); }
 
         /* Grid hiển thị Thẻ bài */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
-        
         .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-        
-        .the-title { 
-            margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3;
-            text-transform: capitalize !important; 
-            display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; 
-            word-break: break-word;
-        }
-        
+        .the-title { margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3; text-transform: capitalize !important; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
         .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; margin-top: 5px; }
 
-        /* Grid Video */
+        /* Grid Video & Audio */
         .grid-video { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .the-video { background: var(--nen-the); border-radius: 15px; overflow: hidden; border: 2px solid var(--do); }
         .video-box { position: relative; width: 100%; padding-bottom: 177.7%; height: 0; background: #000; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .video-title { padding: 12px; text-align: center; font-size: 21px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
+
+        /* Audio Card */
+        .the-audio { background: #121212; border-radius: 15px; overflow: hidden; border: 2px solid var(--tim); padding: 5px; }
+        .audio-title { padding: 10px; font-size: 18px; font-weight: bold; color: var(--tim); text-align: center; text-transform: capitalize; }
 
         /* Popup */
         #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
@@ -75,6 +72,7 @@
 <div class="phan-muc"><div class="phan-tieu-de vach-kinh">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid-video"></div></div>
+<div class="phan-muc"><div class="phan-tieu-de vach-audio">🎧 IV. BÀI GIẢNG AUDIO</div><div id="gridAudio" class="grid-video"></div></div>
 
 <footer style="text-align:center; padding:40px 0 20px;">
     <div class="support-text">
@@ -126,6 +124,12 @@
                                 <div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div>
                                 <div class="video-title">${displayTitle}</div>
                             </div>`;
+                    } else if (name === "Audio_Lectures") {
+                        grid.innerHTML += `
+                            <div class="the-audio item-the">
+                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                <div class="audio-title">${displayTitle}</div>
+                            </div>`;
                     } else {
                         grid.innerHTML += `
                             <div class="the-916 item-the">
@@ -140,7 +144,10 @@
             });
             if (grid.innerHTML === "") grid.innerHTML = "<p style='padding:20px; opacity:0.3;'>Chưa có bài học.</p>";
         };
-        await fetchCol("Nikaya_Texts", "gridKinh"); await fetchCol("Infographics_Library", "gridInfo"); await fetchCol("Video_Shorts", "gridVideo");
+        await fetchCol("Nikaya_Texts", "gridKinh"); 
+        await fetchCol("Infographics_Library", "gridInfo"); 
+        await fetchCol("Video_Shorts", "gridVideo");
+        await fetchCol("Audio_Lectures", "gridAudio");
     }
     loadAll();
 </script>
