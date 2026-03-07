@@ -2,23 +2,23 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nạp Kinh Điển Tự Động - Trung Bộ Kinh</title>
+    <title>Nạp Kinh Điển Batch 2 - Trung Bộ Kinh</title>
     <style>
         body { font-family: 'Times New Roman', serif; background: #fdfcf0; padding: 40px; text-align: center; }
         .console { background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 8px; text-align: left; 
                    max-height: 500px; overflow-y: auto; font-family: monospace; font-size: 13px; margin-top: 20px; border: 2px solid #4a6741; }
-        button { background: #4a6741; color: white; padding: 15px 40px; border: none; border-radius: 30px; 
+        button { background: #8b4513; color: white; padding: 15px 40px; border: none; border-radius: 30px; 
                  cursor: pointer; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; }
-        button:hover { background: #3d5435; transform: scale(1.05); }
+        button:hover { background: #5d2e0d; transform: scale(1.05); }
         .status-msg { margin-top: 15px; font-weight: bold; color: #2c3e50; font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Hệ Thống Nạp Dữ Liệu Kinh Điển Tự Động</h1>
-    <p>Đang nạp: <strong>Trung Bộ Kinh (Majjhima Nikaya)</strong> - HT. Thích Minh Châu dịch</p>
+    <h1>Hệ Thống Nạp Dữ Liệu - ĐỢT 2 (11 - 20)</h1>
+    <p>Đang nạp: <strong>Trung Bộ Kinh (Majjhima Nikaya)</strong></p>
     
-    <button onclick="startAutoImport()">BẮT ĐẦU NẠP 10 BÀI ĐẦU TIÊN</button>
-    <div id="status" class="status-msg">Sẵn sàng nạp dữ liệu...</div>
+    <button onclick="startBatch2()">NẠP TIẾP 10 BÀI (11-20)</button>
+    <div id="status" class="status-msg">Sẵn sàng nạp tiếp...</div>
     <div id="log" class="console"></div>
 
     <script type="module">
@@ -31,35 +31,34 @@
           projectId: "thuvienphatgiao-fd07e",
           storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
           messagingSenderId: "342500331725",
-          appId: "1:342500331725:web:32795cf0146210f8019984",
-          measurementId: "G-7FTVVK9FSF"
+          appId: "1:342500331725:web:32795cf0146210f8019984"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Dữ liệu 10 bài đầu Trung Bộ Kinh (Bản dịch HT. Thích Minh Châu)
-        const nikayaData = [
-            { id: "MN-01", title_vi: "Kinh Pháp Môn Căn Bản", title_en: "The Root of All Things", content: "Đức Thế Tôn thuyết về cách phàm phu, hữu học và bậc A-la-hán tri giác về địa đại, thủy đại... Bậc Thánh đã liễu tri nên không hân hoan, không dục hỷ trong địa đại." },
-            { id: "MN-02", title_vi: "Kinh Tất Cả Lậu Hoặc", title_en: "All the Taints", content: "Hướng dẫn đoạn trừ lậu hoặc qua 7 phương pháp: tri kiến, phòng hộ, thụ dụng, kham nhẫn, tránh né, trừ diệt và tu tập. Chỉ người như lý giác sát mới đoạn tận phiền não." },
-            { id: "MN-03", title_vi: "Kinh Thừa Tự Pháp", title_en: "Heirs in Dhamma", content: "Lời dạy về việc thừa tự Chánh pháp thay vì thừa tự tài vật. Tôn giả Sariputta giảng về Trung đạo giúp đoạn trừ tham ái và sân hận." },
-            { id: "MN-04", title_vi: "Kinh Sợ Hãi Khiếp Đảm", title_en: "Fear and Dread", content: "Đức Phật kể về thời kỳ tu hành trong rừng sâu. Ngài khẳng định sự sợ hãi chỉ đến với những ai tâm còn uế nhiễm và thiếu định tĩnh." },
-            { id: "MN-05", title_vi: "Kinh Không Uế Nhiễm", title_en: "Without Blemishes", content: "Cuộc đối thoại giữa Tôn giả Sariputta và Moggallana về các hạng người: có uế nhiễm mà biết, có uế nhiễm mà không biết, không uế nhiễm mà biết, và không uế nhiễm mà không biết." },
-            { id: "MN-06", title_vi: "Kinh Ước Nguyện", title_en: "If a Bhikkhu Should Wish", content: "Để các ước nguyện thiện lành thành tựu (được kính mến, đủ y thực, đắc định...), hành giả phải viên mãn giới luật, tu tập an tịnh tâm và không trống rỗng thiền định." },
-            { id: "MN-07", title_vi: "Kinh Ví Dụ Tấm Vải", title_en: "The Simile of the Cloth", content: "Ví như tấm vải bẩn không thể nhuộm màu đẹp, tâm uế nhiễm không thể đi nẻo lành. Gột rửa tâm bằng niềm tin bất động vào Tam Bảo và thực hành xả ly." },
-            { id: "MN-08", title_vi: "Kinh Đoạn Giảm", title_en: "Effacement", content: "Đức Phật dạy cách thực hành đoạn giảm thực sự: Khi người khác hại, ta không hại; khi người khác nói láo, ta nói thật... Đối trị 44 ác pháp bằng thiện pháp." },
-            { id: "MN-09", title_vi: "Kinh Chánh Tri Kiến", title_en: "Right View", content: "Tôn giả Sariputta giải thích sâu về Chánh tri kiến: hiểu rõ thiện/bất thiện, hiểu rõ thức, danh sắc, lục nhập, xúc, thọ, ái, thủ, hữu, sinh, lão tử và khổ tập diệt đạo." },
-            { id: "MN-10", title_vi: "Kinh Tứ Niệm Xứ", title_en: "The Foundations of Mindfulness", content: "Con đường độc lộ dẫn đến thanh tịnh: Quán thân trên thân, quán thọ trên thọ, quán tâm trên tâm, và quán pháp trên pháp để diệt trừ ưu não, chứng đắc Niết-bàn." }
+        // DANH SÁCH 10 BÀI TIẾP THEO (11-20)
+        const batch2Data = [
+            { id: "MN-11", title_vi: "Kinh Tiểu Tiếng Rống Sư Tử", title_en: "Shorter Discourse on the Lion's Roar", content: "Đức Thế Tôn khẳng định chỉ trong giáo pháp này mới có bốn hạng Thánh quả thực thụ. Ngài giải thích chi tiết về bốn loại chấp thủ: dục thủ, kiến thủ, giới cấm thủ và ngã luận thủ là gốc rễ của khổ đau." },
+            { id: "MN-12", title_vi: "Kinh Đại Tiếng Rống Sư Tử", title_en: "Great Discourse on the Lion's Roar", content: "Đức Phật thuyết về 10 lực của Như Lai, 4 sự không sợ hãi và các cảnh giới tái sinh. Ngài cũng kể lại những khổ hạnh cực đoan không mang lại giải thoát mà Ngài đã trải qua trước khi thành đạo." },
+            { id: "MN-13", title_vi: "Kinh Đại Khổ Uẩn", title_en: "Great Discourse on the Mass of Suffering", content: "Phân tích sâu sắc về vị ngọt (sự hấp dẫn), sự nguy hiểm và sự xuất ly (thoát ly) của các dục, các sắc pháp và các cảm thọ. Các dục mang lại ít vui nhưng mang lại rất nhiều khổ não và thất vọng." },
+            { id: "MN-14", title_vi: "Kinh Tiểu Khổ Uẩn", title_en: "Shorter Discourse on the Mass of Suffering", content: "Giải thích lý do tại sao con người dù biết dục là khổ nhưng vẫn không từ bỏ được: đó là vì các tâm bất thiện như tham, sân, si vẫn còn ngự trị và chi phối tâm thức." },
+            { id: "MN-15", title_vi: "Kinh Tư Lượng", title_en: "Inference", content: "Tôn giả Moggallana dạy về cách một vị Tỳ-kheo tự soi xét mình. Nếu thấy mình khó nói, phẫn nộ hay tật đố, phải nỗ lực đoạn trừ; nếu không có các ác pháp đó, phải an lạc tu tập tiếp." },
+            { id: "MN-16", title_vi: "Kinh Tâm Hoang Vu", title_en: "Wilderness in the Mind", content: "Nêu ra 5 trạng thái tâm hoang vu và 5 tâm triền buộc (xiềng xích) khiến hành giả không thể tiến bộ. Muốn giải thoát, phải chặt đứt sự nghi ngờ và những dính mắc vào dục lạc thân xác." },
+            { id: "MN-17", title_vi: "Kinh Rừng Hoang", title_en: "Jungle Thickets", content: "Tiêu chuẩn chọn nơi tu hành: nếu nơi ở giúp chánh niệm tăng trưởng, phiền não giảm đi thì phải ở lại bằng mọi giá; nếu phiền não tăng mà chánh niệm giảm thì phải rời đi ngay lập tức." },
+            { id: "MN-18", title_vi: "Kinh Mật Hoàn", title_en: "The Ball of Honey", content: "Giải thích về nguồn gốc của mọi sự tranh chấp và hý luận vọng tưởng. Khi các căn tiếp xúc với trần cảnh mà không có sự tỉnh giác, tâm sẽ thêu dệt nên các ảo tưởng dẫn đến khổ đau." },
+            { id: "MN-19", title_vi: "Kinh Song Tầm", title_en: "Two Kinds of Thought", content: "Đức Phật kể về phương pháp phân loại tư duy của Ngài: tầm thiện (ly dục, vô sân, vô hại) và tầm bất thiện. Ngài dạy cách từ bỏ các tư duy bất thiện để tâm đạt đến an định." },
+            { id: "MN-20", title_vi: "Kinh An Trú Tầm", title_en: "The Removal of Distracting Thoughts", content: "Dạy 5 phương pháp để loại bỏ các tư duy bất thiện khởi lên trong lúc thiền định: thay thế bằng đề mục thiện, quán sự nguy hiểm của nó, lờ đi, phân tích nguyên nhân hoặc dùng ý chí chế ngự." }
         ];
 
-        window.startAutoImport = async () => {
+        window.startBatch2 = async () => {
             const logElement = document.getElementById('log');
             const statusElement = document.getElementById('status');
-            logElement.innerHTML = "> Đang khởi động hệ thống nạp dữ liệu...<br>";
+            logElement.innerHTML = "> Đang kết nối Firebase...<br>";
 
             try {
-                for (let i = 0; i < nikayaData.length; i++) {
-                    const item = nikayaData[i];
+                for (let i = 0; i < batch2Data.length; i++) {
+                    const item = batch2Data[i];
                     statusElement.innerText = `🔄 Đang nạp: ${item.id}...`;
                     
                     await setDoc(doc(db, "Nikaya_Library", item.id), {
@@ -69,14 +68,13 @@
                         created_at: new Date()
                     });
 
-                    logElement.innerHTML += `<span style="color:#00ff00">> [OK] Đã đưa vào kho: ${item.id} - ${item.title_vi}</span><br>`;
+                    logElement.innerHTML += `<span style="color:#00ff00">> [Đã xong] ${item.id} - ${item.title_vi}</span><br>`;
                     logElement.scrollTop = logElement.scrollHeight;
                 }
-                statusElement.innerText = "✅ THÀNH CÔNG! ĐÃ NẠP XONG 10 BÀI KINH ĐẦU TIÊN.";
-                logElement.innerHTML += "<br>--- HOÀN TẤT TIẾN TRÌNH ---";
+                statusElement.innerText = "✅ HOÀN TẤT NẠP BÀI 11 - 20!";
+                logElement.innerHTML += "<br>--- KẾT THÚC BATCH 2 ---";
             } catch (error) {
                 logElement.innerHTML += `<span style="color:#ff4444">> [LỖI]: ${error.message}</span><br>`;
-                statusElement.innerText = "❌ CÓ LỖI XẢY RA TRONG QUÁ TRÌNH NẠP.";
             }
         };
     </script>
