@@ -2,21 +2,19 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nạp Nhiều Tập Pháp Cú - Kinh Gốc</title>
+    <title>Nạp Kinh Pháp Cú Tập 3 - Kinh Gốc</title>
     <style>
         body { background: #000; color: #fff; font-family: Arial; padding: 50px; text-align: center; }
         .box { border: 2px solid #ccff00; padding: 30px; border-radius: 20px; display: inline-block; }
-        button { padding: 15px 40px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; text-transform: uppercase; }
-        #status { margin-top: 20px; color: #ccff00; font-weight: bold; }
+        button { padding: 15px 30px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2 style="color: #ccff00;">NẠP CHÙM BÀI: PHÁP CÚ TẬP 3, 4 & 5</h2>
-    <p>Hệ thống sẽ tự động nạp 3 tập này vào mục Kinh Gốc</p>
-    <button id="uploadBtn">BẮT ĐẦU NẠP TẤT CẢ</button>
-    <div id="status"></div>
+    <h2 style="color: #ccff00;">NẠP BÀI: KINH PHÁP CÚ - TẬP 3: PHẨM TÂM</h2>
+    <p>Nội dung chi tiết Kinh gốc và Giải thích</p>
+    <button id="uploadBtn">XÁC NHẬN NẠP DỮ LIỆU</button>
 </div>
 
 <script type="module">
@@ -35,42 +33,63 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const danhSachBai = [
-        {
-            title: "Pháp Cú - Tập 3: Phẩm Tâm (Citta Vagga)",
-            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-003.jpg",
-            content_full: "SỐ CÂU KỆ: 33 ĐẾN 43\n\n1. GIỚI THIỆU: Tâm vốn dao động, khó nắm giữ. Phẩm này dạy cách uốn nắn và làm chủ tâm trí.\n\n2. KỆ NGÔN: 'Tâm hoảng hốt, dao động / Khó hộ trì, khó nhiếp / Người trí uốn tâm thẳng / Như thợ tên uốn tên.' (Kệ 33)\n\n3. GIẢI THÍCH: Tâm giống như con cá bị quăng lên cạn, luôn vùng vẫy. Ai làm chủ được tâm, người đó có hạnh phúc.",
-            hidden: false,
-            createdAt: new Date()
-        },
-        {
-            title: "Pháp Cú - Tập 4: Phẩm Hoa (Puppha Vagga)",
-            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-004.jpg",
-            content_full: "SỐ CÂU KỆ: 44 ĐẾN 59\n\n1. GIỚI THIỆU: Dùng hình ảnh hoa để nói về sự vô thường và hương thơm đức hạnh.\n\n2. KỆ NGÔN: 'Hương các loại hoa thơm / Không bay ngược chiều gió / Nhưng hương người đức hạnh / Bay khắp mọi phương trời.' (Kệ 54)\n\n3. GIẢI THÍCH: Hoa đẹp rồi sẽ tàn, nhưng lòng tốt của con người thì để lại tiếng thơm mãi mãi.",
-            hidden: false,
-            createdAt: new Date()
-        },
-        {
-            title: "Pháp Cú - Tập 5: Phẩm Ngu (Bala Vagga)",
-            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-005.jpg",
-            content_full: "SỐ CÂU KỆ: 60 ĐẾN 75\n\n1. GIỚI THIỆU: Nhận diện những sai lầm của người thiếu trí tuệ.\n\n2. KỆ NGÔN: 'Đêm dài cho kẻ thức / Đường dài cho kẻ mệt / Luân hồi dài cho kẻ / Không biết chân diệu pháp.' (Kệ 60)\n\n3. GIẢI THÍCH: Người ngu tự coi mình là trí mới thật là ngu. Người ngu làm ác sẽ chịu khổ như muỗng múc canh mà không biết vị của canh.",
-            hidden: false,
-            createdAt: new Date()
-        }
-    ];
-
     document.getElementById('uploadBtn').onclick = async () => {
-        const status = document.getElementById('status');
-        status.innerText = "Đang nạp dữ liệu... vui lòng chờ.";
-        
+        const postData = {
+            title: "Kinh Pháp Cú - Tập 3: Phẩm Tâm (Citta Vagga)",
+            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-003.jpg",
+            content_full: `SỐ CÂU KỆ: 33 ĐẾN 43
+
+1. GIỚI THIỆU SƠ LƯỢC
+Tâm vốn dĩ luôn dao động, khó nắm bắt và khó điều phục như con cá vùng vẫy khi bị đưa ra khỏi nước. Phẩm này dạy chúng ta cách nhận diện bản chất của tâm và tầm quan trọng của việc uốn nắn tâm trí để đạt được sự an lạc đích thực.
+
+2. NỘI DUNG KINH GỐC & GIẢI THÍCH
+● Kệ số 33 & 34: Bản chất của tâm
+"Tâm hoảng hốt, dao động,
+Khó hộ trì, khó nhiếp,
+Người trí uốn tâm thẳng,
+Như thợ tên uốn tên." (Kệ 33)
+
+"Như cá quăng lên cạn,
+Vứt ra ngoài bản hữu,
+Tâm này luôn vùng vẫy,
+Thoát khỏi vòng Ma giới." (Kệ 34)
+
+Giải thích: Tâm ta thường nhảy nhót từ chuyện này sang chuyện kia, rất khó kiểm soát. Người có trí tuệ sẽ nỗ lực uốn nắn tâm mình đi vào khuôn khổ, giống như người thợ làm tên tỉ mỉ uốn thẳng từng mũi tên.
+
+● Kệ số 35: Hạnh phúc từ tâm điều phục
+"Khó nhiếp, nhẹ, phấn chấn,
+Theo các dục quay cuồng,
+Lành thay, điều phục tâm,
+Tâm điều, hưởng an lạc."
+
+Giải thích: Tâm rất nhẹ, luôn bị các ham muốn (dục vọng) lôi kéo đi khắp nơi. Tuy nhiên, nếu ai học cách làm chủ và điều phục được tâm trí mình, người đó sẽ gặt hái được niềm hạnh phúc và sự bình yên sâu sắc.
+
+● Kệ số 42 & 43: Kẻ thù lớn nhất và Bạn tốt nhất
+"Kẻ thù hại kẻ thù,
+Oan gia hại oan gia,
+Không bằng tâm hướng ác,
+Gây ác cho chính mình." (Kệ 42)
+
+"Chẳng phải mẹ, cha làm,
+Hay bà con kẻ khác,
+Tâm hướng chánh làm tốt,
+Cho ta tốt hơn thế." (Kệ 43)
+
+Giải thích: Không có kẻ thù nào có thể làm hại bạn bằng chính cái tâm đầy ác ý của bạn. Ngược lại, không có người thân nào mang lại cho bạn sự an lạc bằng chính một cái tâm được rèn luyện theo hướng thiện.
+
+3. BÀI HỌC ỨNG DỤNG
+- Nhận diện sự dao động: Khi tâm lo lắng, hãy nhẹ nhàng nhận biết và đưa nó trở về hiện tại.
+- Uốn nắn kiên trì: Việc rèn luyện tâm là một quá trình bền bỉ.
+- Tự làm chủ vận mệnh: Hạnh phúc hay khổ đau đều do tâm ta tạo ra.`,
+            hidden: false,
+            createdAt: new Date()
+        };
+
         try {
-            for (const bai of danhSachBai) {
-                await addDoc(collection(db, "Nikaya_Texts"), bai);
-            }
-            status.innerText = "CHÚC MỪNG! ĐÃ NẠP XONG 3 TẬP (3, 4, 5).";
-            alert("Đã hoàn tất nạp chùm bài!");
+            await addDoc(collection(db, "Nikaya_Texts"), postData);
+            alert("Đã cập nhật thành công Kinh Pháp Cú Tập 3!");
         } catch (e) {
-            status.innerText = "Lỗi: " + e.message;
+            alert("Lỗi: " + e.message);
         }
     };
 </script>
