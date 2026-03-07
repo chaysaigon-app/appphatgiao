@@ -2,19 +2,21 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nạp Pháp Cú Tập 2 - Kinh Gốc</title>
+    <title>Nạp Nhiều Tập Pháp Cú - Kinh Gốc</title>
     <style>
         body { background: #000; color: #fff; font-family: Arial; padding: 50px; text-align: center; }
         .box { border: 2px solid #ccff00; padding: 30px; border-radius: 20px; display: inline-block; }
-        button { padding: 15px 30px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; text-transform: uppercase; }
+        button { padding: 15px 40px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; text-transform: uppercase; }
+        #status { margin-top: 20px; color: #ccff00; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2 style="color: #ccff00;">NẠP BÀI: PHÁP CÚ - TẬP 2: PHẨM KHÔNG PHÓNG DẬT</h2>
-    <p>Nhấn nút để đưa bài học vào mục Kinh Gốc</p>
-    <button id="uploadBtn">XÁC NHẬN NẠP DỮ LIỆU</button>
+    <h2 style="color: #ccff00;">NẠP CHÙM BÀI: PHÁP CÚ TẬP 3, 4 & 5</h2>
+    <p>Hệ thống sẽ tự động nạp 3 tập này vào mục Kinh Gốc</p>
+    <button id="uploadBtn">BẮT ĐẦU NẠP TẤT CẢ</button>
+    <div id="status"></div>
 </div>
 
 <script type="module">
@@ -33,53 +35,42 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    document.getElementById('uploadBtn').onclick = async () => {
-        const postData = {
-            title: "Pháp Cú - Tập 2: Phẩm Không Phóng Dật (Appamada Vagga)",
-            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-002.jpg",
-            content_full: `SỐ CÂU KỆ: 21 ĐẾN 32
-
-1. GIỚI THIỆU SƠ LƯỢC
-"Không Phóng Dật" (Appamada) nghĩa là sự tỉnh giác, không buông lung, luôn cẩn trọng trong từng ý nghĩ và hành động. Đây là chìa khóa để mở cánh cửa bất tử, giúp con người thoát khỏi sự chi phối của vô minh và khổ đau.
-
-2. NỘI DUNG KINH GỐC & GIẢI THÍCH
-● Kệ số 21: Con đường bất tử
-"Không phóng dật, đường sống,
-Phóng dật, con đường chết;
-Không phóng dật, không chết,
-Phóng dật, như chết rồi."
-
-Giải thích: Người sống có tỉnh thức, biết quan sát tâm mình là đang đi trên con đường dẫn đến sự giải thoát. Ngược lại, người sống buông thả, chỉ chạy theo dục vọng thì tâm trí mờ mịt, dù thân xác còn sống nhưng tinh thần đã như mê muội, không khác gì người đã khuất.
-
-● Kệ số 24: Thành quả của sự nỗ lực
-"Nỗ lực, giữ chánh niệm,
-Trong sạch, việc khéo làm,
-Tự điều, sống theo Pháp,
-Không phóng dật, danh thơm."
-
-Giải thích: Một người kiên trì nỗ lực, luôn giữ tâm trong sáng và sống đúng với đạo lý thì tiếng thơm và sự an lạc sẽ tự nhiên tìm đến. Thành quả không đến từ may mắn, mà đến từ sự rèn luyện bền bỉ mỗi ngày.
-
-● Kệ số 26 & 27: Giữ gìn sự tỉnh thức
-"Kẻ ngu hay phóng dật,
-Người trí giữ tỉnh thức,
-Như giữ kho báu vật,
-Không buông lung, không mê."
-
-Giải thích: Đối với người có trí tuệ, sự tỉnh giác quan trọng hơn cả tiền bạc hay vật chất. Họ bảo vệ sự chú tâm của mình giống như bảo vệ một kho báu vô giá, không để những thú vui tạm bợ làm xao nhãng con đường tu học.
-
-3. BÀI HỌC ỨNG DỤNG
-- Tập trung vào hiện tại: Đang làm việc gì, biết rõ mình đang làm việc đó, không để tâm trí trôi dạt về quá khứ hay tương lai.
-- Rèn luyện kỷ luật: Thiết lập những thói quen tốt và kiên trì thực hiện, không để sự lười biếng (phóng dật) lấn át.
-- Coi trọng thời gian: Hiểu rằng mỗi giây phút sống tỉnh thức là một bước tiến gần hơn đến hạnh phúc chân thực.`,
+    const danhSachBai = [
+        {
+            title: "Pháp Cú - Tập 3: Phẩm Tâm (Citta Vagga)",
+            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-003.jpg",
+            content_full: "SỐ CÂU KỆ: 33 ĐẾN 43\n\n1. GIỚI THIỆU: Tâm vốn dao động, khó nắm giữ. Phẩm này dạy cách uốn nắn và làm chủ tâm trí.\n\n2. KỆ NGÔN: 'Tâm hoảng hốt, dao động / Khó hộ trì, khó nhiếp / Người trí uốn tâm thẳng / Như thợ tên uốn tên.' (Kệ 33)\n\n3. GIẢI THÍCH: Tâm giống như con cá bị quăng lên cạn, luôn vùng vẫy. Ai làm chủ được tâm, người đó có hạnh phúc.",
             hidden: false,
             createdAt: new Date()
-        };
+        },
+        {
+            title: "Pháp Cú - Tập 4: Phẩm Hoa (Puppha Vagga)",
+            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-004.jpg",
+            content_full: "SỐ CÂU KỆ: 44 ĐẾN 59\n\n1. GIỚI THIỆU: Dùng hình ảnh hoa để nói về sự vô thường và hương thơm đức hạnh.\n\n2. KỆ NGÔN: 'Hương các loại hoa thơm / Không bay ngược chiều gió / Nhưng hương người đức hạnh / Bay khắp mọi phương trời.' (Kệ 54)\n\n3. GIẢI THÍCH: Hoa đẹp rồi sẽ tàn, nhưng lòng tốt của con người thì để lại tiếng thơm mãi mãi.",
+            hidden: false,
+            createdAt: new Date()
+        },
+        {
+            title: "Pháp Cú - Tập 5: Phẩm Ngu (Bala Vagga)",
+            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-005.jpg",
+            content_full: "SỐ CÂU KỆ: 60 ĐẾN 75\n\n1. GIỚI THIỆU: Nhận diện những sai lầm của người thiếu trí tuệ.\n\n2. KỆ NGÔN: 'Đêm dài cho kẻ thức / Đường dài cho kẻ mệt / Luân hồi dài cho kẻ / Không biết chân diệu pháp.' (Kệ 60)\n\n3. GIẢI THÍCH: Người ngu tự coi mình là trí mới thật là ngu. Người ngu làm ác sẽ chịu khổ như muỗng múc canh mà không biết vị của canh.",
+            hidden: false,
+            createdAt: new Date()
+        }
+    ];
 
+    document.getElementById('uploadBtn').onclick = async () => {
+        const status = document.getElementById('status');
+        status.innerText = "Đang nạp dữ liệu... vui lòng chờ.";
+        
         try {
-            await addDoc(collection(db, "Nikaya_Texts"), postData);
-            alert("Đã nạp thành công Pháp Cú Tập 2 vào mục Kinh Gốc!");
+            for (const bai of danhSachBai) {
+                await addDoc(collection(db, "Nikaya_Texts"), bai);
+            }
+            status.innerText = "CHÚC MỪNG! ĐÃ NẠP XONG 3 TẬP (3, 4, 5).";
+            alert("Đã hoàn tất nạp chùm bài!");
         } catch (e) {
-            alert("Lỗi nạp dữ liệu: " + e.message);
+            status.innerText = "Lỗi: " + e.message;
         }
     };
 </script>
