@@ -2,81 +2,53 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Trị Nội Dung - Đầy Đủ Diễn Giải</title>
+    <title>Hệ Thống Nhập Liệu 3 Mục Lớn</title>
     <style>
-        :root {
-            --bg: #000; --vang: #ccff00; --border: #333;
-            --xanh: #2e7d32; --cam: #e65100; --do: #c62828;
-        }
+        :root { --bg: #000; --vang: #ccff00; }
         body { background: var(--bg); color: #fff; font-family: Arial, sans-serif; padding: 20px; font-size: 20px; }
-        .admin-box { max-width: 850px; margin: auto; border: 3px solid var(--vang); padding: 30px; border-radius: 20px; }
+        .admin-box { max-width: 800px; margin: auto; border: 3px solid var(--vang); padding: 30px; border-radius: 20px; }
         
-        .type-selector { display: flex; gap: 10px; margin-bottom: 25px; }
-        .type-btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 18px; color: #fff; opacity: 0.5; }
-        .type-btn.active { opacity: 1; border: 3px solid #fff; transform: scale(1.05); }
+        /* 3 Nút chọn 3 mục lớn */
+        .selector { display: flex; gap: 10px; margin-bottom: 25px; }
+        .btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 18px; color: #fff; opacity: 0.5; }
+        .btn.active { opacity: 1; border: 3px solid #fff; transform: scale(1.05); }
+        .b-kinh { background: #2e7d32; } .b-info { background: #e65100; } .b-video { background: #c62828; }
 
-        .input-group { display: none; background: #111; padding: 20px; border-radius: 15px; border: 1px solid #444; }
-        .input-group.active { display: block; }
-        
         label { display: block; margin: 15px 0 5px; color: var(--vang); font-weight: bold; font-size: 22px; }
-        input, textarea { 
-            width: 100%; padding: 15px; background: #000; border: 1px solid #555; 
-            color: #fff; border-radius: 10px; font-size: 20px; box-sizing: border-box;
-        }
-        textarea { height: 300px; line-height: 1.6; }
-
-        .save-btn { 
-            width: 100%; padding: 25px; background: var(--vang); color: #000; 
-            border: none; border-radius: 15px; font-size: 26px; font-weight: 900; 
-            cursor: pointer; margin-top: 25px; text-transform: uppercase;
-        }
+        input, textarea { width: 100%; padding: 15px; background: #111; border: 1px solid #555; color: #fff; border-radius: 10px; font-size: 20px; box-sizing: border-box; }
+        textarea { height: 350px; line-height: 1.6; }
+        .save-btn { width: 100%; padding: 25px; background: var(--vang); color: #000; border: none; border-radius: 15px; font-size: 28px; font-weight: 900; cursor: pointer; margin-top: 25px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
 <div class="admin-box">
-    <h2 style="text-align: center; color: var(--vang); font-size: 32px;">HỆ THỐNG NHẬP LIỆU CHUYÊN SÂU</h2>
+    <h2 style="text-align: center; color: var(--vang); font-size: 32px;">NẠP DỮ LIỆU 3 MỤC LỚN</h2>
 
-    <div class="type-selector">
-        <button class="type-btn active" style="background: var(--xanh);" onclick="switchTab('kinh', this)">1. KINH GỐC</button>
-        <button class="type-btn" style="background: var(--cam);" onclick="switchTab('info', this)">2. INFOGRAPHIC</button>
-        <button class="type-btn" style="background: var(--do);" onclick="switchTab('video', this)">3. VIDEO</button>
+    <div class="selector">
+        <button class="btn b-kinh active" onclick="setTab('kinh', this)">1. KINH GỐC</button>
+        <button class="btn b-info" onclick="setTab('info', this)">2. INFOGRAPHIC</button>
+        <button class="btn b-video" onclick="setTab('video', this)">3. VIDEO</button>
     </div>
 
-    <div id="form-info" class="input-group">
-        <label>Tiêu đề Infographic:</label>
-        <input type="text" id="info-title" placeholder="Ví dụ: 5 Cách Gieo Nhân Tài Lộc">
-        <label>Mô tả cực ngắn (hiện ngoài thẻ):</label>
-        <input type="text" id="info-desc" placeholder="Tóm tắt nội dung trong 1 câu...">
-        <label>Link ảnh 9:16 (Ảnh tóm tắt):</label>
-        <input type="text" id="info-img" placeholder="Dán link hình ảnh tại đây...">
-        <label>Nội dung diễn giải chi tiết (Để người già đọc hiểu):</label>
-        <textarea id="info-content" placeholder="Tại đây bạn dán bài giảng chi tiết giải thích cho bức ảnh trên..."></textarea>
+    <label>Tựa bài học / Tựa Video:</label>
+    <input type="text" id="title" placeholder="Nhập tựa bài...">
+
+    <div id="detailFields">
+        <label>Mô tả ngắn ngoài thẻ:</label>
+        <input type="text" id="desc" placeholder="Tóm tắt cực ngắn...">
+        <label>Link ảnh đại diện (9:16):</label>
+        <input type="text" id="img" placeholder="Dán link hình ảnh...">
+        <label id="contentLabel">Nội dung diễn giải chi tiết:</label>
+        <textarea id="content" placeholder="Dán nội dung bài giảng chi tiết..."></textarea>
     </div>
 
-    <div id="form-kinh" class="input-group active">
-        <label>Tựa bài kinh:</label>
-        <input type="text" id="kinh-title">
-        <label>Mô tả ngắn:</label>
-        <input type="text" id="kinh-desc">
-        <label>Link ảnh đại diện:</label>
-        <input type="text" id="kinh-img">
-        <label>Nguyên văn Kinh Nikaya:</label>
-        <textarea id="kinh-content"></textarea>
+    <div id="videoFields" style="display:none;">
+        <label>Dán Link YouTube:</label>
+        <input type="text" id="vidUrl" placeholder="Dán link video hoặc shorts tại đây...">
     </div>
 
-    <div id="form-video" class="input-group">
-        <label>Tiêu đề Video:</label>
-        <input type="text" id="video-title">
-        <label>Mô tả video:</label>
-        <input type="text" id="video-desc">
-        <label>YouTube ID:</label>
-        <input type="text" id="video-id">
-        <label>Link ảnh nền:</label>
-        <input type="text" id="video-img">
-    </div>
-
-    <button class="save-btn" onclick="uploadData()">Lưu vào kho dữ liệu</button>
+    <button class="save-btn" onclick="save()">LƯU VÀO HỆ THỐNG</button>
 </div>
 
 <script type="module">
@@ -94,53 +66,35 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let currentTab = 'kinh';
+    let tab = 'kinh';
 
-    window.switchTab = (tab, btn) => {
-        currentTab = tab;
-        document.querySelectorAll('.input-group').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.type-btn').forEach(el => el.classList.remove('active'));
-        document.getElementById('form-' + tab).classList.add('active');
+    window.setTab = (t, btn) => {
+        tab = t;
+        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        document.getElementById('detailFields').style.display = (t === 'video') ? 'none' : 'block';
+        document.getElementById('videoFields').style.display = (t === 'video') ? 'block' : 'none';
+        document.getElementById('contentLabel').innerText = (t === 'kinh') ? "Nguyên văn Kinh Nikaya:" : "Nội dung diễn giải chi tiết:";
     };
 
-    window.uploadData = async () => {
-        let data = {};
-        let colName = "";
+    function getID(url) {
+        const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
+        const m = url.match(reg);
+        return (m && m[2].length === 11) ? m[2] : url;
+    }
 
-        if (currentTab === 'kinh') {
-            colName = "Nikaya_Texts";
-            data = {
-                title: document.getElementById('kinh-title').value,
-                desc: document.getElementById('kinh-desc').value,
-                img: document.getElementById('kinh-img').value,
-                content_full: document.getElementById('kinh-content').value,
-                type: 'kinh'
-            };
-        } else if (currentTab === 'info') {
-            colName = "Infographics_Library";
-            data = {
-                title: document.getElementById('info-title').value,
-                desc: document.getElementById('info-desc').value,
-                img: document.getElementById('info-img').value,
-                content_full: document.getElementById('info-content').value, // Trường nội dung dài cho Info
-                type: 'info'
-            };
-        } else {
-            colName = "Video_Shorts";
-            data = {
-                title: document.getElementById('video-title').value,
-                desc: document.getElementById('video-desc').value,
-                youtube_id: document.getElementById('video-id').value,
-                img: document.getElementById('video-img').value,
-                type: 'video'
-            };
-        }
-
+    window.save = async () => {
+        const cols = { kinh: "Nikaya_Texts", info: "Infographics_Library", video: "Video_Shorts" };
+        const data = {
+            title: document.getElementById('title').value,
+            desc: document.getElementById('desc').value,
+            img: document.getElementById('img').value,
+            content_full: document.getElementById('content').value,
+            youtube_id: tab === 'video' ? getID(document.getElementById('vidUrl').value) : ""
+        };
         try {
-            await addDoc(collection(db, colName), data);
-            alert("Đã lưu bài học thành công!");
-            location.reload();
+            await addDoc(collection(db, cols[tab]), data);
+            alert("Đã nạp thành công!"); location.reload();
         } catch (e) { alert("Lỗi: " + e.message); }
     };
 </script>
