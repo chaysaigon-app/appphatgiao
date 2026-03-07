@@ -2,67 +2,96 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nạp Nguyên Văn MN-01</title>
+    <title>Nạp Bài Kinh Pháp Cú</title>
     <style>
-        body { font-family: 'Times New Roman', serif; background: #fdfcf0; padding: 50px; text-align: center; }
-        .status-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: inline-block; border: 2px solid #4a6741; }
-        button { background: #4a6741; color: white; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; }
-        #log { margin-top: 20px; color: #4a6741; font-weight: bold; }
+        body { background: #000; color: #fff; font-family: Arial; padding: 50px; text-align: center; }
+        .box { border: 2px solid #ccff00; padding: 30px; border-radius: 20px; display: inline-block; }
+        button { padding: 15px 30px; background: #ccff00; border: none; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 20px; }
     </style>
 </head>
 <body>
-    <div class="status-box">
-        <h1>NẠP NGUYÊN VĂN KINH VĂN</h1>
-        <p>Đang xử lý: <strong>MN-01 - Kinh Pháp Môn Căn Bản</strong></p>
-        <button onclick="autoImportMN01()">KÍCH HOẠT NẠP DỮ LIỆU</button>
-        <div id="log">Sẵn sàng nạp bài MN-01...</div>
-    </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<div class="box">
+    <h2>Nạp Bài: Pháp Cú - Tập 1: Phẩm Song Yếu</h2>
+    <p>Nhấn nút bên dưới để đưa dữ liệu vào hệ thống</p>
+    <button id="uploadBtn">BẮT ĐẦU NẠP DỮ LIỆU</button>
+</div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
-            authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
-            projectId: "thuvienphatgiao-fd07e",
-            storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
-            messagingSenderId: "342500331725",
-            appId: "1:342500331725:web:32795cf0146210f8019984"
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Cấu hình Firebase của bạn
+    const firebaseConfig = {
+        apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+        authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+        projectId: "thuvienphatgiao-fd07e",
+        storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+        messagingSenderId: "342500331725",
+        appId: "1:342500331725:web:32795cf0146210f8019984"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.getElementById('uploadBtn').onclick = async () => {
+        const postData = {
+            title: "Pháp Cú - Tập 1: Phẩm Song Yếu (Yamaka Vagga)",
+            img: "https://vapa.vn/wp-content/uploads/2022/12/hinh-anh-phat-dep-lam-hinh-nen-001.jpg", // Bạn có thể thay link ảnh này
+            content_full: `SỐ CÂU KỆ: 01 ĐẾN 20
+
+1. GIỚI THIỆU SƠ LƯỢC
+"Song Yếu" có nghĩa là các cặp đối lập. Trong phẩm này, Đức Phật đưa ra các khái niệm ngược chiều nhau (Thiện - Ác, Khổ - Vui, Ghét - Thương) để giúp chúng ta nhận diện rõ quy luật nhân quả đang vận hành trong từng ý nghĩ và hành động hằng ngày.
+
+2. NỘI DUNG KINH GỐC & GIẢI THÍCH
+● Cặp Kệ số 1 & 2: Sức mạnh của Ý dẫn đầu
+"Tâm dẫn đầu các pháp,
+Tâm làm chủ, tâm tạo;
+Nếu nói hay hành động,
+Với tâm ý ô nhiễm,
+Khổ não bước theo sau,
+Như bánh xe vật kéo." (Kệ số 1)
+
+"Tâm dẫn đầu các pháp,
+Tâm làm chủ, tâm tạo;
+Nếu nói hay hành động,
+Với tâm ý thanh tịnh,
+Hạnh phúc bước theo sau,
+Như bóng không rời hình." (Kệ số 2)
+
+Giải thích: Mọi việc bạn làm hay lời bạn nói đều bắt nguồn từ suy nghĩ. Nếu tâm bạn chứa đựng sự ích kỷ hay giận dữ, nỗi khổ sẽ bám theo bạn như vết bánh xe lún sâu trên đường. Ngược lại, nếu lòng bạn bình an và tử tế, niềm vui sẽ tự nhiên đi theo bạn như cái bóng.
+
+● Cặp Kệ số 3, 4 & 5: Hóa giải thù hận
+"Với hận diệt hận thù,
+Đời này không có được.
+Không hận diệt hận thù,
+Là định luật ngàn thu." (Kệ số 5)
+
+Giải thích: Dùng sự giận dữ để đáp trả giận dữ chỉ làm oán thù thêm sâu nặng. Chỉ có sự buông bỏ và lòng bao dung mới có thể chấm dứt hận thù một cách triệt để.
+
+● Cặp Kệ số 19 & 20: Học đi đôi với Hành
+"Dù tụng nhiều kinh điển,
+Không hành trì buông lung,
+Như kẻ chăn bò mướn,
+Đếm bò cho người khác." (Kệ số 19)
+
+Giải thích: Nếu bạn đọc triết lý nhiều nhưng không thay đổi thói quen xấu, kiến thức đó không giúp ích gì cho bạn.
+
+3. BÀI HỌC ỨNG DỤNG
+- Chăm sóc tâm trí: Quan sát tâm mình đang "đục" hay "trong" trước khi hành động.
+- Dừng phán xét: Giảm việc nhắc lỗi người khác.
+- Thực hành ngay: Áp dụng ngay một điều tốt nhỏ vào cuộc sống.`,
+            hidden: false,
+            createdAt: new Date()
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Nội dung nguyên văn bài kinh MN-01
-        const mn01Content = `Như vầy tôi nghe. Một thời Thế Tôn ở Ukkattha, tại rừng Subhaga, dưới gốc cây thọ vương (Sala). 
-
-Tại đấy, Thế Tôn gọi các Tỷ-kheo: "Này các Tỷ-kheo!" - "Bạch Thế Tôn", các Tỷ-kheo ấy đáp từ Thế Tôn. Thế Tôn thuyết giảng như sau: "Này các Tỷ-kheo, Ta sẽ giảng cho các Ngươi về pháp môn căn bản của tất cả pháp. Hãy nghe và khéo tác ý, Ta sẽ giảng". 
-
-"Bạch Thế Tôn, vâng ạ", các Tỷ-kheo ấy đáp từ Thế Tôn. Thế Tôn thuyết giảng như sau: Ở đây, này các Tỷ-kheo, có kẻ phàm phu, không được nghe phân biệt, không được thấy các bậc Thánh, không thuần thục pháp các bậc Thánh... kẻ ấy tưởng tri địa đại là địa đại. Vì tưởng tri địa đại là địa đại, kẻ ấy nghĩ đến địa đại, nghĩ đến (tự ngã) đối chiếu với địa đại, nghĩ đến (tự ngã) như là địa đại, nghĩ rằng: "Địa đại là của ta" - kẻ ấy hỷ lạc địa đại. Vì sao vậy? Ta nói rằng: "Vì kẻ ấy không liễu tri địa đại". 
-
-Này các Tỷ-kheo, Tỷ-kheo hữu học, tâm chưa thành tựu, đang sống cần cầu vô thượng an ổn khỏi các khổ ách... Vị ấy thắng tri địa đại là địa đại. Vì thắng tri địa đại là địa đại, vị ấy chớ có nghĩ đến địa đại, chớ có nghĩ đến (tự ngã) đối chiếu với địa đại, chớ có nghĩ đến (tự ngã) như là địa đại, chớ có nghĩ: "Địa đại là của ta" - chớ có hỷ lạc địa đại. Vì sao vậy? Ta nói rằng: "Để vị ấy có thể liễu tri địa đại". 
-
-Này các Tỷ-kheo, Tỷ-kheo là bậc A-la-hán, các lậu hoặc đã tận, phạm hạnh đã thành, việc nên làm đã làm, đã đặt gánh nặng xuống... Vị ấy thắng tri địa đại là địa đại. Vì thắng tri địa đại là địa đại, vị ấy không nghĩ đến địa đại, không nghĩ đến (tự ngã) đối chiếu với địa đại, không nghĩ đến (tự ngã) như là địa đại, không nghĩ: "Địa đại là của ta" - không hỷ lạc địa đại. Vì sao vậy? Ta nói rằng: "Vì vị ấy đã liễu tri địa đại".`;
-
-        window.autoImportMN01 = async () => {
-            const log = document.getElementById('log');
-            log.innerText = "Đang kết nối và nạp nội dung...";
-            try {
-                await setDoc(doc(db, "Nikaya_Texts", "MN-01"), {
-                    id: "MN-01",
-                    title_vi: "Kinh Pháp Môn Căn Bản",
-                    content_full: mn01Content,
-                    translator: "HT. Thích Minh Châu",
-                    last_update: new Date()
-                }, { merge: true });
-                
-                log.innerText = "✅ ĐÃ NẠP THÀNH CÔNG NGUYÊN VĂN BÀI MN-01!";
-                alert("Nội dung nguyên văn bài MN-01 đã được cập nhật.");
-            } catch (e) {
-                log.innerText = "❌ Lỗi: " + e.message;
-            }
-        };
-    </script>
+        try {
+            await addDoc(collection(db, "Nikaya_Texts"), postData);
+            alert("Nạp bài Pháp Cú thành công!");
+        } catch (e) {
+            alert("Lỗi: " + e.message);
+        }
+    };
+</script>
 </body>
 </html>
