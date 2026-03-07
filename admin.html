@@ -2,36 +2,41 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hệ Thống Nhập Liệu 3 Mục Lớn</title>
+    <title>Hệ Thống Nhập Liệu 4 Mục Lớn</title>
     <style>
-        :root { --bg: #000; --vang: #ccff00; }
+        :root { --bg: #000; --vang: #ccff00; --tim: #7b1fa2; }
         body { background: var(--bg); color: #fff; font-family: Arial, sans-serif; padding: 20px; font-size: 20px; }
         .admin-box { max-width: 800px; margin: auto; border: 3px solid var(--vang); padding: 30px; border-radius: 20px; }
         
-        /* 3 Nút chọn 3 mục lớn */
-        .selector { display: flex; gap: 10px; margin-bottom: 25px; }
-        .btn { flex: 1; padding: 20px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 18px; color: #fff; opacity: 0.5; }
+        /* 4 Nút chọn mục lớn */
+        .selector { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .btn { flex: 1; min-width: 150px; padding: 15px; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 16px; color: #fff; opacity: 0.4; transition: 0.3s; }
         .btn.active { opacity: 1; border: 3px solid #fff; transform: scale(1.05); }
-        .b-kinh { background: #2e7d32; } .b-info { background: #e65100; } .b-video { background: #c62828; }
+        .b-kinh { background: #2e7d32; } 
+        .b-info { background: #e65100; } 
+        .b-video { background: #c62828; }
+        .b-audio { background: var(--tim); }
 
         label { display: block; margin: 15px 0 5px; color: var(--vang); font-weight: bold; font-size: 22px; }
         input, textarea { width: 100%; padding: 15px; background: #111; border: 1px solid #555; color: #fff; border-radius: 10px; font-size: 20px; box-sizing: border-box; }
-        textarea { height: 350px; line-height: 1.6; }
+        textarea { height: 300px; line-height: 1.6; }
         .save-btn { width: 100%; padding: 25px; background: var(--vang); color: #000; border: none; border-radius: 15px; font-size: 28px; font-weight: 900; cursor: pointer; margin-top: 25px; text-transform: uppercase; }
+        p.note { font-size: 14px; color: #aaa; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="admin-box">
-    <h2 style="text-align: center; color: var(--vang); font-size: 32px;">NẠP DỮ LIỆU 3 MỤC LỚN</h2>
+    <h2 style="text-align: center; color: var(--vang); font-size: 32px;">HỆ THỐNG NẠP DỮ LIỆU</h2>
 
     <div class="selector">
         <button class="btn b-kinh active" onclick="setTab('kinh', this)">1. KINH GỐC</button>
         <button class="btn b-info" onclick="setTab('info', this)">2. INFOGRAPHIC</button>
         <button class="btn b-video" onclick="setTab('video', this)">3. VIDEO</button>
+        <button class="btn b-audio" onclick="setTab('audio', this)">4. AUDIO</button>
     </div>
 
-    <label>Tựa bài học / Tựa Video:</label>
+    <label>Tựa bài học / Tựa Audio:</label>
     <input type="text" id="title" placeholder="Nhập tựa bài...">
 
     <div id="detailFields">
@@ -48,7 +53,13 @@
         <input type="text" id="vidUrl" placeholder="Dán link video hoặc shorts tại đây...">
     </div>
 
-    <button class="save-btn" onclick="save()">LƯU VÀO HỆ THỐNG</button>
+    <div id="audioFields" style="display:none;">
+        <label>Spotify Link / ID:</label>
+        <input type="text" id="spotifyUrl" placeholder="Dán link bài giảng Spotify tại đây...">
+        <p class="note">Ví dụ: https://open.spotify.com/episode/6rqS51HOAsv79vM6S96o3z</p>
+    </div>
+
+    <button class="save-btn" id="btnSave">LƯU VÀO HỆ THỐNG</button>
 </div>
 
 <script type="module">
@@ -66,36 +77,69 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let tab = 'kinh';
+    let currentTab = 'kinh';
 
-    window.setTab = (t, btn) => {
-        tab = t;
+    // Chuyển đổi giao diện Tab
+    window.setTab = (tab, btn) => {
+        currentTab = tab;
         document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('detailFields').style.display = (t === 'video') ? 'none' : 'block';
-        document.getElementById('videoFields').style.display = (t === 'video') ? 'block' : 'none';
-        document.getElementById('contentLabel').innerText = (t === 'kinh') ? "Nguyên văn Kinh Nikaya:" : "Nội dung diễn giải chi tiết:";
+
+        // Hiển thị các ô nhập tương ứng
+        document.getElementById('detailFields').style.display = (tab === 'kinh' || tab === 'info') ? 'block' : 'none';
+        document.getElementById('videoFields').style.display = (tab === 'video') ? 'block' : 'none';
+        document.getElementById('audioFields').style.display = (tab === 'audio') ? 'block' : 'none';
+        
+        if(tab === 'kinh') document.getElementById('contentLabel').innerText = "Nguyên văn Kinh Nikaya:";
+        if(tab === 'info') document.getElementById('contentLabel').innerText = "Nội dung diễn giải chi tiết:";
     };
 
-    function getID(url) {
+    // Hàm tách ID YouTube
+    function getYoutubeID(url) {
         const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
         const m = url.match(reg);
         return (m && m[2].length === 11) ? m[2] : url;
     }
 
-    window.save = async () => {
-        const cols = { kinh: "Nikaya_Texts", info: "Infographics_Library", video: "Video_Shorts" };
+    // Hàm tách ID Spotify
+    function getSpotifyID(url) {
+        const reg = /episode\/([a-zA-Z0-9]+)/;
+        const m = url.match(reg);
+        return (m && m[1]) ? m[1] : url.split('?')[0].split('/').pop();
+    }
+
+    // Lưu dữ liệu
+    document.getElementById('btnSave').onclick = async () => {
+        const collections = { 
+            kinh: "Nikaya_Texts", 
+            info: "Infographics_Library", 
+            video: "Video_Shorts",
+            audio: "Audio_Lectures"
+        };
+
         const data = {
             title: document.getElementById('title').value,
-            desc: document.getElementById('desc').value,
-            img: document.getElementById('img').value,
-            content_full: document.getElementById('content').value,
-            youtube_id: tab === 'video' ? getID(document.getElementById('vidUrl').value) : ""
+            createdAt: new Date(),
+            hidden: false
         };
+
+        if (currentTab === 'video') {
+            data.youtube_id = getYoutubeID(document.getElementById('vidUrl').value);
+        } else if (currentTab === 'audio') {
+            data.spotify_id = getSpotifyID(document.getElementById('spotifyUrl').value);
+        } else {
+            data.desc = document.getElementById('desc').value;
+            data.img = document.getElementById('img').value;
+            data.content_full = document.getElementById('content').value;
+        }
+
         try {
-            await addDoc(collection(db, cols[tab]), data);
-            alert("Đã nạp thành công!"); location.reload();
-        } catch (e) { alert("Lỗi: " + e.message); }
+            await addDoc(collection(db, collections[currentTab]), data);
+            alert("Nạp thành công vào mục " + currentTab.toUpperCase() + "!");
+            location.reload();
+        } catch (e) {
+            alert("Lỗi hệ thống: " + e.message);
+        }
     };
 </script>
 </body>
