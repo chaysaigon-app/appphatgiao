@@ -3,92 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Viện Phật Giáo 3.0</title>
+    <title>Thư Viện Phật Giáo Cho Người Hữu Duyên</title>
     <style>
         :root {
-            --bg-dark: #1a0f0a; /* Nâu cực đậm */
-            --card-bg: #2d1b15; /* Nâu trầm */
-            --accent-gold: #d4af37; /* Vàng đồng */
-            --text-light: #f5f5f5;
-            --btn-kinh: #4a6741; /* Xanh lá thẫm */
-            --btn-info: #b8860b; /* Vàng thẫm */
-            --btn-video: #8b0000; /* Đỏ thẫm */
+            --bg-ultra-dark: #000000; /* Đen tuyệt đối để nổi bật chữ */
+            --card-deep: #1e1e1e;
+            --accent-lime: #ccff00; /* Vàng chanh - cực rõ trên nền đen */
+            --text-main: #ffffff;
+            --text-sub: #cfd8dc;
+            /* 3 Màu phân biệt rõ rệt */
+            --color-kinh: #2e7d32; /* Xanh lá đậm */
+            --color-info: #f57c00; /* Cam đậm */
+            --color-video: #d32f2f; /* Đỏ đậm */
         }
 
         body { 
-            background: var(--bg-dark); 
-            color: var(--text-light); 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; padding-bottom: 50px;
+            background: var(--bg-ultra-dark); 
+            color: var(--text-main); 
+            font-family: Arial, Helvetica, sans-serif; /* Font không chân, nét dày dễ đọc */
+            margin: 0; padding-bottom: 100px;
+            font-size: 20px; /* Cỡ chữ cơ sở lớn */
         }
 
-        header { text-align: center; padding: 40px 20px; background: linear-gradient(to bottom, #2d1b15, #1a0f0a); }
+        header { text-align: center; padding: 50px 20px; border-bottom: 2px solid var(--accent-lime); }
+        h1 { font-size: 40px; color: var(--accent-lime); margin: 0; text-transform: uppercase; }
 
-        /* 3 Nút phân loại chính */
-        .nav-categories { display: flex; justify-content: center; gap: 15px; padding: 20px; flex-wrap: wrap; }
+        /* 3 Nút chính - To & Dễ bấm */
+        .main-nav { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 20px; }
+        @media (min-width: 600px) { .main-nav { grid-template-columns: 1fr 1fr 1fr; } }
+        
         .nav-btn { 
-            padding: 15px 25px; border: none; border-radius: 12px; font-weight: bold; 
-            cursor: pointer; transition: 0.3s; color: white; min-width: 150px;
+            padding: 25px; border: none; border-radius: 15px; font-size: 22px; 
+            font-weight: 900; cursor: pointer; color: white; text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .btn-1 { background: var(--btn-kinh); }
-        .btn-2 { background: var(--btn-info); }
-        .btn-3 { background: var(--btn-video); }
-        .nav-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .b1 { background: var(--color-kinh); border-bottom: 5px solid #1b5e20; }
+        .b2 { background: var(--color-info); border-bottom: 5px solid #e65100; }
+        .b3 { background: var(--color-video); border-bottom: 5px solid #b71c1c; }
 
-        /* Hàng chủ đề (Topics) */
-        .topic-bar { 
-            display: flex; gap: 10px; overflow-x: auto; padding: 10px 20px; 
-            scrollbar-width: none; border-bottom: 1px solid #3d261d;
+        /* 20 Chủ đề - Cuộn ngang nhưng nút to */
+        .topic-container { padding: 20px; border-bottom: 1px solid #333; background: #111; }
+        .topic-label { font-weight: bold; color: var(--accent-lime); margin-bottom: 15px; display: block; font-size: 24px; }
+        .topic-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: thin; }
+        .chip { 
+            background: #263238; color: white; padding: 12px 25px; border-radius: 30px; 
+            white-space: nowrap; border: 2px solid #444; font-size: 18px; font-weight: bold;
         }
-        .topic-chip { 
-            background: #3d261d; padding: 8px 20px; border-radius: 20px; 
-            white-space: nowrap; font-size: 14px; cursor: pointer; border: 1px solid var(--accent-gold);
-        }
+        .chip:active { background: var(--accent-lime); color: black; }
 
-        .section-title { padding: 20px 20px 10px; font-size: 24px; color: var(--accent-gold); border-left: 5px solid var(--accent-gold); margin-left: 20px; }
-
+        /* Grid 9:16 Tiktok Style */
         .container { padding: 20px; }
-
-        /* Grid hiển thị 9:16 */
-        .grid-916 { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; 
+        .grid-916 { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
+        
+        .card-tiktok { 
+            display: flex; background: var(--card-deep); border-radius: 20px; 
+            overflow: hidden; height: 320px; border: 2px solid #333;
         }
 
-        .card-916 { 
-            display: flex; background: var(--card-bg); border-radius: 15px; 
-            overflow: hidden; height: 280px; border: 1px solid #3d261d;
+        .thumb-916 { 
+            width: 180px; height: 100%; position: relative; 
+            background: #000; background-size: cover; background-position: center;
+        }
+        .thumb-tag {
+            position: absolute; bottom: 15px; left: 10px; right: 10px;
+            background: rgba(0,0,0,0.8); color: var(--accent-lime);
+            padding: 5px; font-size: 16px; font-weight: 900; text-align: center; border-radius: 5px;
         }
 
-        .card-thumb { 
-            width: 160px; height: 100%; position: relative; 
-            background-size: cover; background-position: center;
-        }
-        .card-thumb::after {
-            content: ""; position: absolute; bottom: 0; width: 100%; height: 50%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-        }
-        .card-thumb-title {
-            position: absolute; bottom: 10px; left: 10px; right: 10px;
-            font-size: 14px; font-weight: bold; z-index: 2; color: var(--accent-gold);
+        .info-panel { flex: 1; padding: 20px; display: flex; flex-direction: column; }
+        .info-panel h3 { margin: 0 0 15px; font-size: 24px; color: #fff; line-height: 1.2; }
+        .info-panel p { font-size: 18px; color: #b0bec5; margin: 0; line-height: 1.5; flex-grow: 1; }
+        
+        .btn-action { 
+            background: var(--accent-lime); color: #000; border: none; 
+            padding: 12px; border-radius: 10px; font-size: 20px; font-weight: 900;
+            cursor: pointer; text-transform: uppercase; margin-top: 15px;
         }
 
-        .card-info { 
-            flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; 
-        }
-        .card-info h3 { margin: 0 0 10px; font-size: 18px; color: var(--text-light); }
-        .card-info p { font-size: 13px; color: #bcaaa4; margin: 0; line-height: 1.4; }
-        .btn-read { 
-            align-self: flex-start; background: transparent; border: 1px solid var(--accent-gold);
-            color: var(--accent-gold); padding: 5px 15px; border-radius: 5px; cursor: pointer;
-            margin-top: 10px; font-size: 13px;
-        }
-
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.9); }
+        /* Modal Đọc Kinh - Chữ cực to */
+        .modal { display: none; position: fixed; z-index: 9999; left:0; top:0; width:100%; height:100%; background: #000; }
         .modal-content { 
-            background: var(--bg-dark); margin: 5% auto; padding: 30px; 
-            width: 90%; max-width: 700px; height: 80vh; overflow-y: auto; border: 1px solid var(--accent-gold);
+            padding: 40px; height: 90vh; overflow-y: auto; color: #fff; line-height: 1.8;
         }
+        .m-header { font-size: 32px; color: var(--accent-lime); font-weight: 900; border-bottom: 3px solid var(--accent-lime); padding-bottom: 20px; margin-bottom: 30px; }
+        .m-text { font-size: 24px; text-align: justify; }
+        .close-modal { background: #555; color: white; padding: 15px 30px; border-radius: 10px; font-size: 20px; float: right; border: none; }
     </style>
 </head>
 <body>
@@ -97,100 +96,72 @@
     <h1>THƯ VIỆN PHẬT GIÁO</h1>
 </header>
 
-<div class="nav-categories">
-    <button class="nav-btn btn-1" onclick="showSection('kinh')">1. BẢN GỐC NIKAYA</button>
-    <button class="nav-btn btn-2" onclick="showSection('info')">2. TÓM TẮT INFO</button>
-    <button class="nav-btn btn-3" onclick="showSection('video')">3. BÀI GIẢNG VIDEO</button>
+<div class="main-nav">
+    <button class="nav-btn b1">1. HỌC BẢN GỐC<br>KINH NIKAYA</button>
+    <button class="nav-btn b2">2. HỌC TÓM TẮT<br>INFOGRAPHIC</button>
+    <button class="nav-btn b3">3. HỌC QUA VIDEO<br>BÀI GIẢNG</button>
 </div>
 
-<div class="topic-bar">
-    <div class="topic-chip">Tất cả</div>
-    <div class="topic-chip">Chánh Kiến</div>
-    <div class="topic-chip">Tứ Diệu Đế</div>
-    <div class="topic-chip">Làm Giàu</div>
-    <div class="topic-chip">Hạnh Phúc</div>
-    <div class="topic-chip">Gia Đình</div>
+<div class="topic-container">
+    <span class="topic-label">20 CHỦ ĐỀ ĐIỂN HÌNH:</span>
+    <div class="topic-scroll" id="topicList">
+        </div>
 </div>
 
 <div class="container">
-    <div id="sec-kinh">
-        <div class="section-title">Kinh Bản Gốc Nikaya</div>
-        <div id="grid-kinh" class="grid-916"></div>
-    </div>
-    
-    <div id="sec-info" style="margin-top:50px">
-        <div class="section-title">Infographic Tóm Lược</div>
-        <div id="grid-info" class="grid-916"></div>
-    </div>
-
-    <div id="sec-video" style="margin-top:50px">
-        <div class="section-title">Video Bài Giảng Shorts</div>
-        <div id="grid-video" class="grid-916"></div>
-    </div>
+    <div id="mainGrid" class="grid-916">
+        </div>
 </div>
 
-<div id="readerModal" class="modal">
+<div id="reader" class="modal">
     <div class="modal-content">
-        <span style="float:right; cursor:pointer; font-size:30px" onclick="closeModal()">&times;</span>
-        <h2 id="m-title" style="color:var(--accent-gold)"></h2>
-        <div id="m-body" style="line-height:1.8; white-space: pre-wrap;"></div>
+        <button class="close-modal" onclick="closeReader()">ĐÓNG [X]</button>
+        <div id="mHeader" class="m-header"></div>
+        <div id="mText" class="m-text"></div>
     </div>
 </div>
 
 <script>
-    // DỮ LIỆU MẪU ĐỂ HIỂN THỊ GIAO DIỆN
-    const mockKinh = [
-        { id: "MN-01", title: "Kinh Pháp Môn Căn Bản", desc: "Đức Thế Tôn giảng về gốc rễ của mọi pháp và sự liễu tri.", img: "https://images.unsplash.com/photo-1542353436-312f0ebbf670?w=400" },
-        { id: "MN-10", title: "Kinh Tứ Niệm Xứ", desc: "Con đường độc lộ dẫn đến thanh tịnh và giải thoát khổ đau.", img: "https://images.unsplash.com/photo-1528319725582-ddc0a6135f48?w=400" }
+    const topics = [
+        "1. Chánh Kiến", "2. Làm Giàu", "3. Nuôi Dạy Con", "4. Vợ Chồng", "5. Báo Hiếu", 
+        "6. Sức Khỏe", "7. Vượt Qua Khổ", "8. Tứ Diệu Đế", "9. Nhân Quả", "10. Thiền Định",
+        "11. Giận Dữ", "12. Buông Xả", "13. Tình Thương", "14. Trí Tuệ", "15. Công Việc",
+        "16. Bạn Bè", "17. Lời Nói", "18. Ăn Chay", "19. Bố Thí", "20. Chết & Tái Sinh", "Chủ đề khác..."
     ];
 
-    const mockInfo = [
-        { id: "IF-01", title: "5 Bước Làm Giàu", desc: "Tóm tắt cách tạo dựng tài sản đúng Chánh pháp.", img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400" }
+    const mockData = [
+        { id: "MN-01", title: "Căn Bản Mọi Pháp", desc: "Cách nhìn nhận đúng đắn về mọi sự vật hiện tượng xung quanh.", img: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=400" },
+        { id: "MN-10", title: "Bốn Nơi An Tâm", desc: "Phương pháp giữ tâm bình thản giữa những biến động cuộc đời.", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400" }
     ];
 
-    const mockVideo = [
-        { id: "VD-01", title: "Hiểu về Chánh Kiến", desc: "Video ngắn 60s giải thích về cái nhìn đúng đắn.", img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400" }
-    ];
+    function init() {
+        // Nạp chủ đề
+        document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip">${t}</div>`).join('');
 
-    function renderAll() {
-        const render = (data, gridId) => {
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = data.map(item => `
-                <div class="card-916">
-                    <div class="card-thumb" style="background-image: url('${item.img}')">
-                        <div class="card-thumb-title">${item.id}</div>
-                    </div>
-                    <div class="card-info">
-                        <div>
-                            <h3>${item.title}</h3>
-                            <p>${item.desc}</p>
-                        </div>
-                        <button class="btn-read" onclick="openModal('${item.title}', 'Nội dung chi tiết của ${item.title} đang được cập nhật...')">ĐỌC TIẾP</button>
-                    </div>
+        // Nạp dữ liệu mẫu
+        document.getElementById('mainGrid').innerHTML = mockData.map(d => `
+            <div class="card-tiktok">
+                <div class="thumb-916" style="background-image: url('${d.img}')">
+                    <div class="thumb-tag">${d.id}</div>
                 </div>
-            `).join('');
-        };
-
-        render(mockKinh, 'grid-kinh');
-        render(mockInfo, 'grid-info');
-        render(mockVideo, 'grid-video');
+                <div class="info-panel">
+                    <h3>${d.title}</h3>
+                    <p>${d.desc}</p>
+                    <button class="btn-action" onclick="openReader('${d.title}')">Bấm Để Đọc Tiếp</button>
+                </div>
+            </div>
+        `).join('');
     }
 
-    function openModal(title, body) {
-        document.getElementById('m-title').innerText = title;
-        document.getElementById('m-body').innerText = body;
-        document.getElementById('readerModal').style.display = 'block';
+    function openReader(title) {
+        document.getElementById('mHeader').innerText = title;
+        document.getElementById('mText').innerText = "Đây là nội dung bài giảng dành cho người lớn tuổi. Chữ được thiết kế to, rõ ràng, dễ đọc. Nội dung tóm tắt các ý chính giúp quý vị nắm bắt nhanh lời dạy của Đức Phật...";
+        document.getElementById('reader').style.display = 'block';
     }
 
-    function closeModal() { document.getElementById('readerModal').style.display = 'none'; }
+    function closeReader() { document.getElementById('reader').style.display = 'none'; }
 
-    function showSection(type) {
-        document.getElementById('sec-kinh').style.display = (type === 'kinh' || type === 'all') ? 'block' : 'none';
-        document.getElementById('sec-info').style.display = (type === 'info' || type === 'all') ? 'block' : 'none';
-        document.getElementById('sec-video').style.display = (type === 'video' || type === 'all') ? 'block' : 'none';
-    }
-
-    renderAll();
+    init();
 </script>
 
 </body>
