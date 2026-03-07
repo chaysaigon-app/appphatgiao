@@ -19,6 +19,8 @@
         /* Tra cứu & Chủ đề */
         .search-box { padding: 20px; display: flex; justify-content: center; }
         #searchInput { width: 90%; max-width: 600px; padding: 15px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 22px; background: #000; color: #fff; text-align: center; }
+        
+        /* 20 Chủ đề */
         .vung-chu-de { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #333; }
         .topic-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; }
         .chip { background: #263238; color: white; padding: 12px 25px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 20px; white-space: nowrap; cursor: pointer; }
@@ -37,22 +39,19 @@
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
         .noi-dung-the h3 { margin: 0 0 10px; font-size: 24px; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .noi-dung-the p { font-size: 18px; color: #b0bec5; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 12px; border-radius: 10px; font-size: 22px; font-weight: 900; cursor: pointer; margin-top: auto; }
+        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 12px; border-radius: 10px; font-size: 22px; font-weight: 900; cursor: pointer; margin-top: auto; width: 100%; text-transform: uppercase; }
 
-        /* Admin Panel - Ẩn mặc định, nhấn icon cuối trang để mở */
-        #adminPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 20000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        /* Admin & Modal */
+        #adminPanel, #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; padding: 40px; box-sizing: border-box; overflow-y: auto; }
         .admin-form { max-width: 600px; margin: auto; border: 2px solid var(--vang-chanh); padding: 20px; border-radius: 15px; }
-        input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; background: #222; color: #fff; border: 1px solid #444; font-size: 18px; }
-
-        /* Modal đọc bài */
-        #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; padding: 40px; box-sizing: border-box; overflow-y: auto; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; background: #222; color: #fff; border: 1px solid #444; font-size: 18px; border-radius: 8px; }
     </style>
 </head>
 <body>
 
 <header><h1>THƯ VIỆN PHẬT GIÁO</h1></header>
 
-<div class="search-box"><input type="text" id="searchInput" placeholder="Tìm tên bài hoặc từ khóa..." onkeyup="locBai()"></div>
+<div class="search-box"><input type="text" id="searchInput" placeholder="Gõ từ khóa để tìm bài..." onkeyup="locBai()"></div>
 
 <div class="vung-chu-de">
     <div class="topic-scroll" id="topicList"></div>
@@ -62,29 +61,29 @@
 <div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid"></div></div>
 
-<footer style="text-align:center; padding:50px; opacity:0.3" onclick="document.getElementById('adminPanel').style.display='block'">⚙️ Quản trị viên</footer>
+<footer style="text-align:center; padding:50px; opacity:0.1" onclick="moAdmin()">⚙️</footer>
 
 <div id="modalDoc">
-    <button onclick="document.getElementById('modalDoc').style.display='none'" style="float:right; padding:15px; background:#444; color:#fff; border:none; font-size:20px;">ĐÓNG [X]</button>
-    <h2 id="mTitle" style="color:var(--vang-chanh); font-size:35px;"></h2>
-    <div id="mBody" style="font-size:24px; line-height:1.8; text-align:justify; margin-top:30px; white-space: pre-wrap;"></div>
+    <button onclick="dongBaiHoc()" style="float:right; padding:15px 25px; background:#ccff00; color:black; border:none; font-size:22px; font-weight:bold; border-radius:10px; cursor:pointer;">ĐÓNG [X]</button>
+    <h2 id="mTitle" style="color:var(--vang-chanh); font-size:38px; margin-top:60px; border-bottom:2px solid #333; padding-bottom:15px;"></h2>
+    <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; margin-top:30px; white-space: pre-wrap; color:#fff;"></div>
 </div>
 
 <div id="adminPanel">
     <div class="admin-form">
-        <button onclick="document.getElementById('adminPanel').style.display='none'" style="float:right; color:red;">ĐÓNG</button>
-        <h2 style="color:var(--vang-chanh)">NHẬP BÀI MỚI</h2>
+        <button onclick="dongAdmin()" style="float:right; color:red; font-weight:bold;">[HỦY]</button>
+        <h2 style="color:var(--vang-chanh)">NHẬP LIỆU MỚI</h2>
         <select id="aType">
             <option value="Nikaya_Texts">1. Kinh Gốc</option>
-            <option value="Infographics_Library">2. Infographic (Có diễn giải)</option>
-            <option value="Video_Shorts">3. Video Bài Giảng</option>
+            <option value="Infographics_Library">2. Infographic</option>
+            <option value="Video_Shorts">3. Video</option>
         </select>
         <input type="text" id="aTitle" placeholder="Tiêu đề bài">
-        <input type="text" id="aDesc" placeholder="Mô tả ngắn (ngoài thẻ)">
-        <input type="text" id="aImg" placeholder="Link ảnh đại diện">
-        <textarea id="aContent" placeholder="Nội dung diễn giải chi tiết hoặc lời kinh..."></textarea>
-        <input type="text" id="aVid" placeholder="YouTube ID (Chỉ dành cho Video)">
-        <button onclick="saveData()" style="width:100%; padding:20px; background:var(--vang-chanh); font-weight:bold; font-size:20px;">LƯU DỮ LIỆU</button>
+        <input type="text" id="aDesc" placeholder="Mô tả ngắn ngoài thẻ">
+        <input type="text" id="aImg" placeholder="Link ảnh (Sử dụng link ảnh 9:16)">
+        <textarea id="aContent" placeholder="Dán nội dung diễn giải chi tiết hoặc lời kinh vào đây..."></textarea>
+        <input type="text" id="aVid" placeholder="YouTube ID (Nếu là video)">
+        <button id="btnLuu" style="width:100%; padding:20px; background:var(--vang-chanh); font-weight:bold; font-size:22px; cursor:pointer; border-radius:10px;">LƯU DỮ LIỆU</button>
     </div>
 </div>
 
@@ -104,21 +103,38 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 1. TẢI DỮ LIỆU & HIỂN THỊ
-    async function loadWeb() {
+    // Lưu dữ liệu
+    document.getElementById('btnLuu').onclick = async () => {
+        const data = {
+            title: document.getElementById('aTitle').value,
+            desc: document.getElementById('aDesc').value,
+            img: document.getElementById('aImg').value,
+            content_full: document.getElementById('aContent').value,
+            youtube_id: document.getElementById('aVid').value
+        };
+        try {
+            await addDoc(collection(db, document.getElementById('aType').value), data);
+            alert("Đã lưu bài học thành công!");
+            location.reload();
+        } catch (e) { alert("Lỗi: " + e.message); }
+    };
+
+    // Tải dữ liệu
+    async function loadAll() {
         const fetchCol = async (name, gridId) => {
             const snap = await getDocs(collection(db, name));
             const grid = document.getElementById(gridId);
             grid.innerHTML = "";
             snap.forEach(doc => {
                 const d = doc.data();
+                const cleanContent = (d.content_full || d.desc).replace(/'/g, "\\'").replace(/\n/g, "\\n");
                 grid.innerHTML += `
                     <div class="the-916 item-the">
                         <div class="anh-the" style="background-image: url('${d.img}')"></div>
                         <div class="noi-dung-the">
                             <h3 class="search-title">${d.title}</h3>
                             <p>${d.desc}</p>
-                            <button class="nut-hoc" onclick="showReader('${d.title}', '${(d.content_full || d.desc).replace(/'/g, "\\'")}')">Học Ngay</button>
+                            <button class="nut-hoc" onclick="moBaiHoc('${d.title.replace(/'/g, "\\'")}', '${cleanContent}')">Học Ngay</button>
                         </div>
                     </div>`;
             });
@@ -127,39 +143,33 @@
         fetchCol("Infographics_Library", "gridInfo");
         fetchCol("Video_Shorts", "gridVideo");
     }
+    loadAll();
+</script>
 
-    // 2. LƯU DỮ LIỆU (ADMIN)
-    window.saveData = async () => {
-        const data = {
-            title: document.getElementById('aTitle').value,
-            desc: document.getElementById('aDesc').value,
-            img: document.getElementById('aImg').value,
-            content_full: document.getElementById('aContent').value,
-            youtube_id: document.getElementById('aVid').value
-        };
-        await addDoc(collection(db, document.getElementById('aType').value), data);
-        alert("Thành công!");
-        location.reload();
-    }
-
-    // 3. HIỂN THỊ MODAL ĐỌC BÀI
-    window.showReader = (t, c) => {
+<script>
+    // Các hàm xử lý giao diện (Nằm ngoài module để HTML gọi được trực tiếp)
+    function moBaiHoc(t, c) {
         document.getElementById('mTitle').innerText = t;
         document.getElementById('mBody').innerText = c;
         document.getElementById('modalDoc').style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Khóa cuộn trang chính
     }
+    function dongBaiHoc() {
+        document.getElementById('modalDoc').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function moAdmin() { document.getElementById('adminPanel').style.display = 'block'; }
+    function dongAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
 
-    // 4. BỘ LỌC CHỦ ĐỀ
-    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng"];
+    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ"];
     document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
-    window.filterTopic = (t) => { document.getElementById('searchInput').value = t; locBai(); }
-    window.locBai = () => {
+    
+    function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
+    function locBai() {
         let k = document.getElementById('searchInput').value.toLowerCase();
         let items = document.getElementsByClassName('item-the');
         for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "flex" : "none"; }
     }
-
-    loadWeb();
 </script>
 </body>
 </html>
