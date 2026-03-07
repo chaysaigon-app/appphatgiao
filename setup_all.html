@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Khởi tạo Hệ thống Thư viện Phật giáo</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 50px; text-align: center; background: #fdfcf0; color: #2c3e50; }
+        .box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: inline-block; max-width: 600px; }
+        button { background: #4a6741; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #3d5435; }
+        #status { margin-top: 20px; text-align: left; max-height: 300px; overflow-y: auto; font-size: 14px; color: #666; }
+        .success { color: #4a6741; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Khởi tạo Kho tàng Tri thức</h1>
+        <p>Hệ thống sẽ tự động thiết lập cấu trúc dữ liệu chuyên sâu cho Firebase của bạn.</p>
+        <button onclick="runSetup()">Bắt đầu Khởi tạo</button>
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, collection } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+            authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+            projectId: "thuvienphatgiao-fd07e",
+            storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+            messagingSenderId: "342500331725",
+            appId: "1:342500331725:web:32795cf0146210f8019984"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. Cấu trúc danh mục chủ đề
+        const categories = [
+            { id: "truong-bo", title: "Trường Bộ Kinh (Digha Nikaya)", type: "nikaya", order: 1 },
+            { id: "trung-bo", title: "Trung Bộ Kinh (Majjhima Nikaya)", type: "nikaya", order: 2 },
+            { id: "tuong-ung", title: "Tương Ưng Bộ Kinh (Samyutta Nikaya)", type: "nikaya", order: 3 },
+            { id: "tang-chi", title: "Tăng Chi Bộ Kinh (Anguttara Nikaya)", type: "nikaya", order: 4 },
+            { id: "tieu-bo", title: "Tiểu Bộ Kinh (Khuddaka Nikaya)", type: "nikaya", order: 5 },
+            { id: "bat-chanh-dao", title: "Bát Chánh Đạo", type: "topic", order: 6 },
+            { id: "kinh-lam-giau", title: "Kinh về Sự Thịnh Vượng & Làm giàu", type: "topic", order: 7 },
+            { id: "kinh-phuoc-duc", title: "Kinh Phước Đức & Từ Bi", type: "topic", order: 8 },
+            { id: "niem-su-chet", title: "Niệm Sự Chết (Maranasatti)", type: "topic", order: 9 },
+            { id: "tham-san-si", title: "Đối trị Tham Sân Si", type: "topic", order: 10 }
+        ];
+
+        window.runSetup = async () => {
+            const log = document.getElementById('status');
+            log.innerHTML = "Đang bắt đầu...<br>";
+
+            try {
+                // Nhập danh mục
+                for (const cat of categories) {
+                    await setDoc(doc(db, "Categories", cat.id), cat);
+                    log.innerHTML += `> Đã khởi tạo chủ đề: ${cat.title}<br>`;
+                }
+
+                // Nhập mẫu bài giảng đa phương tiện (Infographic + Video + Audio)
+                await setDoc(doc(db, "Lessons", "mau-kinh-phuoc-duc"), {
+                    title_vi: "38 Pháp An Lành (Kinh Phước Đức)",
+                    title_en: "The Greatest Blessings",
+                    category_id: "kinh-phuoc-duc",
+                    source: "Tiểu Bộ Kinh - HT. Thích Minh Châu dịch",
+                    description: "Bài kinh dạy về cách xây dựng nền tảng hạnh phúc và thịnh vượng bền vững.",
+                    infographic_url: "https://via.placeholder.com/1080x1920?text=Infographic+9:16",
+                    infographic_text: "Nội dung tóm tắt chuyên sâu: 1. Thân cận người trí... 2. Sống trong môi trường tốt... 3. Tự thân nỗ lực...",
+                    spotify_url: "https://open.spotify.com/episode/...",
+                    youtube_id: "dQw4w9WgXcQ",
+                    is_premium: false,
+                    status: "published",
+                    created_at: new Date()
+                });
+                log.innerHTML += `> Đã khởi tạo cấu trúc Bài giảng mẫu.<br>`;
+
+                // Nhập mẫu Kinh điển Nikaya (Phân đoạn)
+                const nikayaSamples = [
+                    { id: "DN-01", book: "Trường Bộ", title: "Kinh Phạm Võng", content: "Văn bản nguyên văn của HT. Thích Minh Châu..." },
+                    { id: "MN-141", book: "Trung Bộ", title: "Kinh Phân Biệt Sự Thật", content: "Nguyên văn về Tứ Diệu Đế..." }
+                ];
+
+                for (const item of nikayaSamples) {
+                    await setDoc(doc(db, "Nikaya_Library", item.id), {
+                        ...item,
+                        translator: "HT. Thích Minh Châu",
+                        last_update: new Date()
+                    });
+                    log.innerHTML += `> Đã phân đoạn kinh điển: ${item.title}<br>`;
+                }
+
+                log.innerHTML += `<br><span class="success">Hệ thống đã sẵn sàng! Bạn có thể bắt đầu đưa nội dung thật vào.</span>`;
+            } catch (error) {
+                log.innerHTML += `<br><span style="color:red">Lỗi: ${error.message}</span>`;
+            }
+        };
+    </script>
+</body>
+</html>
