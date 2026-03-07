@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Viện Phật Giáo Nguyên Thủy</title>
+    <style>
+        :root { --main-color: #4a6741; --bg-color: #fdfcf0; --text-color: #2c3e50; --accent: #e0dcc5; }
+        body { background: var(--bg-color); color: var(--text-color); font-family: 'Times New Roman', serif; margin: 0; line-height: 1.6; }
+        header { text-align: center; padding: 60px 20px; border-bottom: 1px solid var(--accent); background: #fff; }
+        .search-box { margin: -30px auto 30px; max-width: 600px; display: flex; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 30px; overflow: hidden; }
+        .search-box input { flex: 1; border: none; padding: 15px 25px; font-size: 16px; outline: none; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .card-content { padding: 20px; }
+        .card-tag { font-size: 12px; color: var(--main-color); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .card-title { margin: 0 0 10px; font-size: 20px; color: #1a1a1a; }
+        .card-desc { font-size: 15px; color: #666; height: 75px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+        .card-footer { padding: 15px 20px; background: #fafafa; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .btn-read { color: var(--main-color); text-decoration: none; font-weight: bold; }
+        .footer { text-align: center; padding: 60px; border-top: 1px solid var(--accent); margin-top: 100px; opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="letter-spacing: 2px;">THƯ VIỆN PHẬT GIÁO NGUYÊN THỦY</h1>
+    <p style="font-style: italic;">"Pháp của Ta là để đến để thấy, không phải để mời đến để tin."</p>
+</header>
+
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Tìm tên kinh, mã số (MN-01), từ khóa..." onkeyup="filterLessons()">
+</div>
+
+<div class="container">
+    <div id="lesson-grid" class="grid">
+        </div>
+</div>
+
+<footer class="footer">
+    <p><strong>Hệ Thống Kinh Điển Nikaya - Bản dịch Cố HT. Thích Minh Châu</strong></p>
+    <p>Mọi đóng góp và hỗ trợ kỹ thuật: <strong>Zalo 0909108890</strong></p>
+    <p style="font-size: 13px; margin-top: 20px;">© 2026 Thư Viện Phật Giáo - Kho Tàng Quý Giá Nhân Loại</p>
+</footer>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+      authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+      projectId: "thuvienphatgiao-fd07e",
+      storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+      messagingSenderId: "342500331725",
+      appId: "1:342500331725:web:32795cf0146210f8019984"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadLibrary() {
+        const grid = document.getElementById('lesson-grid');
+        const querySnapshot = await getDocs(query(collection(db, "Nikaya_Library"), orderBy("id")));
+        
+        grid.innerHTML = ""; // Xóa nội dung cũ
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const card = document.createElement('div');
+            card.className = 'card lesson-item';
+            card.setAttribute('data-title', (data.title_vi + " " + data.id).toLowerCase());
+            card.innerHTML = `
+                <div class="card-content">
+                    <span class="card-tag">${data.book} | ${data.id}</span>
+                    <h3 class="card-title">${data.title_vi}</h3>
+                    <p class="card-desc">${data.content}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn-read" onclick="alert('Đang mở nguyên văn bài kinh...')">Đọc nguyên văn →</a>
+                    <span style="font-size: 12px; color: #999;">HT. Thích Minh Châu</span>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    window.filterLessons = () => {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const items = document.getElementsByClassName('lesson-item');
+        Array.from(items).forEach(item => {
+            const text = item.getAttribute('data-title');
+            item.style.display = text.includes(input) ? "block" : "none";
+        });
+    }
+
+    loadLibrary();
+</script>
+</body>
+</html>
