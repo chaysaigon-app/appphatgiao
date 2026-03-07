@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập Nhật Nguyên Văn Kinh Nikaya</title>
+    <style>
+        body { font-family: serif; background: #fdfcf0; padding: 20px; max-width: 800px; margin: auto; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #4a6741; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        textarea { height: 400px; font-family: 'Times New Roman', serif; line-height: 1.6; }
+        button { background: #4a6741; color: white; padding: 15px 30px; border: none; cursor: pointer; border-radius: 5px; font-size: 18px; }
+        button:hover { background: #3d5435; }
+    </style>
+</head>
+<body>
+    <h2>CẬP NHẬT NGUYÊN VĂN KINH</h2>
+    
+    <div class="input-group">
+        <label>Chọn Mã Bài Kinh (Đã nạp cấu trúc):</label>
+        <select id="ma_so">
+            <option value="MN-01">MN-01 - Kinh Pháp Môn Căn Bản</option>
+            <option value="MN-02">MN-02 - Kinh Tất Cả Lậu Hoặc</option>
+            <option value="MN-03">MN-03 - Kinh Thừa Tự Pháp</option>
+            <option value="MN-04">MN-04 - Kinh Sợ Hãi Khiếp Đảm</option>
+            <option value="MN-05">MN-05 - Kinh Không Uế Nhiễm</option>
+            <option value="MN-06">MN-06 - Kinh Ước Nguyện</option>
+            <option value="MN-07">MN-07 - Kinh Ví Dụ Tấm Vải</option>
+            <option value="MN-08">MN-08 - Kinh Đoạn Giảm</option>
+            <option value="MN-09">MN-09 - Kinh Chánh Tri Kiến</option>
+            <option value="MN-10">MN-10 - Kinh Tứ Niệm Xứ</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Dán nội dung nguyên văn (HT. Thích Minh Châu):</label>
+        <textarea id="noi_dung_dai" placeholder="Hãy dán toàn bộ văn bản bài kinh vào đây..."></textarea>
+    </div>
+
+    <button onclick="updateKinhVat()">LƯU NGUYÊN VĂN VÀO FIREBASE</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+            authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+            projectId: "thuvienphatgiao-fd07e",
+            storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+            messagingSenderId: "342500331725",
+            appId: "1:342500331725:web:32795cf0146210f8019984"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.updateKinhVat = async () => {
+            const id = document.getElementById('ma_so').value;
+            const content = document.getElementById('noi_dung_dai').value;
+
+            if(!content) { alert("Vui lòng dán nội dung!"); return; }
+
+            try {
+                await updateDoc(doc(db, "Nikaya_Texts", id), {
+                    content_full: content,
+                    updated_at: new Date()
+                });
+                alert("Đã cập nhật nguyên văn cho bài " + id + " thành công!");
+                document.getElementById('noi_dung_dai').value = ""; // Xoá trắng để nạp bài tiếp theo
+            } catch (e) {
+                alert("Lỗi: " + e.message);
+            }
+        };
+    </script>
+</body>
+</html>
