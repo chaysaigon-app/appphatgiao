@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Nạp Kinh Điển Tự Động - Trung Bộ Kinh</title>
+    <style>
+        body { font-family: 'Times New Roman', serif; background: #fdfcf0; padding: 40px; text-align: center; }
+        .console { background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 8px; text-align: left; 
+                   max-height: 500px; overflow-y: auto; font-family: monospace; font-size: 13px; margin-top: 20px; border: 2px solid #4a6741; }
+        button { background: #4a6741; color: white; padding: 15px 40px; border: none; border-radius: 30px; 
+                 cursor: pointer; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; }
+        button:hover { background: #3d5435; transform: scale(1.05); }
+        .status-msg { margin-top: 15px; font-weight: bold; color: #2c3e50; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <h1>Hệ Thống Nạp Dữ Liệu Kinh Điển Tự Động</h1>
+    <p>Đang nạp: <strong>Trung Bộ Kinh (Majjhima Nikaya)</strong> - HT. Thích Minh Châu dịch</p>
+    
+    <button onclick="startAutoImport()">BẮT ĐẦU NẠP 10 BÀI ĐẦU TIÊN</button>
+    <div id="status" class="status-msg">Sẵn sàng nạp dữ liệu...</div>
+    <div id="log" class="console"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+          authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+          projectId: "thuvienphatgiao-fd07e",
+          storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+          messagingSenderId: "342500331725",
+          appId: "1:342500331725:web:32795cf0146210f8019984",
+          measurementId: "G-7FTVVK9FSF"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Dữ liệu 10 bài đầu Trung Bộ Kinh (Bản dịch HT. Thích Minh Châu)
+        const nikayaData = [
+            { id: "MN-01", title_vi: "Kinh Pháp Môn Căn Bản", title_en: "The Root of All Things", content: "Đức Thế Tôn thuyết về cách phàm phu, hữu học và bậc A-la-hán tri giác về địa đại, thủy đại... Bậc Thánh đã liễu tri nên không hân hoan, không dục hỷ trong địa đại." },
+            { id: "MN-02", title_vi: "Kinh Tất Cả Lậu Hoặc", title_en: "All the Taints", content: "Hướng dẫn đoạn trừ lậu hoặc qua 7 phương pháp: tri kiến, phòng hộ, thụ dụng, kham nhẫn, tránh né, trừ diệt và tu tập. Chỉ người như lý giác sát mới đoạn tận phiền não." },
+            { id: "MN-03", title_vi: "Kinh Thừa Tự Pháp", title_en: "Heirs in Dhamma", content: "Lời dạy về việc thừa tự Chánh pháp thay vì thừa tự tài vật. Tôn giả Sariputta giảng về Trung đạo giúp đoạn trừ tham ái và sân hận." },
+            { id: "MN-04", title_vi: "Kinh Sợ Hãi Khiếp Đảm", title_en: "Fear and Dread", content: "Đức Phật kể về thời kỳ tu hành trong rừng sâu. Ngài khẳng định sự sợ hãi chỉ đến với những ai tâm còn uế nhiễm và thiếu định tĩnh." },
+            { id: "MN-05", title_vi: "Kinh Không Uế Nhiễm", title_en: "Without Blemishes", content: "Cuộc đối thoại giữa Tôn giả Sariputta và Moggallana về các hạng người: có uế nhiễm mà biết, có uế nhiễm mà không biết, không uế nhiễm mà biết, và không uế nhiễm mà không biết." },
+            { id: "MN-06", title_vi: "Kinh Ước Nguyện", title_en: "If a Bhikkhu Should Wish", content: "Để các ước nguyện thiện lành thành tựu (được kính mến, đủ y thực, đắc định...), hành giả phải viên mãn giới luật, tu tập an tịnh tâm và không trống rỗng thiền định." },
+            { id: "MN-07", title_vi: "Kinh Ví Dụ Tấm Vải", title_en: "The Simile of the Cloth", content: "Ví như tấm vải bẩn không thể nhuộm màu đẹp, tâm uế nhiễm không thể đi nẻo lành. Gột rửa tâm bằng niềm tin bất động vào Tam Bảo và thực hành xả ly." },
+            { id: "MN-08", title_vi: "Kinh Đoạn Giảm", title_en: "Effacement", content: "Đức Phật dạy cách thực hành đoạn giảm thực sự: Khi người khác hại, ta không hại; khi người khác nói láo, ta nói thật... Đối trị 44 ác pháp bằng thiện pháp." },
+            { id: "MN-09", title_vi: "Kinh Chánh Tri Kiến", title_en: "Right View", content: "Tôn giả Sariputta giải thích sâu về Chánh tri kiến: hiểu rõ thiện/bất thiện, hiểu rõ thức, danh sắc, lục nhập, xúc, thọ, ái, thủ, hữu, sinh, lão tử và khổ tập diệt đạo." },
+            { id: "MN-10", title_vi: "Kinh Tứ Niệm Xứ", title_en: "The Foundations of Mindfulness", content: "Con đường độc lộ dẫn đến thanh tịnh: Quán thân trên thân, quán thọ trên thọ, quán tâm trên tâm, và quán pháp trên pháp để diệt trừ ưu não, chứng đắc Niết-bàn." }
+        ];
+
+        window.startAutoImport = async () => {
+            const logElement = document.getElementById('log');
+            const statusElement = document.getElementById('status');
+            logElement.innerHTML = "> Đang khởi động hệ thống nạp dữ liệu...<br>";
+
+            try {
+                for (let i = 0; i < nikayaData.length; i++) {
+                    const item = nikayaData[i];
+                    statusElement.innerText = `🔄 Đang nạp: ${item.id}...`;
+                    
+                    await setDoc(doc(db, "Nikaya_Library", item.id), {
+                        ...item,
+                        translator: "HT. Thích Minh Châu",
+                        book: "trung-bo",
+                        created_at: new Date()
+                    });
+
+                    logElement.innerHTML += `<span style="color:#00ff00">> [OK] Đã đưa vào kho: ${item.id} - ${item.title_vi}</span><br>`;
+                    logElement.scrollTop = logElement.scrollHeight;
+                }
+                statusElement.innerText = "✅ THÀNH CÔNG! ĐÃ NẠP XONG 10 BÀI KINH ĐẦU TIÊN.";
+                logElement.innerHTML += "<br>--- HOÀN TẤT TIẾN TRÌNH ---";
+            } catch (error) {
+                logElement.innerHTML += `<span style="color:#ff4444">> [LỖI]: ${error.message}</span><br>`;
+                statusElement.innerText = "❌ CÓ LỖI XẢY RA TRONG QUÁ TRÌNH NẠP.";
+            }
+        };
+    </script>
+</body>
+</html>
