@@ -2,100 +2,79 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Khởi tạo Hệ thống Thư viện Phật giáo</title>
+    <title>Nạp Kinh Điển Batch 2 - Trung Bộ Kinh</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 50px; text-align: center; background: #fdfcf0; color: #2c3e50; }
-        .box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: inline-block; max-width: 600px; }
-        button { background: #4a6741; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #3d5435; }
-        #status { margin-top: 20px; text-align: left; max-height: 300px; overflow-y: auto; font-size: 14px; color: #666; }
-        .success { color: #4a6741; font-weight: bold; }
+        body { font-family: 'Times New Roman', serif; background: #fdfcf0; padding: 40px; text-align: center; }
+        .console { background: #1a1a1a; color: #00ff00; padding: 20px; border-radius: 8px; text-align: left; 
+                   max-height: 500px; overflow-y: auto; font-family: monospace; font-size: 13px; margin-top: 20px; border: 2px solid #4a6741; }
+        button { background: #8b4513; color: white; padding: 15px 40px; border: none; border-radius: 30px; 
+                 cursor: pointer; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; }
+        button:hover { background: #5d2e0d; transform: scale(1.05); }
+        .status-msg { margin-top: 15px; font-weight: bold; color: #2c3e50; font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>Khởi tạo Kho tàng Tri thức</h1>
-        <p>Hệ thống sẽ tự động thiết lập cấu trúc dữ liệu chuyên sâu cho Firebase của bạn.</p>
-        <button onclick="runSetup()">Bắt đầu Khởi tạo</button>
-        <div id="status"></div>
-    </div>
+    <h1>Hệ Thống Nạp Dữ Liệu - ĐỢT 2</h1>
+    <p>Đang nạp: <strong>Trung Bộ Kinh (MN 11 - MN 20)</strong></p>
+    
+    <button onclick="startBatch2()">NẠP TIẾP 10 BÀI (11-20)</button>
+    <div id="status" class="status-msg">Sẵn sàng nạp Batch 2...</div>
+    <div id="log" class="console"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, collection } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
-            authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
-            projectId: "thuvienphatgiao-fd07e",
-            storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
-            messagingSenderId: "342500331725",
-            appId: "1:342500331725:web:32795cf0146210f8019984"
+          apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+          authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+          projectId: "thuvienphatgiao-fd07e",
+          storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+          messagingSenderId: "342500331725",
+          appId: "1:342500331725:web:32795cf0146210f8019984"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 1. Cấu trúc danh mục chủ đề
-        const categories = [
-            { id: "truong-bo", title: "Trường Bộ Kinh (Digha Nikaya)", type: "nikaya", order: 1 },
-            { id: "trung-bo", title: "Trung Bộ Kinh (Majjhima Nikaya)", type: "nikaya", order: 2 },
-            { id: "tuong-ung", title: "Tương Ưng Bộ Kinh (Samyutta Nikaya)", type: "nikaya", order: 3 },
-            { id: "tang-chi", title: "Tăng Chi Bộ Kinh (Anguttara Nikaya)", type: "nikaya", order: 4 },
-            { id: "tieu-bo", title: "Tiểu Bộ Kinh (Khuddaka Nikaya)", type: "nikaya", order: 5 },
-            { id: "bat-chanh-dao", title: "Bát Chánh Đạo", type: "topic", order: 6 },
-            { id: "kinh-lam-giau", title: "Kinh về Sự Thịnh Vượng & Làm giàu", type: "topic", order: 7 },
-            { id: "kinh-phuoc-duc", title: "Kinh Phước Đức & Từ Bi", type: "topic", order: 8 },
-            { id: "niem-su-chet", title: "Niệm Sự Chết (Maranasatti)", type: "topic", order: 9 },
-            { id: "tham-san-si", title: "Đối trị Tham Sân Si", type: "topic", order: 10 }
+        const batch2Data = [
+            { id: "MN-11", title_vi: "Kinh Tiểu Tiếng Rống Sư Tử", title_en: "Shorter Discourse on the Lion's Roar", content: "Đức Phật khẳng định chỉ trong giáo pháp này mới có bốn hạng Thánh quả. Ngài giải thích về các loại chấp thủ: dục thủ, kiến thủ, giới cấm thủ và ngã luận thủ." },
+            { id: "MN-12", title_vi: "Kinh Đại Tiếng Rống Sư Tử", title_en: "Great Discourse on the Lion's Roar", content: "Đức Phật thuyết về 10 Như Lai lực, 4 sự không sợ hãi và các cảnh giới tái sinh. Ngài kể về những khổ hạnh cực đoan Ngài đã trải qua trước khi thành đạo." },
+            { id: "MN-13", title_vi: "Kinh Đại Khổ Uẩn", title_en: "Great Discourse on the Mass of Suffering", content: "Phân tích sâu về vị ngọt, sự nguy hiểm và sự xuất ly của các dục, các sắc pháp và các cảm thọ. Các dục mang lại ít vui nhưng nhiều khổ não." },
+            { id: "MN-14", title_vi: "Kinh Tiểu Khổ Uẩn", title_en: "Shorter Discourse on the Mass of Suffering", content: "Giải thích tại sao dù biết dục là khổ nhưng con người vẫn không bỏ được: đó là do tham, sân, si còn ngự trị trong tâm." },
+            { id: "MN-15", title_vi: "Kinh Tư Lượng", title_en: "Inference", content: "Tôn giả Moggallana dạy về cách tự soi xét mình (tư lượng). Một Tỳ-kheo phải tự quan sát xem mình có những ác pháp như khó nói, phẫn nộ, tật đố hay không." },
+            { id: "MN-16", title_vi: "Kinh Tâm Hoang Vu", title_en: "Wilderness in the Mind", content: "Nêu ra 5 tâm hoang vu và 5 tâm triền buộc khiến hành giả không thể tiến bộ trên con đường giải thoát. Cách chặt đứt các xiềng xích này." },
+            { id: "MN-17", title_vi: "Kinh Rừng Hoang", title_en: "Jungle Thickets", content: "Dạy cách chọn nơi cư trú: nếu một nơi ở (rừng, làng, thành phố) giúp chánh niệm tăng trưởng và phiền não giảm trừ thì nên ở lại, dù có đầy đủ vật dụng hay không." },
+            { id: "MN-18", title_vi: "Kinh Mật Hoàn", title_en: "The Ball of Honey", content: "Phân tích về lộ trình của hý luận: từ xúc đến thọ, tưởng, tư duy và hý luận vọng tưởng. Cách chấm dứt cội rễ của mọi tranh chấp." },
+            { id: "MN-19", title_vi: "Kinh Song Tầm", title_en: "Two Kinds of Thought", content: "Đức Phật kể cách Ngài phân loại tư duy làm hai: tầm thiện (ly dục, vô sân, vô hại) và tầm bất thiện. Cách từ bỏ tầm bất thiện để tâm an định." },
+            { id: "MN-20", title_vi: "Kinh An Trú Tầm", title_en: "The Removal of Distracting Thoughts", content: "5 phương pháp để chế ngự các tầm ác khởi lên trong khi tu định: thay thế bằng tầm thiện, quán sự nguy hiểm, lờ đi, phân tích cội rễ, hoặc dùng ý chí chế ngự." }
         ];
 
-        window.runSetup = async () => {
-            const log = document.getElementById('status');
-            log.innerHTML = "Đang bắt đầu...<br>";
+        window.startBatch2 = async () => {
+            const logElement = document.getElementById('log');
+            const statusElement = document.getElementById('status');
+            logElement.innerHTML = "> Đang kết nối Firebase để nạp Batch 2...<br>";
 
             try {
-                // Nhập danh mục
-                for (const cat of categories) {
-                    await setDoc(doc(db, "Categories", cat.id), cat);
-                    log.innerHTML += `> Đã khởi tạo chủ đề: ${cat.title}<br>`;
-                }
-
-                // Nhập mẫu bài giảng đa phương tiện (Infographic + Video + Audio)
-                await setDoc(doc(db, "Lessons", "mau-kinh-phuoc-duc"), {
-                    title_vi: "38 Pháp An Lành (Kinh Phước Đức)",
-                    title_en: "The Greatest Blessings",
-                    category_id: "kinh-phuoc-duc",
-                    source: "Tiểu Bộ Kinh - HT. Thích Minh Châu dịch",
-                    description: "Bài kinh dạy về cách xây dựng nền tảng hạnh phúc và thịnh vượng bền vững.",
-                    infographic_url: "https://via.placeholder.com/1080x1920?text=Infographic+9:16",
-                    infographic_text: "Nội dung tóm tắt chuyên sâu: 1. Thân cận người trí... 2. Sống trong môi trường tốt... 3. Tự thân nỗ lực...",
-                    spotify_url: "https://open.spotify.com/episode/...",
-                    youtube_id: "dQw4w9WgXcQ",
-                    is_premium: false,
-                    status: "published",
-                    created_at: new Date()
-                });
-                log.innerHTML += `> Đã khởi tạo cấu trúc Bài giảng mẫu.<br>`;
-
-                // Nhập mẫu Kinh điển Nikaya (Phân đoạn)
-                const nikayaSamples = [
-                    { id: "DN-01", book: "Trường Bộ", title: "Kinh Phạm Võng", content: "Văn bản nguyên văn của HT. Thích Minh Châu..." },
-                    { id: "MN-141", book: "Trung Bộ", title: "Kinh Phân Biệt Sự Thật", content: "Nguyên văn về Tứ Diệu Đế..." }
-                ];
-
-                for (const item of nikayaSamples) {
+                for (let i = 0; i < batch2Data.length; i++) {
+                    const item = batch2Data[i];
+                    statusElement.innerText = `🔄 Đang nạp bài: ${item.id}...`;
+                    
                     await setDoc(doc(db, "Nikaya_Library", item.id), {
                         ...item,
                         translator: "HT. Thích Minh Châu",
-                        last_update: new Date()
+                        book: "trung-bo",
+                        created_at: new Date()
                     });
-                    log.innerHTML += `> Đã phân đoạn kinh điển: ${item.title}<br>`;
-                }
 
-                log.innerHTML += `<br><span class="success">Hệ thống đã sẵn sàng! Bạn có thể bắt đầu đưa nội dung thật vào.</span>`;
+                    logElement.innerHTML += `<span style="color:#00ff00">> [OK] Đã đưa vào kho: ${item.id} - ${item.title_vi}</span><br>`;
+                    logElement.scrollTop = logElement.scrollHeight;
+                }
+                statusElement.innerText = "✅ THÀNH CÔNG BATCH 2 (11-20)!";
+                logElement.innerHTML += "<br>--- KẾT THÚC BATCH 2 ---";
             } catch (error) {
-                log.innerHTML += `<br><span style="color:red">Lỗi: ${error.message}</span>`;
+                logElement.innerHTML += `<span style="color:#ff4444">> [LỖI]: ${error.message}</span><br>`;
+                statusElement.innerText = "❌ CÓ LỖI XẢY RA.";
             }
         };
     </script>
