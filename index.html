@@ -3,142 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Viện Phật Giáo Nguyên Thủy</title>
+    <title>Thư Viện Phật Giáo 3.0</title>
     <style>
-        :root { --main-color: #4a6741; --bg-color: #fdfcf0; --text-color: #2c3e50; --accent: #e0dcc5; }
-        body { background: var(--bg-color); color: var(--text-color); font-family: 'Times New Roman', serif; margin: 0; line-height: 1.6; }
-        header { text-align: center; padding: 60px 20px; border-bottom: 1px solid var(--accent); background: #fff; }
-        
-        /* Thanh tìm kiếm */
-        .search-container { margin: -30px auto 30px; max-width: 600px; padding: 0 20px; }
-        .search-box { display: flex; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 30px; overflow: hidden; }
-        .search-box input { flex: 1; border: none; padding: 15px 25px; font-size: 16px; outline: none; }
+        :root {
+            --bg-dark: #1a0f0a; /* Nâu cực đậm */
+            --card-bg: #2d1b15; /* Nâu trầm */
+            --accent-gold: #d4af37; /* Vàng đồng */
+            --text-light: #f5f5f5;
+            --btn-kinh: #4a6741; /* Xanh lá thẫm */
+            --btn-info: #b8860b; /* Vàng thẫm */
+            --btn-video: #8b0000; /* Đỏ thẫm */
+        }
 
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        
-        /* Thẻ bài kinh */
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; cursor: pointer; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: var(--main-color); }
-        .card-content { padding: 25px; text-align: center; }
-        .card-tag { font-size: 12px; color: var(--main-color); font-weight: bold; margin-bottom: 10px; display: block; opacity: 0.7; }
-        .card-title { margin: 0; font-size: 20px; color: #1a1a1a; line-height: 1.4; }
-        
-        /* Cửa sổ Modal đọc kinh văn */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
-        .modal-content { background: #fdfcf0; margin: 5% auto; padding: 40px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
-        .close-btn { position: sticky; top: -20px; float: right; font-size: 30px; cursor: pointer; color: #999; }
-        .modal-body { font-size: 19px; line-height: 1.8; text-align: justify; white-space: pre-wrap; color: #2c3e50; }
-        .modal-header { border-bottom: 2px solid var(--main-color); margin-bottom: 25px; padding-bottom: 15px; text-align: center; }
+        body { 
+            background: var(--bg-dark); 
+            color: var(--text-light); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; padding-bottom: 50px;
+        }
 
-        .footer { text-align: center; padding: 60px; border-top: 1px solid var(--accent); margin-top: 80px; opacity: 0.8; }
+        header { text-align: center; padding: 40px 20px; background: linear-gradient(to bottom, #2d1b15, #1a0f0a); }
+
+        /* 3 Nút phân loại chính */
+        .nav-categories { display: flex; justify-content: center; gap: 15px; padding: 20px; flex-wrap: wrap; }
+        .nav-btn { 
+            padding: 15px 25px; border: none; border-radius: 12px; font-weight: bold; 
+            cursor: pointer; transition: 0.3s; color: white; min-width: 150px;
+        }
+        .btn-1 { background: var(--btn-kinh); }
+        .btn-2 { background: var(--btn-info); }
+        .btn-3 { background: var(--btn-video); }
+        .nav-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        /* Hàng chủ đề (Topics) */
+        .topic-bar { 
+            display: flex; gap: 10px; overflow-x: auto; padding: 10px 20px; 
+            scrollbar-width: none; border-bottom: 1px solid #3d261d;
+        }
+        .topic-chip { 
+            background: #3d261d; padding: 8px 20px; border-radius: 20px; 
+            white-space: nowrap; font-size: 14px; cursor: pointer; border: 1px solid var(--accent-gold);
+        }
+
+        .section-title { padding: 20px 20px 10px; font-size: 24px; color: var(--accent-gold); border-left: 5px solid var(--accent-gold); margin-left: 20px; }
+
+        .container { padding: 20px; }
+
+        /* Grid hiển thị 9:16 */
+        .grid-916 { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; 
+        }
+
+        .card-916 { 
+            display: flex; background: var(--card-bg); border-radius: 15px; 
+            overflow: hidden; height: 280px; border: 1px solid #3d261d;
+        }
+
+        .card-thumb { 
+            width: 160px; height: 100%; position: relative; 
+            background-size: cover; background-position: center;
+        }
+        .card-thumb::after {
+            content: ""; position: absolute; bottom: 0; width: 100%; height: 50%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        }
+        .card-thumb-title {
+            position: absolute; bottom: 10px; left: 10px; right: 10px;
+            font-size: 14px; font-weight: bold; z-index: 2; color: var(--accent-gold);
+        }
+
+        .card-info { 
+            flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; 
+        }
+        .card-info h3 { margin: 0 0 10px; font-size: 18px; color: var(--text-light); }
+        .card-info p { font-size: 13px; color: #bcaaa4; margin: 0; line-height: 1.4; }
+        .btn-read { 
+            align-self: flex-start; background: transparent; border: 1px solid var(--accent-gold);
+            color: var(--accent-gold); padding: 5px 15px; border-radius: 5px; cursor: pointer;
+            margin-top: 10px; font-size: 13px;
+        }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.9); }
+        .modal-content { 
+            background: var(--bg-dark); margin: 5% auto; padding: 30px; 
+            width: 90%; max-width: 700px; height: 80vh; overflow-y: auto; border: 1px solid var(--accent-gold);
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 style="letter-spacing: 2px; margin-bottom: 10px;">THƯ VIỆN PHẬT GIÁO</h1>
-    <p style="font-style: italic; opacity: 0.8;">Bản dịch của Cố Hòa thượng Thích Minh Châu</p>
+    <h1>THƯ VIỆN PHẬT GIÁO</h1>
 </header>
 
-<div class="search-container">
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Tìm tên bài kinh hoặc mã số (MN-01)..." onkeyup="filterLessons()">
-    </div>
+<div class="nav-categories">
+    <button class="nav-btn btn-1" onclick="showSection('kinh')">1. BẢN GỐC NIKAYA</button>
+    <button class="nav-btn btn-2" onclick="showSection('info')">2. TÓM TẮT INFO</button>
+    <button class="nav-btn btn-3" onclick="showSection('video')">3. BÀI GIẢNG VIDEO</button>
+</div>
+
+<div class="topic-bar">
+    <div class="topic-chip">Tất cả</div>
+    <div class="topic-chip">Chánh Kiến</div>
+    <div class="topic-chip">Tứ Diệu Đế</div>
+    <div class="topic-chip">Làm Giàu</div>
+    <div class="topic-chip">Hạnh Phúc</div>
+    <div class="topic-chip">Gia Đình</div>
 </div>
 
 <div class="container">
-    <div id="lesson-grid" class="grid">
-        </div>
-</div>
+    <div id="sec-kinh">
+        <div class="section-title">Kinh Bản Gốc Nikaya</div>
+        <div id="grid-kinh" class="grid-916"></div>
+    </div>
+    
+    <div id="sec-info" style="margin-top:50px">
+        <div class="section-title">Infographic Tóm Lược</div>
+        <div id="grid-info" class="grid-916"></div>
+    </div>
 
-<div id="contentModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalHeader" class="modal-header"></div>
-        <div id="modalBody" class="modal-body"></div>
+    <div id="sec-video" style="margin-top:50px">
+        <div class="section-title">Video Bài Giảng Shorts</div>
+        <div id="grid-video" class="grid-916"></div>
     </div>
 </div>
 
-<footer class="footer">
-    <p>Hệ Thống Kinh Điển Nikaya Rời Rạc</p>
-    <p>Liên hệ Admin: <strong>Zalo 0909108890</strong></p>
-</footer>
+<div id="readerModal" class="modal">
+    <div class="modal-content">
+        <span style="float:right; cursor:pointer; font-size:30px" onclick="closeModal()">&times;</span>
+        <h2 id="m-title" style="color:var(--accent-gold)"></h2>
+        <div id="m-body" style="line-height:1.8; white-space: pre-wrap;"></div>
+    </div>
+</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<script>
+    // DỮ LIỆU MẪU ĐỂ HIỂN THỊ GIAO DIỆN
+    const mockKinh = [
+        { id: "MN-01", title: "Kinh Pháp Môn Căn Bản", desc: "Đức Thế Tôn giảng về gốc rễ của mọi pháp và sự liễu tri.", img: "https://images.unsplash.com/photo-1542353436-312f0ebbf670?w=400" },
+        { id: "MN-10", title: "Kinh Tứ Niệm Xứ", desc: "Con đường độc lộ dẫn đến thanh tịnh và giải thoát khổ đau.", img: "https://images.unsplash.com/photo-1528319725582-ddc0a6135f48?w=400" }
+    ];
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
-        authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
-        projectId: "thuvienphatgiao-fd07e",
-        storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
-        messagingSenderId: "342500331725",
-        appId: "1:342500331725:web:32795cf0146210f8019984"
-    };
+    const mockInfo = [
+        { id: "IF-01", title: "5 Bước Làm Giàu", desc: "Tóm tắt cách tạo dựng tài sản đúng Chánh pháp.", img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400" }
+    ];
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const mockVideo = [
+        { id: "VD-01", title: "Hiểu về Chánh Kiến", desc: "Video ngắn 60s giải thích về cái nhìn đúng đắn.", img: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400" }
+    ];
 
-    let libraryData = [];
-
-    // Tải danh sách bài kinh từ kho Nikaya_Texts
-    async function loadLibrary() {
-        const grid = document.getElementById('lesson-grid');
-        const querySnapshot = await getDocs(query(collection(db, "Nikaya_Texts"), orderBy("id")));
-        
-        grid.innerHTML = "";
-        libraryData = [];
-
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            libraryData.push(data);
-            const card = document.createElement('div');
-            card.className = 'card lesson-item';
-            card.onclick = () => openModal(data.id);
-            card.innerHTML = `
-                <div class="card-content">
-                    <span class="card-tag">${data.id}</span>
-                    <h3 class="card-title">${data.title_vi || "Chưa có tiêu đề"}</h3>
+    function renderAll() {
+        const render = (data, gridId) => {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = data.map(item => `
+                <div class="card-916">
+                    <div class="card-thumb" style="background-image: url('${item.img}')">
+                        <div class="card-thumb-title">${item.id}</div>
+                    </div>
+                    <div class="card-info">
+                        <div>
+                            <h3>${item.title}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                        <button class="btn-read" onclick="openModal('${item.title}', 'Nội dung chi tiết của ${item.title} đang được cập nhật...')">ĐỌC TIẾP</button>
+                    </div>
                 </div>
-            `;
-            grid.appendChild(card);
-        });
+            `).join('');
+        };
+
+        render(mockKinh, 'grid-kinh');
+        render(mockInfo, 'grid-info');
+        render(mockVideo, 'grid-video');
     }
 
-    // Mở cửa sổ đọc nội dung
-    window.openModal = (id) => {
-        const item = libraryData.find(d => d.id === id);
-        if (item) {
-            document.getElementById('modalHeader').innerHTML = `<h2>${item.id} - ${item.title_vi}</h2>`;
-            // Ưu tiên hiển thị content_full, nếu không có thì lấy content
-            document.getElementById('modalBody').innerText = item.content_full || item.content || "Nội dung đang được cập nhật...";
-            document.getElementById('contentModal').style.display = "block";
-            document.body.style.overflow = "hidden";
-        }
+    function openModal(title, body) {
+        document.getElementById('m-title').innerText = title;
+        document.getElementById('m-body').innerText = body;
+        document.getElementById('readerModal').style.display = 'block';
     }
 
-    window.closeModal = () => {
-        document.getElementById('contentModal').style.display = "none";
-        document.body.style.overflow = "auto";
+    function closeModal() { document.getElementById('readerModal').style.display = 'none'; }
+
+    function showSection(type) {
+        document.getElementById('sec-kinh').style.display = (type === 'kinh' || type === 'all') ? 'block' : 'none';
+        document.getElementById('sec-info').style.display = (type === 'info' || type === 'all') ? 'block' : 'none';
+        document.getElementById('sec-video').style.display = (type === 'video' || type === 'all') ? 'block' : 'none';
     }
 
-    // Tìm kiếm bài kinh
-    window.filterLessons = () => {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const items = document.getElementsByClassName('lesson-item');
-        libraryData.forEach((data, index) => {
-            const text = (data.title_vi + " " + data.id).toLowerCase();
-            items[index].style.display = text.includes(input) ? "flex" : "none";
-        });
-    }
-
-    window.onclick = (event) => {
-        if (event.target == document.getElementById('contentModal')) closeModal();
-    }
-
-    loadLibrary();
+    renderAll();
 </script>
+
 </body>
 </html>
