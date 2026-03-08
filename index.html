@@ -51,27 +51,20 @@
     </style>
 </head>
 <body>
-
 <header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
 <div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
 <div class="vung-chu-de"><div class="topic-scroll" id="topicList"></div></div>
-
 <div class="phan-muc"><div class="phan-tieu-de vach-kinh">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid-video"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-audio">🎧 IV. BÀI GIẢNG AUDIO</div><div id="gridAudio" class="grid-video"></div></div>
-
-<footer style="text-align:center; padding:40px 0 20px;">
-    <div style="opacity:0.1; cursor:pointer;" onclick="location.href='quanlybl.html'">⚙️</div>
-</footer>
-
+<footer style="text-align:center; padding:40px 0 20px;"><div style="opacity:0.1; cursor:pointer;" onclick="location.href='quanlybl.html'">⚙️</div></footer>
 <div id="modalDoc">
     <div class="modal-body-content">
         <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
-        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px;"></h2>
+        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
         <img id="mImg" src="" class="img-popup">
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
-
         <div id="commentSection">
             <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN</h3>
             <div id="commentList"></div>
@@ -83,34 +76,24 @@
         </div>
     </div>
 </div>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
     const firebaseConfig = {
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
         authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
         projectId: "thuvienphatgiao-fd07e",
         databaseURL: "https://thuvienphatgiao-fd07e-default-rtdb.asia-southeast1.firebasedatabase.app"
     };
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const rtdb = getDatabase(app);
-
     window.baiHocData = {};
     window.curId = null;
     window.pId = null;
     let lastSend = 0;
-
-    // Bộ lọc từ khóa toàn diện (Tiếng Việt & Tiếng Anh)
-    const badWords = [
-        "sex", "porn", "naked", "fuck", "bitch", "shit", "adult", "casino", "gamble", "ai", "openai",
-        "tình dục", "khỏa thân", "đồi trụy", "phim người lớn", "tài xỉu", "cờ bạc", "ngu", "dốt", "đm", "vcl"
-    ];
-
+    const badWords = ["sex", "porn", "naked", "fuck", "bitch", "shit", "adult", "casino", "gamble", "ai", "openai", "tình dục", "khỏa thân", "đồi trụy", "phim người lớn", "tài xỉu", "cờ bạc", "ngu", "dốt", "đm", "vcl"];
     async function loadAll() {
         const fetchCol = async (name, gridId) => {
             const snap = await getDocs(collection(db, name));
@@ -133,7 +116,6 @@
         await fetchCol("Nikaya_Texts", "gridKinh"); await fetchCol("Infographics_Library", "gridInfo"); await fetchCol("Video_Shorts", "gridVideo"); await fetchCol("Audio_Lectures", "gridAudio");
     }
     loadAll();
-
     window.loadComments = function(id) {
         onValue(ref(rtdb, `comments/${id}`), (snap) => {
             const list = document.getElementById('commentList'); list.innerHTML = "";
@@ -149,20 +131,16 @@
             });
         });
     }
-
     window.guiCmt = function() {
         const txt = document.getElementById('txtCmt').value;
         const now = Date.now();
         if (!txt.trim() || now - lastSend < 10000) return alert("Vui lòng chờ 10 giây!");
-        
         const isSpam = badWords.some(w => txt.toLowerCase().includes(w));
         push(ref(rtdb, `comments/${window.curId}`), { text: txt, parentId: window.pId || null, timestamp: now, isAdmin: false, isHidden: isSpam });
-        
         if (isSpam) alert("Bình luận chứa từ khóa nhạy cảm và sẽ được Admin kiểm duyệt.");
         document.getElementById('txtCmt').value = ""; lastSend = now; huyReply();
     }
 </script>
-
 <script>
     function moBaiHoc(id) {
         const d = window.baiHocData[id];
