@@ -9,47 +9,79 @@
             --den: #000000; --nen-the: #1a1a1a; --vang-chanh: #ccff00; 
             --chu-trang: #ffffff; --xanh: #2e7d32; --cam: #e65100; --do: #c62828; --tim: #7b1fa2;
         }
-        body { background: var(--den); color: var(--chu-trang); font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; }
+        body { 
+            background: var(--den); color: var(--chu-trang); 
+            font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; 
+        }
         header { text-align: center; padding: 30px; border-bottom: 3px solid var(--vang-chanh); background: #0a0a0a; }
         h1 { font-size: 34px; color: var(--vang-chanh); text-transform: uppercase; margin: 0; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; padding: 20px; }
+        
+        /* Thẻ bài học */
         .wrapper-item { display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px; }
         .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         .the-title { margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3; text-transform: capitalize !important; }
         .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px 20px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; }
-        .fb-comment-outer { background: #0a0a0a; border-radius: 15px; padding: 10px; border: 1px solid #222; min-height: 100px; }
-        .vung-tuong-tac { display: flex; align-items: center; gap: 15px; padding-top: 10px; }
+
+        /* Hệ thống bình luận nội bộ */
+        .comment-box { background: #0a0a0a; border-radius: 15px; padding: 15px; border: 1px dashed #444; margin-top: -10px; }
+        .comment-list { max-height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 16px; border-bottom: 1px solid #222; }
+        .msg-item { padding: 8px 0; border-bottom: 1px solid #111; color: #ddd; }
+        .msg-admin { color: var(--vang-chanh); font-weight: bold; border-left: 3px solid var(--vang-chanh); padding-left: 10px; }
+        
+        textarea { width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid var(--vang-chanh); border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn-send { background: var(--xanh); color: #fff; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+
+        /* Popup */
+        #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
+        .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
     </style>
 </head>
 <body>
-
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=992013816294198"></script>
 
 <header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
 
 <div class="grid" id="mainGrid"></div>
 
+<div id="modalDoc">
+    <div class="modal-body-content">
+        <button onclick="dongBaiHoc()" style="float:right; padding:10px; background:var(--vang-chanh); border:none; font-weight:bold; cursor:pointer;">X ĐÓNG</button>
+        <h2 id="mTitle" style="color:var(--vang-chanh); margin-top:60px;"></h2>
+        <img id="mImg" src="" style="width:100%; max-width:450px; border-radius:15px; margin:25px 0; border:2px solid var(--vang-chanh);">
+        <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
+    </div>
+</div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    
-    const firebaseConfig = { apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE", authDomain: "thuvienphatgiao-fd07e.firebaseapp.com", projectId: "thuvienphatgiao-fd07e", storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app", messagingSenderId: "342500331725", appId: "1:342500331725:web:32795cf0146210f8019984" };
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+        authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+        projectId: "thuvienphatgiao-fd07e",
+        // LINK REALTIME DATABASE TỪ HÌNH ẢNH BẠN GỬI
+        databaseURL: "https://thuvienphatgiao-fd07e-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        appId: "1:342500331725:web:32795cf0146210f8019984"
+    };
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const rtdb = getDatabase(app);
+    window.baiHocData = {};
 
     async function loadAll() {
         const grid = document.getElementById("mainGrid");
-        const collections = ["Nikaya_Texts", "Infographics_Library", "Audio_Lectures"];
+        const cols = ["Nikaya_Texts", "Infographics_Library", "Audio_Lectures"];
         
-        for (const colName of collections) {
+        for (const colName of cols) {
             const snap = await getDocs(collection(db, colName));
             snap.forEach(doc => {
-                const d = doc.data();
-                const id = doc.id;
-                const fbUrl = `https://tuhocphat.com/?id=${id}`;
+                const d = doc.data(); const id = doc.id;
+                window.baiHocData[id] = d;
                 
                 let cardHtml = "";
                 if (colName === "Audio_Lectures") {
@@ -63,10 +95,7 @@
                         <div class="anh-the" style="background-image: url('${d.img}')"></div>
                         <div class="noi-dung-the">
                             <h3 class="the-title">${d.title}</h3>
-                            <div class="vung-tuong-tac">
-                                <button class="nut-hoc">HỌC</button>
-                                <div class="fb-share-button" data-href="${fbUrl}" data-layout="button" data-size="large"></div>
-                            </div>
+                            <button class="nut-hoc" onclick="moBaiHoc('${id}')">HỌC NGAY</button>
                         </div>
                     </div>`;
                 }
@@ -74,15 +103,53 @@
                 grid.innerHTML += `
                     <div class="wrapper-item">
                         ${cardHtml}
-                        <div class="fb-comment-outer">
-                            <div class="fb-comments" data-href="${fbUrl}" data-width="100%" data-numposts="3" data-colorscheme="dark"></div>
+                        <div class="comment-box">
+                            <div id="list-${id}" class="comment-list"></div>
+                            <textarea id="input-${id}" placeholder="Thảo luận bài học..."></textarea>
+                            <button class="btn-send" onclick="sendComment('${id}')">GỬI THẢO LUẬN</button>
                         </div>
                     </div>`;
+                
+                // Lắng nghe bình luận
+                onValue(ref(rtdb, 'comments/' + id), (s) => {
+                    const list = document.getElementById('list-' + id);
+                    list.innerHTML = "";
+                    const data = s.val();
+                    if(data) {
+                        Object.values(data).forEach(m => {
+                            const isAdmin = m.admin ? "msg-admin" : "";
+                            list.innerHTML += `<div class="msg-item ${isAdmin}"><b>${m.admin ? '🛡️ Admin' : '👤 Người học'}:</b> ${m.text}</div>`;
+                        });
+                    } else {
+                        list.innerHTML = "<p style='opacity:0.3; font-size:14px;'>Chưa có thảo luận.</p>";
+                    }
+                });
             });
         }
-        // Lệnh quan trọng: Ép Facebook quét lại trang để hiện bình luận và nút share
-        if (window.FB) { FB.XFBML.parse(); }
     }
+
+    window.moBaiHoc = function(id) {
+        const d = window.baiHocData[id];
+        document.getElementById('mTitle').innerText = d.title;
+        document.getElementById('mImg').src = d.img || "";
+        document.getElementById('mBody').innerText = d.content_full || "Đang cập nhật nội dung...";
+        document.getElementById('modalDoc').style.display = 'block';
+    };
+
+    window.dongBaiHoc = function() { document.getElementById('modalDoc').style.display = 'none'; };
+
+    window.sendComment = function(id) {
+        const val = document.getElementById('input-' + id).value;
+        if(val.trim()) {
+            push(ref(rtdb, 'comments/' + id), { 
+                text: val, 
+                time: Date.now(),
+                admin: false // Chỉnh thành true nếu bạn tự trả lời
+            });
+            document.getElementById('input-' + id).value = "";
+        }
+    };
+
     loadAll();
 </script>
 </body>
