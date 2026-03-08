@@ -139,7 +139,7 @@
                     } else if (name === "Audio_Lectures") {
                         grid.innerHTML += `
                             <div class="the-audio item-the">
-                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                                 <div class="audio-title">${displayTitle}</div>
                             </div>`;
                     } else {
@@ -176,8 +176,10 @@
             const postUrl = "https://tuhocphat.com/?post=" + id;
             const commentContainer = document.getElementById('fb-comment-box');
             
+            // Chèn mã HTML của Facebook vào container
             commentContainer.innerHTML = `<div class="fb-comments" data-href="${postUrl}" data-width="100%" data-numposts="5" data-colorscheme="dark"></div>`;
             
+            // Ép Facebook SDK quét lại container này để hiển thị khung bình luận
             if (window.FB) {
                 FB.XFBML.parse(commentContainer);
             }
