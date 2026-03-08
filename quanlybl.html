@@ -5,38 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Bình Luận - tuhocphat.com</title>
     <style>
-        :root {
-            --den: #000; --vang: #ccff00; --trang: #fff; --do: #ff4444; --xanh: #00c851;
-        }
+        :root { --den: #000; --vang: #ccff00; --trang: #fff; --do: #ff4444; --xanh: #00c851; }
         body { background: var(--den); color: var(--trang); font-family: Arial, sans-serif; padding: 20px; }
         h1 { color: var(--vang); border-bottom: 2px solid var(--vang); padding-bottom: 10px; text-transform: uppercase; }
-        
         .post-group { background: #111; border-radius: 10px; padding: 15px; margin-bottom: 30px; border: 1px solid #333; }
-        /* CSS cho tiêu đề bài học đã sửa */
         .post-title { color: var(--vang); font-size: 22px; margin-bottom: 15px; border-left: 5px solid var(--vang); padding-left: 10px; text-transform: uppercase; }
-        
         .cmt-item { background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #222; }
         .cmt-item.is-hidden { opacity: 0.5; border: 1px dashed var(--do); }
         .cmt-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: #888; }
         .cmt-text { font-size: 18px; line-height: 1.5; color: #eee; }
-        
         .reply-box { margin-left: 40px; margin-top: 10px; border-left: 2px solid #444; padding-left: 15px; }
-
         .btn-group { margin-top: 15px; display: flex; gap: 10px; }
         button { padding: 8px 15px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; }
         .btn-hide { background: var(--do); color: #fff; }
         .btn-show { background: var(--xanh); color: #fff; }
         .btn-del { background: #444; color: #fff; }
-        
-        .status-tag { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .tag-hidden { background: var(--do); color: #fff; }
-        .tag-visible { background: var(--xanh); color: #fff; }
     </style>
 </head>
 <body>
-
-<h1>⚙️ HỆ THỐNG QUẢN LÝ BÌNH LUẬN</h1>
-<div id="adminContainer">Đang tải tên bài học và bình luận...</div>
+    <h1>⚙️ HỆ THỐNG QUẢN LÝ BÌNH LUẬN</h1>
+    <div id="adminContainer">Đang tải dữ liệu và khớp tên bài học...</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -53,107 +41,63 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const rtdb = getDatabase(app);
-
-    // Bản đồ lưu trữ Tên bài học để tra cứu từ ID
     let mapTenBaiHoc = {};
 
-    async function loadDuLieu() {
+    async function loadAdmin() {
         const container = document.getElementById('adminContainer');
-        
-        // Bước 1: Quét Firestore để lấy tất cả tên bài học
+        // Quét 4 danh mục để lấy title thật
         const cols = ["Nikaya_Texts", "Infographics_Library", "Video_Shorts", "Audio_Lectures"];
+        
         for (const colName of cols) {
             const snap = await getDocs(collection(db, colName));
-            snap.forEach(doc => {
-                mapTenBaiHoc[doc.id] = doc.data().title || "Bài học không tên";
-            });
+            snap.forEach(doc => { mapTenBaiHoc[doc.id] = doc.data().title || "Bài không tên"; });
         }
 
-        // Bước 2: Lấy bình luận từ Realtime Database
         onValue(ref(rtdb, 'comments'), (snapshot) => {
             container.innerHTML = "";
             const allData = snapshot.val();
-            
-            if (!allData) {
-                container.innerHTML = "<h3>Chưa có thảo luận nào.</h3>";
-                return;
-            }
+            if (!allData) { container.innerHTML = "<h3>Chưa có thảo luận nào.</h3>"; return; }
 
             Object.keys(allData).forEach(postId => {
                 const postComments = allData[postId];
-                // Lấy tên bài học từ bản đồ tra cứu, nếu không thấy thì mới hiện ID
+                // Dùng map để hiện tên thay vì ID
                 const tenHienThi = mapTenBaiHoc[postId] || `ID: ${postId}`;
-                
                 let postHtml = `<div class="post-group"><div class="post-title">BÀI HỌC: ${tenHienThi}</div>`;
                 
                 Object.keys(postComments).forEach(cmtId => {
                     const c = postComments[cmtId];
                     if (!c.parentId) {
-                        postHtml += renderComment(postId, cmtId, c, postComments);
+                        const isH = c.isHidden === true;
+                        let reps = "";
+                        Object.keys(postComments).forEach(id => {
+                            const r = postComments[id];
+                            if (r.parentId === cmtId) {
+                                const rH = r.isHidden === true;
+                                reps += `<div class="reply-box"><div class="cmt-item ${rH?'is-hidden':''}">
+                                    <div class="cmt-info"><span>↳ ${r.isAdmin?'Admin':'Thành viên'}</span></div>
+                                    <div class="cmt-text">${r.text}</div>
+                                    <div class="btn-group">
+                                        <button class="${rH?'btn-show':'btn-hide'}" onclick="toggleStatus('${postId}','${id}',${!rH})">${rH?'HIỆN LẠI':'ẨN ĐI'}</button>
+                                        <button class="btn-del" onclick="deleteCmt('${postId}','${id}')">XÓA</button>
+                                    </div></div></div>`;
+                            }
+                        });
+                        postHtml += `<div class="cmt-item ${isH?'is-hidden':''}">
+                            <div class="cmt-info"><span>👤 Người học gửi:</span></div>
+                            <div class="cmt-text">${c.text}</div>
+                            <div class="btn-group">
+                                <button class="${isH?'btn-show':'btn-hide'}" onclick="toggleStatus('${postId}','${cmtId}',${!isH})">${isH?'HIỆN LẠI':'ẨN ĐI'}</button>
+                                <button class="btn-del" onclick="deleteCmt('${postId}','${cmtId}')">XÓA</button>
+                            </div>${reps}</div>`;
                     }
                 });
-                
-                postHtml += `</div>`;
-                container.innerHTML += postHtml;
+                container.innerHTML += postHtml + `</div>`;
             });
         });
     }
-
-    function renderComment(postId, cmtId, c, allCmtInPost) {
-        const isHidden = c.isHidden === true;
-        let repliesHtml = "";
-        
-        Object.keys(allCmtInPost).forEach(id => {
-            const r = allCmtInPost[id];
-            if (r.parentId === cmtId) {
-                const rHidden = r.isHidden === true;
-                repliesHtml += `
-                    <div class="reply-box">
-                        <div class="cmt-item ${rHidden ? 'is-hidden' : ''}">
-                            <div class="cmt-info">
-                                <span>↳ Trả lời từ: ${r.isAdmin ? 'Admin' : 'Thành viên'}</span>
-                                <span class="status-tag ${rHidden ? 'tag-hidden' : 'tag-visible'}">${rHidden ? 'ĐANG ẨN' : 'HIỆN'}</span>
-                            </div>
-                            <div class="cmt-text">${r.text}</div>
-                            <div class="btn-group">
-                                <button class="${rHidden ? 'btn-show' : 'btn-hide'}" onclick="toggleStatus('${postId}', '${id}', ${!rHidden})">
-                                    ${rHidden ? 'HIỆN LẠI' : 'ẨN ĐI'}
-                                </button>
-                                <button class="btn-del" onclick="deleteComment('${postId}', '${id}')">XÓA</button>
-                            </div>
-                        </div>
-                    </div>`;
-            }
-        });
-
-        return `
-            <div class="cmt-item ${isHidden ? 'is-hidden' : ''}">
-                <div class="cmt-info">
-                    <span>👤 Người học gửi:</span>
-                    <span class="status-tag ${isHidden ? 'tag-hidden' : 'tag-visible'}">${isHidden ? 'ĐANG ẨN' : 'HIỆN'}</span>
-                </div>
-                <div class="cmt-text">${c.text}</div>
-                <div class="btn-group">
-                    <button class="${isHidden ? 'btn-show' : 'btn-hide'}" onclick="toggleStatus('${postId}', '${cmtId}', ${!isHidden})">
-                        ${isHidden ? 'HIỆN LẠI' : 'ẨN ĐI'}
-                    </button>
-                    <button class="btn-del" onclick="deleteComment('${postId}', '${cmtId}')">XÓA</button>
-                </div>
-                ${repliesHtml}
-            </div>`;
-    }
-
-    window.toggleStatus = function(postId, cmtId, newStatus) {
-        update(ref(rtdb, `comments/${postId}/${cmtId}`), { isHidden: newStatus });
-    };
-
-    window.deleteComment = function(postId, cmtId) {
-        if (confirm("Xóa vĩnh viễn bình luận này?")) {
-            remove(ref(rtdb, `comments/${postId}/${cmtId}`));
-        }
-    };
-
-    loadDuLieu();
+    window.toggleStatus = (pid, cid, st) => { update(ref(rtdb, `comments/${pid}/${cid}`), { isHidden: st }); };
+    window.deleteCmt = (pid, cid) => { if(confirm("Xóa vĩnh viễn?")) remove(ref(rtdb, `comments/${pid}/${cid}`)); };
+    loadAdmin();
 </script>
 </body>
 </html>
