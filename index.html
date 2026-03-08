@@ -57,7 +57,7 @@
         .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
         .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
 
-        /* CSS Bình luận mới */
+        /* Hệ thống bình luận trong Float */
         #commentSection { margin-top: 50px; border-top: 2px dashed #333; padding-top: 30px; text-align: left; }
         .cmt-item { background: #111; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--vang-chanh); }
         .cmt-reply { margin-left: 40px; background: #1a1a1a; border-left: 3px solid var(--xanh); border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 18px; }
@@ -88,7 +88,7 @@
     <div class="support-text">
         Nếu thấy hữu ích, Quý vị có thể giúp duy trì trang web tuhocphat.com thông qua trợ duyên tài lực 10K hoặc 20K về TK 0909108890 (Momo, Ngân hàng MB). Chúng tôi xin hồi hướng công đức này đến tất cả quý vị đã luôn ủng hộ chúng tôi!
     </div>
-    <div style="opacity:0.1; margin-top:20px; cursor:pointer;" onclick="location.href='admin.html'">⚙️</div>
+    <div style="opacity:0.1; margin-top:20px; cursor:pointer;" onclick="location.href='quanlybl.html'">⚙️</div>
 </footer>
 
 <div id="modalDoc">
@@ -99,11 +99,11 @@
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
 
         <div id="commentSection">
-            <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN & TRẢ LỜI</h3>
+            <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN & GHI CHÚ</h3>
             <div id="commentList"></div>
             
             <div class="input-group">
-                <b id="replyingText" style="display:none; color:var(--xanh); margin-bottom:5px; display:block;">Đang trả lời... <span onclick="huyTraLoi()" style="color:red; cursor:pointer; margin-left:10px">[Hủy]</span></b>
+                <b id="replyingText" style="display:none; color:var(--xanh); margin-bottom:5px;">Đang trả lời... <span onclick="huyTraLoi()" style="color:red; cursor:pointer; margin-left:10px">[Hủy]</span></b>
                 <textarea id="txtNoiDung" placeholder="Nhập nội dung thảo luận..."></textarea>
                 <button class="btn-gui" onclick="guiBinhLuan()">GỬI BÌNH LUẬN</button>
             </div>
@@ -133,18 +133,20 @@
     window.baiHocData = {};
     window.currentPostId = null;
     window.parentId = null;
+    let thoiGianCuoi = 0;
+
+    // Danh sách chặn rác/AI/Thô tục
+    const listCam = ["ngu", "dốt", "khùng", "điên", "đm", "vcl", "tài xỉu", "đánh đề", "ai", "trí tuệ nhân tạo", "openai", "gemini ai"];
 
     async function loadAll() {
         const fetchCol = async (name, gridId) => {
             const snap = await getDocs(collection(db, name));
             const grid = document.getElementById(gridId); grid.innerHTML = "";
-            
             snap.forEach(doc => {
                 const id = doc.id; const d = doc.data(); 
                 if (d.hidden !== true) { 
                     window.baiHocData[id] = d;
                     const displayTitle = (d.title || "Chưa có tựa").toLowerCase();
-                    
                     if (name === "Video_Shorts") {
                         grid.innerHTML += `<div class="the-video item-the"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${displayTitle}</div></div>`;
                     } else if (name === "Audio_Lectures") {
@@ -154,60 +156,49 @@
                     }
                 }
             });
-            if (grid.innerHTML === "") grid.innerHTML = "<p style='padding:20px; opacity:0.3;'>Chưa có bài học.</p>";
         };
-        await fetchCol("Nikaya_Texts", "gridKinh"); 
-        await fetchCol("Infographics_Library", "gridInfo"); 
-        await fetchCol("Video_Shorts", "gridVideo");
-        await fetchCol("Audio_Lectures", "gridAudio");
+        await fetchCol("Nikaya_Texts", "gridKinh"); await fetchCol("Infographics_Library", "gridInfo"); await fetchCol("Video_Shorts", "gridVideo"); await fetchCol("Audio_Lectures", "gridAudio");
     }
     loadAll();
 
-    // Logic bình luận đa cấp
+    // Hệ thống tải bình luận đa cấp
     window.loadComments = function(postId) {
-        const list = document.getElementById('commentList');
         onValue(ref(rtdb, `comments/${postId}`), (snapshot) => {
+            const list = document.getElementById('commentList');
             list.innerHTML = "";
             const data = snapshot.val();
-            if (!data) { list.innerHTML = "<p style='opacity:0.5'>Chưa có thảo luận nào.</p>"; return; }
-            
+            if (!data) { list.innerHTML = "<p style='opacity:0.3'>Chưa có thảo luận nào.</p>"; return; }
             Object.keys(data).forEach(key => {
                 const c = data[key];
-                if (!c.parentId) { 
+                if (!c.parentId && !c.isHidden) {
                     let replies = "";
                     Object.values(data).forEach(r => {
-                        if (r.parentId === key) {
+                        if (r.parentId === key && !r.isHidden) {
                             replies += `<div class="cmt-reply"><b>${r.isAdmin ? '🛡️ Admin' : '👤 Thành viên'}:</b> ${r.text}</div>`;
                         }
                     });
-
-                    list.innerHTML += `
-                        <div class="cmt-item">
-                            <div class="cmt-user">
-                                <span>👤 Người học</span>
-                                <span class="btn-reply" onclick="chuanBiTraLoi('${key}')">Trả lời</span>
-                            </div>
-                            <div>${c.text}</div>
-                            ${replies}
-                        </div>`;
+                    list.innerHTML += `<div class="cmt-item"><div class="cmt-user"><span>👤 Người học</span><span class="btn-reply" onclick="chuanBiTraLoi('${key}')">Trả lời</span></div><div>${c.text}</div>${replies}</div>`;
                 }
             });
         });
     }
 
+    // Gửi bình luận kèm bộ lọc
     window.guiBinhLuan = function() {
         const text = document.getElementById('txtNoiDung').value;
+        const now = Date.now();
         if (!text.trim()) return;
+        if (now - thoiGianCuoi < 10000) { alert("Vui lòng đợi 10 giây!"); return; }
 
+        const isSpam = listCam.some(tu => text.toLowerCase().includes(tu));
         const newRef = push(ref(rtdb, `comments/${window.currentPostId}`));
         set(newRef, {
-            text: text,
-            parentId: window.parentId || null,
-            timestamp: Date.now(),
-            isAdmin: false 
+            text: text, parentId: window.parentId || null, timestamp: now, isAdmin: false, isHidden: isSpam
         });
 
+        if (isSpam) alert("Bình luận của bạn sẽ được Admin kiểm duyệt.");
         document.getElementById('txtNoiDung').value = "";
+        thoiGianCuoi = now;
         huyTraLoi();
     };
 </script>
@@ -222,27 +213,13 @@
             document.getElementById('mBody').innerText = d.content_full || "";
             document.getElementById('modalDoc').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            window.loadComments(id); // Gọi hàm load bình luận
+            window.loadComments(id);
         }
     }
-    function dongBaiHoc() { 
-        document.getElementById('modalDoc').style.display = 'none'; 
-        document.body.style.overflow = 'auto'; 
-        window.parentId = null;
-        document.getElementById('replyingText').style.display = 'none';
-    }
-
-    function chuanBiTraLoi(id) {
-        window.parentId = id;
-        document.getElementById('replyingText').style.display = 'block';
-        document.getElementById('txtNoiDung').focus();
-    }
-
-    function huyTraLoi() {
-        window.parentId = null;
-        document.getElementById('replyingText').style.display = 'none';
-    }
-
+    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; huyTraLoi(); }
+    function chuanBiTraLoi(id) { window.parentId = id; document.getElementById('replyingText').style.display = 'block'; document.getElementById('txtNoiDung').focus(); }
+    function huyTraLoi() { window.parentId = null; document.getElementById('replyingText').style.display = 'none'; }
+    
     const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
     document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
     function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
