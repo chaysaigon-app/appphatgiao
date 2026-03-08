@@ -12,37 +12,15 @@
         body { background: var(--den); color: var(--chu-trang); font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; }
         header { text-align: center; padding: 30px; border-bottom: 3px solid var(--vang-chanh); background: #0a0a0a; }
         h1 { font-size: 34px; color: var(--vang-chanh); text-transform: uppercase; margin: 0; }
-        
-        .search-box { padding: 20px; display: flex; justify-content: center; }
-        #searchInput { width: 90%; max-width: 600px; padding: 12px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 20px; background: #000; color: #fff; text-align: center; }
-        
-        .vung-chu-de { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #333; }
-        .topic-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; }
-        .chip { background: #263238; color: white; padding: 10px 20px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 18px; white-space: nowrap; cursor: pointer; }
-
-        .phan-muc { padding: 25px 15px; }
-        .phan-tieu-de { font-size: 28px; color: var(--vang-chanh); border-left: 8px solid; padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
-        
-        /* Layout cho từng bài học */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; padding: 20px; }
         .wrapper-item { display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px; }
         .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         .the-title { margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3; text-transform: capitalize !important; }
-        
-        /* Nút tương tác */
-        .vung-tuong-tac { display: flex; align-items: center; gap: 15px; padding: 10px 0; }
-        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px 20px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
-
-        /* Khung bình luận */
-        .fb-comment-outer { background: #0a0a0a; border-radius: 15px; padding: 10px; border: 1px solid #222; }
-
-        #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
-        .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
-        .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
-        .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
+        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px 20px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; }
+        .fb-comment-outer { background: #0a0a0a; border-radius: 15px; padding: 10px; border: 1px solid #222; min-height: 100px; }
+        .vung-tuong-tac { display: flex; align-items: center; gap: 15px; padding-top: 10px; }
     </style>
 </head>
 <body>
@@ -51,85 +29,61 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=992013816294198"></script>
 
 <header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
-<div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
-<div class="vung-chu-de"><div class="topic-scroll" id="topicList"></div></div>
 
-<div class="phan-muc"><div class="phan-tieu-de" style="border-left-color: var(--xanh);">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
-<div class="phan-muc"><div class="phan-tieu-de" style="border-left-color: var(--cam);">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
-
-<div id="modalDoc">
-    <div class="modal-body-content">
-        <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
-        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px;"></h2>
-        <img id="mImg" src="" class="img-popup">
-        <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
-    </div>
-</div>
+<div class="grid" id="mainGrid"></div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    
     const firebaseConfig = { apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE", authDomain: "thuvienphatgiao-fd07e.firebaseapp.com", projectId: "thuvienphatgiao-fd07e", storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app", messagingSenderId: "342500331725", appId: "1:342500331725:web:32795cf0146210f8019984" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    window.baiHocData = {};
 
     async function loadAll() {
-        const fetchCol = async (name, gridId) => {
-            const snap = await getDocs(collection(db, name));
-            const grid = document.getElementById(gridId); grid.innerHTML = "";
+        const grid = document.getElementById("mainGrid");
+        const collections = ["Nikaya_Texts", "Infographics_Library", "Audio_Lectures"];
+        
+        for (const colName of collections) {
+            const snap = await getDocs(collection(db, colName));
             snap.forEach(doc => {
-                const id = doc.id; const d = doc.data(); 
-                if (d.hidden !== true) { 
-                    window.baiHocData[id] = d;
-                    const displayTitle = (d.title || "").toLowerCase();
-                    const fbUrl = `https://tuhocphat.com/?id=${id}`;
-                    
-                    grid.innerHTML += `
-                        <div class="wrapper-item item-the">
-                            <div class="the-916">
-                                <div class="anh-the" style="background-image: url('${d.img}')"></div>
-                                <div class="noi-dung-the">
-                                    <h3 class="the-title">${displayTitle}</h3>
-                                    <div class="vung-tuong-tac">
-                                        <button class="nut-hoc" onclick="moBaiHoc('${id}')">Học</button>
-                                        <div class="fb-share-button" data-href="${fbUrl}" data-layout="button" data-size="large"></div>
-                                    </div>
-                                </div>
+                const d = doc.data();
+                const id = doc.id;
+                const fbUrl = `https://tuhocphat.com/?id=${id}`;
+                
+                let cardHtml = "";
+                if (colName === "Audio_Lectures") {
+                    // GIỮ NGUYÊN MÃ SPOTIFY CỦA BẠN
+                    cardHtml = `<div class="the-audio" style="background:#121212; border-radius:15px; padding:5px; border:2px solid var(--tim); overflow:hidden;">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        <div style="padding:10px; font-size:18px; color:var(--tim); text-align:center;">${d.title}</div>
+                    </div>`;
+                } else {
+                    cardHtml = `<div class="the-916">
+                        <div class="anh-the" style="background-image: url('${d.img}')"></div>
+                        <div class="noi-dung-the">
+                            <h3 class="the-title">${d.title}</h3>
+                            <div class="vung-tuong-tac">
+                                <button class="nut-hoc">HỌC</button>
+                                <div class="fb-share-button" data-href="${fbUrl}" data-layout="button" data-size="large"></div>
                             </div>
-                            <div class="fb-comment-outer">
-                                <div class="fb-comments" data-href="${fbUrl}" data-width="100%" data-numposts="3" data-colorscheme="dark"></div>
-                            </div>
-                        </div>`;
+                        </div>
+                    </div>`;
                 }
+
+                grid.innerHTML += `
+                    <div class="wrapper-item">
+                        ${cardHtml}
+                        <div class="fb-comment-outer">
+                            <div class="fb-comments" data-href="${fbUrl}" data-width="100%" data-numposts="3" data-colorscheme="dark"></div>
+                        </div>
+                    </div>`;
             });
-        };
-        await fetchCol("Nikaya_Texts", "gridKinh"); await fetchCol("Infographics_Library", "gridInfo");
+        }
+        // Lệnh quan trọng: Ép Facebook quét lại trang để hiện bình luận và nút share
         if (window.FB) { FB.XFBML.parse(); }
     }
     loadAll();
-</script>
-
-<script>
-    function moBaiHoc(id) {
-        const d = window.baiHocData[id];
-        if (d) {
-            document.getElementById('mTitle').innerText = d.title;
-            document.getElementById('mImg').src = d.img || "";
-            document.getElementById('mBody').innerText = d.content_full || "";
-            document.getElementById('modalDoc').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; }
-    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
-    document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
-    function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
-    function locBai() {
-        let k = document.getElementById('searchInput').value.toLowerCase();
-        let items = document.getElementsByClassName('item-the');
-        for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "flex" : "none"; }
-    }
 </script>
 </body>
 </html>
