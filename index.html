@@ -57,6 +57,16 @@
         .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
         .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
 
+        /* CSS Bình luận mới */
+        #commentSection { margin-top: 50px; border-top: 2px dashed #333; padding-top: 30px; text-align: left; }
+        .cmt-item { background: #111; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--vang-chanh); }
+        .cmt-reply { margin-left: 40px; background: #1a1a1a; border-left: 3px solid var(--xanh); border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 18px; }
+        .cmt-user { font-weight: bold; color: var(--vang-chanh); font-size: 18px; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .btn-reply { color: var(--xanh); cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: underline; }
+        .input-group { background: #0a0a0a; padding: 15px; border-radius: 10px; margin-top: 20px; }
+        textarea { width: 100%; padding: 12px; border-radius: 8px; background: #000; color: #fff; border: 1px solid #444; font-size: 18px; box-sizing: border-box; }
+        .btn-gui { background: var(--xanh); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 18px; }
+
         /* Footer hỗ trợ */
         .support-text { font-size: 12px; color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 0 20px; }
     </style>
@@ -87,12 +97,24 @@
         <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
         <img id="mImg" src="" class="img-popup">
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
+
+        <div id="commentSection">
+            <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN & TRẢ LỜI</h3>
+            <div id="commentList"></div>
+            
+            <div class="input-group">
+                <b id="replyingText" style="display:none; color:var(--xanh); margin-bottom:5px; display:block;">Đang trả lời... <span onclick="huyTraLoi()" style="color:red; cursor:pointer; margin-left:10px">[Hủy]</span></b>
+                <textarea id="txtNoiDung" placeholder="Nhập nội dung thảo luận..."></textarea>
+                <button class="btn-gui" onclick="guiBinhLuan()">GỬI BÌNH LUẬN</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
@@ -100,12 +122,17 @@
         projectId: "thuvienphatgiao-fd07e",
         storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
         messagingSenderId: "342500331725",
-        appId: "1:342500331725:web:32795cf0146210f8019984"
+        appId: "1:342500331725:web:32795cf0146210f8019984",
+        databaseURL: "https://thuvienphatgiao-fd07e-default-rtdb.asia-southeast1.firebasedatabase.app"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const rtdb = getDatabase(app);
+
     window.baiHocData = {};
+    window.currentPostId = null;
+    window.parentId = null;
 
     async function loadAll() {
         const fetchCol = async (name, gridId) => {
@@ -119,26 +146,11 @@
                     const displayTitle = (d.title || "Chưa có tựa").toLowerCase();
                     
                     if (name === "Video_Shorts") {
-                        grid.innerHTML += `
-                            <div class="the-video item-the">
-                                <div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div>
-                                <div class="video-title">${displayTitle}</div>
-                            </div>`;
+                        grid.innerHTML += `<div class="the-video item-the"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${displayTitle}</div></div>`;
                     } else if (name === "Audio_Lectures") {
-                        grid.innerHTML += `
-                            <div class="the-audio item-the">
-                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                                <div class="audio-title">${displayTitle}</div>
-                            </div>`;
+                        grid.innerHTML += `<div class="the-audio item-the"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><div class="audio-title">${displayTitle}</div></div>`;
                     } else {
-                        grid.innerHTML += `
-                            <div class="the-916 item-the">
-                                <div class="anh-the" style="background-image: url('${d.img}')"></div>
-                                <div class="noi-dung-the">
-                                    <h3 class="the-title">${displayTitle}</h3>
-                                    <button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button>
-                                </div>
-                            </div>`;
+                        grid.innerHTML += `<div class="the-916 item-the"><div class="anh-the" style="background-image: url('${d.img}')"></div><div class="noi-dung-the"><h3 class="the-title">${displayTitle}</h3><button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button></div></div>`;
                     }
                 }
             });
@@ -150,20 +162,87 @@
         await fetchCol("Audio_Lectures", "gridAudio");
     }
     loadAll();
+
+    // Logic bình luận đa cấp
+    window.loadComments = function(postId) {
+        const list = document.getElementById('commentList');
+        onValue(ref(rtdb, `comments/${postId}`), (snapshot) => {
+            list.innerHTML = "";
+            const data = snapshot.val();
+            if (!data) { list.innerHTML = "<p style='opacity:0.5'>Chưa có thảo luận nào.</p>"; return; }
+            
+            Object.keys(data).forEach(key => {
+                const c = data[key];
+                if (!c.parentId) { 
+                    let replies = "";
+                    Object.values(data).forEach(r => {
+                        if (r.parentId === key) {
+                            replies += `<div class="cmt-reply"><b>${r.isAdmin ? '🛡️ Admin' : '👤 Thành viên'}:</b> ${r.text}</div>`;
+                        }
+                    });
+
+                    list.innerHTML += `
+                        <div class="cmt-item">
+                            <div class="cmt-user">
+                                <span>👤 Người học</span>
+                                <span class="btn-reply" onclick="chuanBiTraLoi('${key}')">Trả lời</span>
+                            </div>
+                            <div>${c.text}</div>
+                            ${replies}
+                        </div>`;
+                }
+            });
+        });
+    }
+
+    window.guiBinhLuan = function() {
+        const text = document.getElementById('txtNoiDung').value;
+        if (!text.trim()) return;
+
+        const newRef = push(ref(rtdb, `comments/${window.currentPostId}`));
+        set(newRef, {
+            text: text,
+            parentId: window.parentId || null,
+            timestamp: Date.now(),
+            isAdmin: false 
+        });
+
+        document.getElementById('txtNoiDung').value = "";
+        huyTraLoi();
+    };
 </script>
 
 <script>
     function moBaiHoc(id) {
         const d = window.baiHocData[id];
         if (d) {
+            window.currentPostId = id;
             document.getElementById('mTitle').innerText = d.title;
             document.getElementById('mImg').src = d.img || "";
             document.getElementById('mBody').innerText = d.content_full || "";
             document.getElementById('modalDoc').style.display = 'block';
             document.body.style.overflow = 'hidden';
+            window.loadComments(id); // Gọi hàm load bình luận
         }
     }
-    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; }
+    function dongBaiHoc() { 
+        document.getElementById('modalDoc').style.display = 'none'; 
+        document.body.style.overflow = 'auto'; 
+        window.parentId = null;
+        document.getElementById('replyingText').style.display = 'none';
+    }
+
+    function chuanBiTraLoi(id) {
+        window.parentId = id;
+        document.getElementById('replyingText').style.display = 'block';
+        document.getElementById('txtNoiDung').focus();
+    }
+
+    function huyTraLoi() {
+        window.parentId = null;
+        document.getElementById('replyingText').style.display = 'none';
+    }
+
     const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
     document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
     function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
