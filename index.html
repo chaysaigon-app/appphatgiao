@@ -2,95 +2,97 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Hệ Thống Quản Trị Toàn Diện</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Viện Tự Học Phật - Học Chánh Pháp</title>
     <style>
-        :root { --den: #000; --vang: #ccff00; --do: #ff4444; --xanh: #2ecc71; --xanh-duong: #3498db; --xam: #7f8c8d; --tim: #7b1fa2; }
-        body { background: var(--den); color: #fff; font-family: Arial, sans-serif; padding: 20px; }
-        
-        /* Khóa bảo mật */
-        #lockScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        .lock-box { border: 3px solid var(--vang); padding: 50px; border-radius: 20px; text-align: center; background: #0a0a0a; }
-        .lock-input { padding: 15px; font-size: 24px; text-align: center; border-radius: 10px; border: none; margin-bottom: 20px; width: 280px; background: #111; color: #fff; border: 1px solid #444; }
-        
-        /* Bố cục chính */
-        #mainContent { display: none; max-width: 1200px; margin: auto; }
-        h1 { color: var(--vang); text-align: center; text-transform: uppercase; border-bottom: 2px solid #333; padding-bottom: 20px; }
-        
-        .tab-menu { display: flex; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
-        .tab-btn { flex: 1; min-width: 150px; padding: 18px; background: #111; color: #fff; border: 2px solid var(--vang); cursor: pointer; font-weight: bold; border-radius: 10px; font-size: 16px; }
-        .tab-btn.active { background: var(--vang); color: #000; }
+        :root {
+            --den: #000000; --nen-the: #1a1a1a; --vang-chanh: #ccff00; 
+            --chu-trang: #ffffff; --xanh: #2e7d32; --cam: #e65100; --do: #c62828; --tim: #7b1fa2;
+        }
+        body { 
+            background: var(--den); color: var(--chu-trang); 
+            font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; 
+        }
+        header { text-align: center; padding: 30px; border-bottom: 3px solid var(--vang-chanh); background: #0a0a0a; }
+        h1 { font-size: 34px; color: var(--vang-chanh); text-transform: uppercase; margin: 0; }
 
-        /* Bảng danh sách */
-        table { width: 100%; border-collapse: collapse; background: #111; border-radius: 15px; overflow: hidden; }
-        th, td { padding: 20px; border-bottom: 1px solid #333; text-align: left; }
-        th { background: #222; color: var(--vang); text-transform: uppercase; }
+        /* Tìm kiếm */
+        .search-box { padding: 20px; display: flex; justify-content: center; }
+        #searchInput { width: 90%; max-width: 600px; padding: 12px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 20px; background: #000; color: #fff; text-align: center; }
         
-        /* Bộ nút chức năng */
-        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .btn-act { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; text-transform: uppercase; min-width: 80px; }
-        .btn-view { background: var(--xanh-duong); color: #fff; }
-        .btn-edit { background: #f1c40f; color: #000; }
-        .btn-hide { background: var(--xam); color: #fff; }
-        .btn-show { background: var(--xanh); color: #fff; }
-        .btn-del { background: var(--do); color: #fff; }
+        .vung-chu-de { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #333; }
+        .topic-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; }
+        .chip { background: #263238; color: white; padding: 10px 20px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 18px; white-space: nowrap; cursor: pointer; }
 
-        /* Modal Sửa/Xem */
-        #editModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .modal-content { max-width: 800px; margin: 40px auto; background: #1a1a1a; padding: 40px; border: 2px solid var(--vang); border-radius: 20px; }
-        input, textarea { width: 100%; padding: 15px; margin: 15px 0; background: #000; color: #fff; border: 1px solid #444; border-radius: 10px; font-size: 18px; box-sizing: border-box; }
-        label { color: var(--vang); font-weight: bold; display: block; margin-top: 10px; }
+        /* Phân vùng */
+        .phan-muc { padding: 25px 15px; }
+        .phan-tieu-de { font-size: 28px; color: var(--vang-chanh); border-left: 8px solid; padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; }
+        .vach-kinh { border-color: var(--xanh); }
+        .vach-info { border-color: var(--cam); }
+        .vach-video { border-color: var(--do); }
+        .vach-audio { border-color: var(--tim); }
+
+        /* Grid hiển thị Thẻ bài */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
+        .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
+        .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+        .the-title { margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3; text-transform: capitalize !important; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; margin-top: 5px; }
+
+        /* Grid Video & Audio */
+        .grid-video { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .the-video { background: var(--nen-the); border-radius: 15px; overflow: hidden; border: 2px solid var(--do); }
+        .video-box { position: relative; width: 100%; padding-bottom: 177.7%; height: 0; background: #000; }
+        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-title { padding: 12px; text-align: center; font-size: 21px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
+
+        /* Audio Card */
+        .the-audio { background: #121212; border-radius: 15px; overflow: hidden; border: 2px solid var(--tim); padding: 5px; }
+        .audio-title { padding: 10px; font-size: 18px; font-weight: bold; color: var(--tim); text-align: center; text-transform: capitalize; }
+
+        /* Popup */
+        #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
+        .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
+        .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
+        .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
+
+        /* Footer hỗ trợ */
+        .support-text { font-size: 12px; color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 0 20px; }
     </style>
 </head>
 <body>
 
-<div id="lockScreen">
-    <div class="lock-box">
-        <h2 style="color:var(--vang)">XÁC THỰC QUẢN TRỊ</h2>
-        <input type="password" id="passInput" class="lock-input" placeholder="Mật khẩu..."><br>
-        <button onclick="checkPass()" style="padding:15px 50px; background:var(--vang); font-weight:bold; cursor:pointer; border-radius:10px; border:none; font-size:20px;">TRUY CẬP</button>
+<header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
+
+<div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
+
+<div class="vung-chu-de"><div class="topic-scroll" id="topicList"></div></div>
+
+<div class="phan-muc"><div class="phan-tieu-de vach-kinh">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
+<div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
+<div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid-video"></div></div>
+<div class="phan-muc"><div class="phan-tieu-de vach-audio">🎧 IV. BÀI GIẢNG AUDIO</div><div id="gridAudio" class="grid-video"></div></div>
+
+<footer style="text-align:center; padding:40px 0 20px;">
+    <div class="support-text">
+        Nếu thấy hữu ích, Quý vị có thể giúp duy trì trang web tuhocphat.com thông qua trợ duyên tài lực 10K hoặc 20K về TK 0909108890 (Momo, Ngân hàng MB). Chúng tôi xin hồi hướng công đức này đến tất cả quý vị đã luôn ủng hộ chúng tôi!
     </div>
-</div>
+    <div style="opacity:0.1; margin-top:20px; cursor:pointer;" onclick="location.href='admin.html'">⚙️</div>
+</footer>
 
-<div id="mainContent">
-    <h1>QUẢN LÝ BÀI ĐĂNG</h1>
-    <div class="tab-menu">
-        <button id="btn-Nikaya_Texts" class="tab-btn active" onclick="switchTab('Nikaya_Texts')">1. KINH GỐC</button>
-        <button id="btn-Infographics_Library" class="tab-btn" onclick="switchTab('Infographics_Library')">2. INFOGRAPHIC</button>
-        <button id="btn-Video_Shorts" class="tab-btn" onclick="switchTab('Video_Shorts')">3. VIDEO</button>
-        <button id="btn-Audio_Lectures" class="tab-btn" onclick="switchTab('Audio_Lectures')">4. AUDIO</button>
-    </div>
-    <table>
-        <thead><tr><th>Tựa bài học</th><th>Trạng thái</th><th>Thao tác quản lý</th></tr></thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-</div>
-
-<div id="editModal">
-    <div class="modal-content">
-        <h2 id="modalTitle" style="color: var(--vang); text-align: center;">CẬP NHẬT</h2>
-        <input type="hidden" id="editId">
-        
-        <label>Tiêu đề:</label>
-        <input type="text" id="editInpTitle">
-        
-        <div id="extraFields">
-            <label id="lblSpecial">ID YouTube / Spotify / Link Ảnh:</label>
-            <input type="text" id="editInpSpecial">
-            
-            <label id="lblContent">Nội dung / Mô tả:</label>
-            <textarea id="editInpContent" style="height: 250px;"></textarea>
-        </div>
-
-        <div id="editActions">
-            <button onclick="saveUpdate()" style="width: 100%; padding: 20px; background: var(--xanh); border: none; font-weight: bold; font-size: 20px; border-radius: 10px; cursor: pointer;">LƯU THÔNG TIN</button>
-        </div>
-        <button onclick="document.getElementById('editModal').style.display='none'" style="width: 100%; margin-top: 15px; padding: 15px; background: #444; color: #fff; border: none; border-radius: 10px; cursor: pointer;">ĐÓNG</button>
+<div id="modalDoc">
+    <div class="modal-body-content">
+        <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
+        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
+        <img id="mImg" src="" class="img-popup">
+        <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
@@ -103,114 +105,73 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let currentTab = 'Nikaya_Texts';
+    window.baiHocData = {};
 
-    window.checkPass = () => {
-        if (document.getElementById('passInput').value === 'admin@8899') {
-            document.getElementById('lockScreen').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            loadPosts();
-        } else { alert("Sai mật khẩu!"); }
-    };
-
-    async function loadPosts() {
-        const q = query(collection(db, currentTab), orderBy("createdAt", "desc"));
-        const snap = await getDocs(q);
-        const body = document.getElementById('tableBody');
-        body.innerHTML = "";
-        
-        snap.forEach((docSnap) => {
-            const d = docSnap.data();
-            const id = docSnap.id;
-            const isHidden = d.hidden === true;
-            const title = d.title || "Chưa có tựa";
-
-            body.innerHTML += `
-                <tr>
-                    <td><strong>${title}</strong></td>
-                    <td style="color: ${isHidden ? 'red' : 'lime'}">${isHidden ? 'ĐANG ẨN' : 'HIỂN THỊ'}</td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn-act btn-view" onclick="openEdit('${id}', true)">XEM</button>
-                            <button class="btn-act btn-edit" onclick="openEdit('${id}', false)">SỬA</button>
-                            <button class="btn-act ${isHidden ? 'btn-show' : 'btn-hide'}" onclick="toggleHide('${id}', ${isHidden})">
-                                ${isHidden ? 'HIỆN' : 'ẨN'}
-                            </button>
-                            <button class="btn-act btn-del" onclick="deletePost('${id}')">XÓA</button>
-                        </div>
-                    </td>
-                </tr>`;
-        });
-    }
-
-    window.openEdit = async (id, isViewOnly) => {
-        const d = (await getDoc(doc(db, currentTab, id))).data();
-        document.getElementById('editId').value = id;
-        document.getElementById('editInpTitle').value = d.title;
-        
-        // Điều chỉnh linh hoạt theo Tab
-        const specialInp = document.getElementById('editInpSpecial');
-        const contentInp = document.getElementById('editInpContent');
-        
-        if (currentTab === 'Video_Shorts') {
-            specialInp.value = d.youtube_id;
-            document.getElementById('lblSpecial').innerText = "YouTube ID:";
-            contentInp.style.display = "none"; document.getElementById('lblContent').style.display = "none";
-        } else if (currentTab === 'Audio_Lectures') {
-            specialInp.value = d.spotify_id;
-            document.getElementById('lblSpecial').innerText = "Spotify ID:";
-            contentInp.style.display = "none"; document.getElementById('lblContent').style.display = "none";
-        } else {
-            specialInp.value = d.img;
-            document.getElementById('lblSpecial').innerText = "Link Ảnh (9:16):";
-            contentInp.value = d.content_full || d.desc;
-            contentInp.style.display = "block"; document.getElementById('lblContent').style.display = "block";
-        }
-
-        document.getElementById('editActions').style.display = isViewOnly ? 'none' : 'block';
-        document.getElementById('modalTitle').innerText = isViewOnly ? "XEM CHI TIẾT" : "CẬP NHẬT BÀI ĐĂNG";
-        document.getElementById('editModal').style.display = 'block';
-    };
-
-    window.saveUpdate = async () => {
-        const id = document.getElementById('editId').value;
-        const upData = {
-            title: document.getElementById('editInpTitle').value
+    async function loadAll() {
+        const fetchCol = async (name, gridId) => {
+            const snap = await getDocs(collection(db, name));
+            const grid = document.getElementById(gridId); grid.innerHTML = "";
+            
+            snap.forEach(doc => {
+                const id = doc.id; const d = doc.data(); 
+                if (d.hidden !== true) { 
+                    window.baiHocData[id] = d;
+                    const displayTitle = (d.title || "Chưa có tựa").toLowerCase();
+                    
+                    if (name === "Video_Shorts") {
+                        grid.innerHTML += `
+                            <div class="the-video item-the">
+                                <div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div>
+                                <div class="video-title">${displayTitle}</div>
+                            </div>`;
+                    } else if (name === "Audio_Lectures") {
+                        grid.innerHTML += `
+                            <div class="the-audio item-the">
+                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                <div class="audio-title">${displayTitle}</div>
+                            </div>`;
+                    } else {
+                        grid.innerHTML += `
+                            <div class="the-916 item-the">
+                                <div class="anh-the" style="background-image: url('${d.img}')"></div>
+                                <div class="noi-dung-the">
+                                    <h3 class="the-title">${displayTitle}</h3>
+                                    <button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button>
+                                </div>
+                            </div>`;
+                    }
+                }
+            });
+            if (grid.innerHTML === "") grid.innerHTML = "<p style='padding:20px; opacity:0.3;'>Chưa có bài học.</p>";
         };
+        await fetchCol("Nikaya_Texts", "gridKinh"); 
+        await fetchCol("Infographics_Library", "gridInfo"); 
+        await fetchCol("Video_Shorts", "gridVideo");
+        await fetchCol("Audio_Lectures", "gridAudio");
+    }
+    loadAll();
+</script>
 
-        if (currentTab === 'Video_Shorts') {
-            upData.youtube_id = document.getElementById('editInpSpecial').value;
-        } else if (currentTab === 'Audio_Lectures') {
-            upData.spotify_id = document.getElementById('editInpSpecial').value;
-        } else {
-            upData.img = document.getElementById('editInpSpecial').value;
-            upData.content_full = document.getElementById('editInpContent').value;
+<script>
+    function moBaiHoc(id) {
+        const d = window.baiHocData[id];
+        if (d) {
+            document.getElementById('mTitle').innerText = d.title;
+            document.getElementById('mImg').src = d.img || "";
+            document.getElementById('mBody').innerText = d.content_full || "";
+            document.getElementById('modalDoc').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
-
-        await updateDoc(doc(db, currentTab, id), upData);
-        alert("Đã cập nhật!");
-        document.getElementById('editModal').style.display = 'none';
-        loadPosts();
-    };
-
-    window.toggleHide = async (id, currentHidden) => {
-        await updateDoc(doc(db, currentTab, id), { hidden: !currentHidden });
-        loadPosts();
-    };
-
-    window.deletePost = async (id) => {
-        if(confirm("Xóa vĩnh viễn khỏi hệ thống?")) {
-            await deleteDoc(doc(db, currentTab, id));
-            loadPosts();
-        }
-    };
-
-    window.switchTab = (tab) => {
-        currentTab = tab;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-' + tab).classList.add('active');
-        loadPosts();
-    };
+    }
+    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; }
+    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
+    document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
+    function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
+    function locBai() {
+        let k = document.getElementById('searchInput').value.toLowerCase();
+        let items = document.getElementsByClassName('item-the');
+        for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "block" : "none"; }
+    }
 </script>
 </body>
 </html>
