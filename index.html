@@ -27,6 +27,9 @@
         .vach-video { border-color: var(--do); }
         .vach-audio { border-color: var(--tim); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        
+        /* Container cho bài đăng */
+        .wrapper-bai-hoc { display: flex; flex-direction: column; gap: 10px; }
         .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
@@ -39,12 +42,14 @@
         .video-title { padding: 12px; text-align: center; font-size: 21px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
         .the-audio { background: #121212; border-radius: 15px; overflow: hidden; border: 2px solid var(--tim); padding: 5px; }
         .audio-title { padding: 10px; font-size: 18px; font-weight: bold; color: var(--tim); text-align: center; text-transform: capitalize; }
+
+        /* Vùng bình luận trang chủ */
+        .fb-comment-box-outer { background: #0a0a0a; border-radius: 15px; padding: 10px; border: 1px solid #222; margin-top: -10px; margin-bottom: 20px; }
+
         #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
         .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
         .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
         .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
-        #commentSection { margin-top: 50px; padding: 20px; background: #0a0a0a; border-radius: 15px; border-top: 2px dashed #333; text-align: left; }
-        .comment-title { color: var(--vang-chanh); font-size: 24px; margin-bottom: 15px; text-transform: uppercase; }
         .support-text { font-size: 12px; color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 0 20px; }
     </style>
 </head>
@@ -56,13 +61,14 @@
 <header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
 <div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
 <div class="vung-chu-de"><div class="topic-scroll" id="topicList"></div></div>
+
 <div class="phan-muc"><div class="phan-tieu-de vach-kinh">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid-video"></div></div>
 <div class="phan-muc"><div class="phan-tieu-de vach-audio">🎧 IV. BÀI GIẢNG AUDIO</div><div id="gridAudio" class="grid-video"></div></div>
 
 <footer style="text-align:center; padding:40px 0 20px;">
-    <div class="support-text">Nếu thấy hữu ích, Quý vị có thể trợ duyên tài lực 10K hoặc 20K về TK 0909108890 (MB).</div>
+    <div class="support-text">Nếu thấy hữu ích, Quý vị có thể trợ duyên về TK 0909108890 (MB).</div>
     <div style="opacity:0.1; margin-top:20px; cursor:pointer;" onclick="location.href='admin.html'">⚙️</div>
 </footer>
 
@@ -72,10 +78,6 @@
         <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
         <img id="mImg" src="" class="img-popup">
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
-        <div id="commentSection">
-            <h3 class="comment-title">💬 Thảo luận & Ghi chú</h3>
-            <div id="fb-comment-box"></div>
-        </div>
     </div>
 </div>
 
@@ -86,6 +88,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     window.baiHocData = {};
+
     async function loadAll() {
         const fetchCol = async (name, gridId) => {
             const snap = await getDocs(collection(db, name));
@@ -95,17 +98,32 @@
                 if (d.hidden !== true) { 
                     window.baiHocData[id] = d;
                     const displayTitle = (d.title || "").toLowerCase();
+                    const fbUrl = `https://tuhocphat.com/?id=${id}`;
+                    
+                    let htmlCard = "";
                     if (name === "Video_Shorts") {
-                        grid.innerHTML += `<div class="the-video item-the"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${displayTitle}</div></div>`;
+                        htmlCard = `<div class="the-video"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${displayTitle}</div></div>`;
                     } else if (name === "Audio_Lectures") {
-                        grid.innerHTML += `<div class="the-audio item-the"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><div class="audio-title">${displayTitle}</div></div>`;
+                        // GIỮ NGUYÊN MÃ SPOTIFY CỦA BẠN
+                        htmlCard = `<div class="the-audio"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><div class="audio-title">${displayTitle}</div></div>`;
                     } else {
-                        grid.innerHTML += `<div class="the-916 item-the"><div class="anh-the" style="background-image: url('${d.img}')"></div><div class="noi-dung-the"><h3 class="the-title">${displayTitle}</h3><button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button></div></div>`;
+                        htmlCard = `<div class="the-916"><div class="anh-the" style="background-image: url('${d.img}')"></div><div class="noi-dung-the"><h3 class="the-title">${displayTitle}</h3><button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button></div></div>`;
                     }
+                    
+                    grid.innerHTML += `
+                        <div class="wrapper-bai-hoc item-the">
+                            ${htmlCard}
+                            <div class="fb-comment-box-outer">
+                                <div class="fb-comments" data-href="${fbUrl}" data-width="100%" data-numposts="3" data-colorscheme="dark"></div>
+                            </div>
+                        </div>`;
                 }
             });
         };
         await fetchCol("Nikaya_Texts", "gridKinh"); await fetchCol("Infographics_Library", "gridInfo"); await fetchCol("Video_Shorts", "gridVideo"); await fetchCol("Audio_Lectures", "gridAudio");
+        
+        // Kích hoạt bình luận sau khi load xong danh sách
+        if (window.FB) { FB.XFBML.parse(); }
     }
     loadAll();
 </script>
@@ -117,9 +135,6 @@
             document.getElementById('mTitle').innerText = d.title;
             document.getElementById('mImg').src = d.img || "";
             document.getElementById('mBody').innerText = d.content_full || "";
-            const commentContainer = document.getElementById('fb-comment-box');
-            commentContainer.innerHTML = `<div class="fb-comments" data-href="https://tuhocphat.com/?id=${id}" data-width="100%" data-numposts="5" data-colorscheme="dark"></div>`;
-            if (window.FB) { FB.XFBML.parse(commentContainer); }
             document.getElementById('modalDoc').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
@@ -131,7 +146,7 @@
     function locBai() {
         let k = document.getElementById('searchInput').value.toLowerCase();
         let items = document.getElementsByClassName('item-the');
-        for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "block" : "none"; }
+        for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "flex" : "none"; }
     }
 </script>
 </body>
