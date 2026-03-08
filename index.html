@@ -9,74 +9,51 @@
             --den: #000000; --nen-the: #1a1a1a; --vang-chanh: #ccff00; 
             --chu-trang: #ffffff; --xanh: #2e7d32; --cam: #e65100; --do: #c62828; --tim: #7b1fa2;
         }
-        body { 
-            background: var(--den); color: var(--chu-trang); 
-            font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; 
-        }
+        body { background: var(--den); color: var(--chu-trang); font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; }
         header { text-align: center; padding: 30px; border-bottom: 3px solid var(--vang-chanh); background: #0a0a0a; }
         h1 { font-size: 34px; color: var(--vang-chanh); text-transform: uppercase; margin: 0; }
-
-        /* Tìm kiếm */
         .search-box { padding: 20px; display: flex; justify-content: center; }
         #searchInput { width: 90%; max-width: 600px; padding: 12px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 20px; background: #000; color: #fff; text-align: center; }
-        
         .vung-chu-de { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #333; }
         .topic-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; }
         .chip { background: #263238; color: white; padding: 10px 20px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 18px; white-space: nowrap; cursor: pointer; }
-
-        /* Phân vùng */
         .phan-muc { padding: 25px 15px; }
         .phan-tieu-de { font-size: 28px; color: var(--vang-chanh); border-left: 8px solid; padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; }
         .vach-kinh { border-color: var(--xanh); }
         .vach-info { border-color: var(--cam); }
         .vach-video { border-color: var(--do); }
         .vach-audio { border-color: var(--tim); }
-
-        /* Grid hiển thị Thẻ bài */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
         .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
         .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
         .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         .the-title { margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3; text-transform: capitalize !important; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
         .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; margin-top: 5px; }
-
-        /* Grid Video & Audio */
         .grid-video { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .the-video { background: var(--nen-the); border-radius: 15px; overflow: hidden; border: 2px solid var(--do); }
         .video-box { position: relative; width: 100%; padding-bottom: 177.7%; height: 0; background: #000; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .video-title { padding: 12px; text-align: center; font-size: 21px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
-
-        /* Audio Card */
         .the-audio { background: #121212; border-radius: 15px; overflow: hidden; border: 2px solid var(--tim); padding: 5px; }
         .audio-title { padding: 10px; font-size: 18px; font-weight: bold; color: var(--tim); text-align: center; text-transform: capitalize; }
-
-        /* Popup */
         #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
         .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
         .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
         .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
 
-        /* Hệ thống bình luận trong Float */
+        /* Bình luận */
         #commentSection { margin-top: 50px; border-top: 2px dashed #333; padding-top: 30px; text-align: left; }
         .cmt-item { background: #111; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--vang-chanh); }
-        .cmt-reply { margin-left: 40px; background: #1a1a1a; border-left: 3px solid var(--xanh); border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 18px; }
-        .cmt-user { font-weight: bold; color: var(--vang-chanh); font-size: 18px; margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .btn-reply { color: var(--xanh); cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: underline; }
-        .input-group { background: #0a0a0a; padding: 15px; border-radius: 10px; margin-top: 20px; }
+        .cmt-reply { margin-left: 40px; background: #1a1a1a; border-left: 3px solid var(--xanh); border-radius: 8px; padding: 10px; margin-top: 10px; }
+        .btn-reply { color: var(--xanh); cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: underline; float: right; }
         textarea { width: 100%; padding: 12px; border-radius: 8px; background: #000; color: #fff; border: 1px solid #444; font-size: 18px; box-sizing: border-box; }
-        .btn-gui { background: var(--xanh); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 18px; }
-
-        /* Footer hỗ trợ */
-        .support-text { font-size: 12px; color: #555; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .btn-gui { background: var(--xanh); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
-
 <div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
-
 <div class="vung-chu-de"><div class="topic-scroll" id="topicList"></div></div>
 
 <div class="phan-muc"><div class="phan-tieu-de vach-kinh">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
@@ -85,27 +62,23 @@
 <div class="phan-muc"><div class="phan-tieu-de vach-audio">🎧 IV. BÀI GIẢNG AUDIO</div><div id="gridAudio" class="grid-video"></div></div>
 
 <footer style="text-align:center; padding:40px 0 20px;">
-    <div class="support-text">
-        Nếu thấy hữu ích, Quý vị có thể giúp duy trì trang web tuhocphat.com thông qua trợ duyên tài lực 10K hoặc 20K về TK 0909108890 (Momo, Ngân hàng MB). Chúng tôi xin hồi hướng công đức này đến tất cả quý vị đã luôn ủng hộ chúng tôi!
-    </div>
-    <div style="opacity:0.1; margin-top:20px; cursor:pointer;" onclick="location.href='quanlybl.html'">⚙️</div>
+    <div style="opacity:0.1; cursor:pointer;" onclick="location.href='quanlybl.html'">⚙️</div>
 </footer>
 
 <div id="modalDoc">
     <div class="modal-body-content">
         <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
-        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
+        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px;"></h2>
         <img id="mImg" src="" class="img-popup">
         <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
 
         <div id="commentSection">
-            <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN & GHI CHÚ</h3>
+            <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN</h3>
             <div id="commentList"></div>
-            
-            <div class="input-group">
-                <b id="replyingText" style="display:none; color:var(--xanh); margin-bottom:5px;">Đang trả lời... <span onclick="huyTraLoi()" style="color:red; cursor:pointer; margin-left:10px">[Hủy]</span></b>
-                <textarea id="txtNoiDung" placeholder="Nhập nội dung thảo luận..."></textarea>
-                <button class="btn-gui" onclick="guiBinhLuan()">GỬI BÌNH LUẬN</button>
+            <div style="margin-top:20px;">
+                <b id="replyText" style="display:none; color:var(--xanh)">Đang trả lời... <span onclick="huyReply()" style="color:red; cursor:pointer">[Hủy]</span></b>
+                <textarea id="txtCmt" placeholder="Nhập thảo luận..."></textarea>
+                <button class="btn-gui" onclick="guiCmt()">GỬI BÌNH LUẬN</button>
             </div>
         </div>
     </div>
@@ -120,9 +93,6 @@
         apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
         authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
         projectId: "thuvienphatgiao-fd07e",
-        storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
-        messagingSenderId: "342500331725",
-        appId: "1:342500331725:web:32795cf0146210f8019984",
         databaseURL: "https://thuvienphatgiao-fd07e-default-rtdb.asia-southeast1.firebasedatabase.app"
     };
 
@@ -131,28 +101,31 @@
     const rtdb = getDatabase(app);
 
     window.baiHocData = {};
-    window.currentPostId = null;
-    window.parentId = null;
-    let thoiGianCuoi = 0;
+    window.curId = null;
+    window.pId = null;
+    let lastSend = 0;
 
-    // Danh sách chặn rác/AI/Thô tục
-    const listCam = ["ngu", "dốt", "khùng", "điên", "đm", "vcl", "tài xỉu", "đánh đề", "ai", "trí tuệ nhân tạo", "openai", "gemini ai"];
+    // Bộ lọc từ khóa toàn diện (Tiếng Việt & Tiếng Anh)
+    const badWords = [
+        "sex", "porn", "naked", "fuck", "bitch", "shit", "adult", "casino", "gamble", "ai", "openai",
+        "tình dục", "khỏa thân", "đồi trụy", "phim người lớn", "tài xỉu", "cờ bạc", "ngu", "dốt", "đm", "vcl"
+    ];
 
     async function loadAll() {
         const fetchCol = async (name, gridId) => {
             const snap = await getDocs(collection(db, name));
             const grid = document.getElementById(gridId); grid.innerHTML = "";
             snap.forEach(doc => {
-                const id = doc.id; const d = doc.data(); 
-                if (d.hidden !== true) { 
+                const id = doc.id; const d = doc.data();
+                if (d.hidden !== true) {
                     window.baiHocData[id] = d;
-                    const displayTitle = (d.title || "Chưa có tựa").toLowerCase();
+                    const title = (d.title || "").toLowerCase();
                     if (name === "Video_Shorts") {
-                        grid.innerHTML += `<div class="the-video item-the"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${displayTitle}</div></div>`;
+                        grid.innerHTML += `<div class="the-video item-the"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${title}</div></div>`;
                     } else if (name === "Audio_Lectures") {
-                        grid.innerHTML += `<div class="the-audio item-the"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe><div class="audio-title">${displayTitle}</div></div>`;
+                        grid.innerHTML += `<div class="the-audio item-the"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" loading="lazy"></iframe><div class="audio-title">${title}</div></div>`;
                     } else {
-                        grid.innerHTML += `<div class="the-916 item-the"><div class="anh-the" style="background-image: url('${d.img}')"></div><div class="noi-dung-the"><h3 class="the-title">${displayTitle}</h3><button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button></div></div>`;
+                        grid.innerHTML += `<div class="the-916 item-the"><div class="anh-the" style="background-image: url('${d.img}')"></div><div class="noi-dung-the"><h3 class="the-title">${title}</h3><button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button></div></div>`;
                     }
                 }
             });
@@ -161,53 +134,40 @@
     }
     loadAll();
 
-    // Hệ thống tải bình luận đa cấp
-    window.loadComments = function(postId) {
-        onValue(ref(rtdb, `comments/${postId}`), (snapshot) => {
-            const list = document.getElementById('commentList');
-            list.innerHTML = "";
-            const data = snapshot.val();
-            if (!data) { list.innerHTML = "<p style='opacity:0.3'>Chưa có thảo luận nào.</p>"; return; }
-            Object.keys(data).forEach(key => {
-                const c = data[key];
+    window.loadComments = function(id) {
+        onValue(ref(rtdb, `comments/${id}`), (snap) => {
+            const list = document.getElementById('commentList'); list.innerHTML = "";
+            const data = snap.val();
+            if (!data) return;
+            Object.keys(data).forEach(k => {
+                const c = data[k];
                 if (!c.parentId && !c.isHidden) {
-                    let replies = "";
-                    Object.values(data).forEach(r => {
-                        if (r.parentId === key && !r.isHidden) {
-                            replies += `<div class="cmt-reply"><b>${r.isAdmin ? '🛡️ Admin' : '👤 Thành viên'}:</b> ${r.text}</div>`;
-                        }
-                    });
-                    list.innerHTML += `<div class="cmt-item"><div class="cmt-user"><span>👤 Người học</span><span class="btn-reply" onclick="chuanBiTraLoi('${key}')">Trả lời</span></div><div>${c.text}</div>${replies}</div>`;
+                    let reps = "";
+                    Object.values(data).forEach(r => { if (r.parentId === k && !r.isHidden) reps += `<div class="cmt-reply"><b>${r.isAdmin?'🛡️ Admin':'👤'}:</b> ${r.text}</div>`; });
+                    list.innerHTML += `<div class="cmt-item"><b>👤 Người học:</b><span class="btn-reply" onclick="setReply('${k}')">Trả lời</span><div>${c.text}</div>${reps}</div>`;
                 }
             });
         });
     }
 
-    // Gửi bình luận kèm bộ lọc
-    window.guiBinhLuan = function() {
-        const text = document.getElementById('txtNoiDung').value;
+    window.guiCmt = function() {
+        const txt = document.getElementById('txtCmt').value;
         const now = Date.now();
-        if (!text.trim()) return;
-        if (now - thoiGianCuoi < 10000) { alert("Vui lòng đợi 10 giây!"); return; }
-
-        const isSpam = listCam.some(tu => text.toLowerCase().includes(tu));
-        const newRef = push(ref(rtdb, `comments/${window.currentPostId}`));
-        set(newRef, {
-            text: text, parentId: window.parentId || null, timestamp: now, isAdmin: false, isHidden: isSpam
-        });
-
-        if (isSpam) alert("Bình luận của bạn sẽ được Admin kiểm duyệt.");
-        document.getElementById('txtNoiDung').value = "";
-        thoiGianCuoi = now;
-        huyTraLoi();
-    };
+        if (!txt.trim() || now - lastSend < 10000) return alert("Vui lòng chờ 10 giây!");
+        
+        const isSpam = badWords.some(w => txt.toLowerCase().includes(w));
+        push(ref(rtdb, `comments/${window.curId}`), { text: txt, parentId: window.pId || null, timestamp: now, isAdmin: false, isHidden: isSpam });
+        
+        if (isSpam) alert("Bình luận chứa từ khóa nhạy cảm và sẽ được Admin kiểm duyệt.");
+        document.getElementById('txtCmt').value = ""; lastSend = now; huyReply();
+    }
 </script>
 
 <script>
     function moBaiHoc(id) {
         const d = window.baiHocData[id];
         if (d) {
-            window.currentPostId = id;
+            window.curId = id;
             document.getElementById('mTitle').innerText = d.title;
             document.getElementById('mImg').src = d.img || "";
             document.getElementById('mBody').innerText = d.content_full || "";
@@ -216,18 +176,17 @@
             window.loadComments(id);
         }
     }
-    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; huyTraLoi(); }
-    function chuanBiTraLoi(id) { window.parentId = id; document.getElementById('replyingText').style.display = 'block'; document.getElementById('txtNoiDung').focus(); }
-    function huyTraLoi() { window.parentId = null; document.getElementById('replyingText').style.display = 'none'; }
-    
-    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
-    document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
-    function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
+    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; }
+    function setReply(id) { window.pId = id; document.getElementById('replyText').style.display = 'block'; document.getElementById('txtCmt').focus(); }
+    function huyReply() { window.pId = null; document.getElementById('replyText').style.display = 'none'; }
     function locBai() {
         let k = document.getElementById('searchInput').value.toLowerCase();
         let items = document.getElementsByClassName('item-the');
         for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "block" : "none"; }
     }
+    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
+    document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
+    function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
 </script>
 </body>
 </html>
