@@ -1,0 +1,469 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-01",
+    "translator": "HT. Thích Minh Châu",
+    "source": "Viện Nghiên Cứu Phật Học Việt Nam",
+    "license": "Phi lợi nhuận - Giáo dục"
+  },
+
+  "phap_cu": {
+    "id": "phap-cu",
+    "title": "Kinh Pháp Cú",
+    "titlePali": "Dhammapada",
+    "description": "Bộ kinh gồm 423 kệ ngôn của Đức Phật, chia thành 26 phẩm, là tinh túy của toàn bộ giáo pháp.",
+    "thumbnail": "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=400",
+    "totalVerses": 423,
+    "chapters": [
+      {
+        "id": "phap-cu-pham-01",
+        "chapter": 1,
+        "title": "Phẩm Song Yếu",
+        "titlePali": "Yamakavagga",
+        "description": "Phẩm đầu tiên nói về sự tương phản giữa tâm lành và tâm dữ, hành thiện và hành ác.",
+        "verses": [
+          {
+            "id": "pc-1-1",
+            "number": 1,
+            "pali": "Manopubbaṅgamā dhammā, manoseṭṭhā manomayā; manasā ce paduṭṭhena, bhāsati vā karoti vā; tato naṃ dukkhamanveti, cakkaṃva vahato padaṃ.",
+            "vietnamese": "Tâm dẫn đầu các pháp, tâm làm chủ, tâm tạo tác. Nếu với tâm ô nhiễm, nói lên hay hành động, khổ não bước theo sau, như bánh xe theo chân.",
+            "commentary": "Kệ này nói lên nguyên lý căn bản: mọi hành động của thân, khẩu, ý đều bắt nguồn từ tâm. Tâm ô nhiễm dẫn đến đau khổ, như bánh xe lăn theo dấu chân con bò kéo xe.",
+            "keywords": ["tâm", "nghiệp", "đau khổ", "hành động"]
+          },
+          {
+            "id": "pc-1-2",
+            "number": 2,
+            "pali": "Manopubbaṅgamā dhammā, manoseṭṭhā manomayā; manasā ce pasannena, bhāsati vā karoti vā; tato naṃ sukhamanveti, chāyāva anapāyinī.",
+            "vietnamese": "Tâm dẫn đầu các pháp, tâm làm chủ, tâm tạo tác. Nếu với tâm thanh tịnh, nói lên hay hành động, an lạc bước theo sau, như bóng, chẳng rời hình.",
+            "commentary": "Đối lập với kệ trước, nếu tâm trong sáng, hành động thiện lành thì hạnh phúc sẽ đến tự nhiên, không thể tránh khỏi, như bóng theo hình.",
+            "keywords": ["tâm", "hạnh phúc", "thiện", "thanh tịnh"]
+          },
+          {
+            "id": "pc-1-3",
+            "number": 3,
+            "pali": "Akkocchi maṃ avadhi maṃ, ajini maṃ ahāsi me; ye taṃ upanayhanti, veraṃ tesaṃ na sammati.",
+            "vietnamese": "\"Nó mắng tôi, đánh tôi, nó thắng tôi, cướp của tôi.\" Ai ôm hiềm hận ấy, hận thù không thể nguôi.",
+            "commentary": "Lòng thù hận nuôi dưỡng bởi những suy nghĩ tiêu cực sẽ không bao giờ chấm dứt nếu ta cứ mãi nhớ đến những tổn thương đã qua.",
+            "keywords": ["sân hận", "tha thứ", "oán thù", "buông bỏ"]
+          },
+          {
+            "id": "pc-1-4",
+            "number": 4,
+            "pali": "Akkocchi maṃ avadhi maṃ, ajini maṃ ahāsi me; ye taṃ na upanayhanti, veraṃ tesūpasammati.",
+            "vietnamese": "\"Nó mắng tôi, đánh tôi, nó thắng tôi, cướp của tôi.\" Ai không ôm hiềm hận, oán thù được tự nguôi.",
+            "commentary": "Chỉ khi nào ta từ bỏ những suy nghĩ hận thù, oán thù mới có thể chấm dứt. Đây là con đường tự giải thoát khỏi khổ đau.",
+            "keywords": ["buông bỏ", "tha thứ", "bình an", "tự do"]
+          },
+          {
+            "id": "pc-1-5",
+            "number": 5,
+            "pali": "Na hi verena verāni, sammantīdha kudācanaṃ; averena ca sammanti, esa dhammo sanantano.",
+            "vietnamese": "Với hận diệt hận thù, đời này không có được. Không hận diệt hận thù, là định luật ngàn thu.",
+            "commentary": "Đây là một trong những kệ nổi tiếng nhất của Pháp Cú. Thù hận không thể giải quyết bằng thù hận, chỉ có tình thương và từ bi mới có thể chấm dứt vòng xoáy hận thù.",
+            "keywords": ["từ bi", "hận thù", "tình thương", "chân lý"]
+          }
+        ]
+      },
+      {
+        "id": "phap-cu-pham-02",
+        "chapter": 2,
+        "title": "Phẩm Không Phóng Dật",
+        "titlePali": "Appamādavagga",
+        "description": "Phẩm nói về tầm quan trọng của sự không xao lãng, tinh tấn trong tu tập.",
+        "verses": [
+          {
+            "id": "pc-2-21",
+            "number": 21,
+            "pali": "Appamādo amatapadaṃ, pamādo maccuno padaṃ; appamattā na mīyanti, ye pamattā yathā matā.",
+            "vietnamese": "Không phóng dật, đường sống; phóng dật là đường chết. Người không phóng dật, sống; kẻ phóng dật như chết.",
+            "commentary": "Appamāda (không phóng dật) là nền tảng của mọi công phu tu tập. Đức Phật xem đây là con đường dẫn đến bất tử (Nibbāna), trong khi phóng dật là nguyên nhân của mọi sa đọa.",
+            "keywords": ["tinh tấn", "không phóng dật", "tu tập", "chánh niệm"]
+          },
+          {
+            "id": "pc-2-22",
+            "number": 22,
+            "pali": "Evaṃ visesato ñatvā, appamādamhi paṇḍitā; appamāde pamodanti, ariyānaṃ gocare ratā.",
+            "vietnamese": "Biết rõ như vậy rồi, người trí không phóng dật, không phóng dật, hoan hỷ, trong cõi giới bậc Thánh.",
+            "commentary": "Người trí tuệ hiểu rõ giá trị của không phóng dật sẽ an trú trong trạng thái này, tìm thấy niềm vui thực sự trong con đường của các bậc Thánh nhân.",
+            "keywords": ["trí tuệ", "hoan hỷ", "bậc Thánh", "tu tập"]
+          }
+        ]
+      },
+      {
+        "id": "phap-cu-pham-08",
+        "chapter": 8,
+        "title": "Phẩm Ngàn",
+        "titlePali": "Sahassavagga",
+        "description": "Phẩm nói về chất lượng hơn số lượng trong lời nói và hành động.",
+        "verses": [
+          {
+            "id": "pc-8-100",
+            "number": 100,
+            "pali": "Sahassamapi ce vācā, anatthapadasaṃhitā; ekaṃ atthapadaṃ seyyo, yaṃ sutvā upasammati.",
+            "vietnamese": "Dù nói ngàn ngàn lời, nhưng không gì lợi ích, tốt hơn một câu nghĩa, nghe xong được tịnh lạc.",
+            "commentary": "Phật dạy rằng chất lượng của lời nói quan trọng hơn số lượng. Một câu nói đúng nghĩa, mang lại bình an, có giá trị hơn ngàn câu lời rỗng tuếch.",
+            "keywords": ["lời nói", "chánh ngữ", "trí tuệ", "tịnh lạc"]
+          }
+        ]
+      }
+    ]
+  },
+
+  "chuyen_phap_luan": {
+    "id": "chuyen-phap-luan",
+    "title": "Kinh Chuyển Pháp Luân",
+    "titlePali": "Dhammacakkappavattana Sutta",
+    "titleSource": "Tương Ưng Bộ Kinh, SN 56.11",
+    "description": "Bài pháp đầu tiên Đức Phật thuyết cho 5 anh em Kondanna tại Vườn Lộc Uyển. Đây được xem là sự kiện \"Chuyển Pháp Luân\" - bánh xe Chánh Pháp lần đầu tiên được vận chuyển.",
+    "thumbnail": "https://images.unsplash.com/photo-1583324113626-70df0f4deaab?w=400",
+    "sections": [
+      {
+        "id": "cpl-01",
+        "title": "Lời Giới Thiệu",
+        "content": "Như vầy tôi nghe. Một thời Thế Tôn trú ở Bārāṇasī (Ba-la-nại), tại Isipatana (Chư Tiên đọa xứ), Migadāya (Vườn Lộc Uyển). Ở đây Thế Tôn nói với nhóm năm vị Tỷ-kheo..."
+      },
+      {
+        "id": "cpl-02",
+        "title": "Hai Cực Đoan Cần Tránh",
+        "content": "Này các Tỷ-kheo, có hai cực đoan này, người xuất gia không nên thực hành. Thế nào là hai? Sự đam mê dục lạc thấp hèn, phàm tục, của kẻ phàm phu, không dẫn đến mục tiêu, không đưa đến lợi ích. Và sự chuyên tâm khổ hạnh, đau khổ, không cao thượng, không đưa đến mục tiêu, không đưa đến lợi ích. Này các Tỷ-kheo, không tiếp cận hai cực đoan này, Như Lai giác ngộ con đường Trung Đạo.",
+        "keywords": ["Trung Đạo", "khổ hạnh", "dục lạc", "cực đoan"]
+      },
+      {
+        "id": "cpl-03",
+        "title": "Con Đường Trung Đạo - Bát Chánh Đạo",
+        "content": "Này các Tỷ-kheo, thế nào là con đường Trung Đạo được Như Lai giác ngộ, con đường đưa đến mắt nhìn, đưa đến trí biết, đưa đến an tịnh, đưa đến thắng trí, đưa đến giác ngộ, đưa đến Niết Bàn? Chính là con đường Thánh tám ngành này: Chánh Kiến, Chánh Tư Duy, Chánh Ngữ, Chánh Nghiệp, Chánh Mạng, Chánh Tinh Tấn, Chánh Niệm, Chánh Định.",
+        "keywords": ["Bát Chánh Đạo", "Trung Đạo", "Niết Bàn", "giải thoát"]
+      },
+      {
+        "id": "cpl-04",
+        "title": "Tứ Diệu Đế",
+        "content": "Này các Tỷ-kheo, đây là Khổ Thánh đế: Sinh là khổ, già là khổ, bệnh là khổ, chết là khổ, sầu, bi, khổ, ưu não là khổ; cầu không được là khổ; tóm lại, năm thủ uẩn là khổ.\n\nNày các Tỷ-kheo, đây là Khổ Tập Thánh đế: chính là tham ái đưa đến tái sinh, câu hữu với hỷ và tham, tìm cầu hỷ lạc chỗ này chỗ kia; tức là dục ái, hữu ái, phi hữu ái.\n\nNày các Tỷ-kheo, đây là Khổ Diệt Thánh đế: chính là sự diệt tận không còn dư tàn, sự xả ly, sự đoạn tận, sự giải thoát, sự không chấp thủ đối với tham ái ấy.\n\nNày các Tỷ-kheo, đây là Khổ Diệt Đạo Thánh đế: chính là con đường Thánh tám ngành.",
+        "keywords": ["Tứ Diệu Đế", "Khổ đế", "Tập đế", "Diệt đế", "Đạo đế", "tham ái"]
+      },
+      {
+        "id": "cpl-05",
+        "title": "Giác Ngộ Của Ngài Kondanna",
+        "content": "Trong khi bài pháp này được nói lên, Tôn giả Kondanna sanh khởi pháp nhãn thanh tịnh, không cấu uế: \"Phàm vật gì có tánh khởi, vật ấy đều có tánh diệt.\" Rồi Thế Tôn nói: \"Này các Tỷ-kheo, Kondanna đã hiểu! Kondanna đã hiểu!\" Từ đó, Tôn giả Kondanna có tên là Aññā-Kondanna (Kondanna đã biết).",
+        "keywords": ["Kondanna", "pháp nhãn", "giác ngộ", "tánh khởi tánh diệt"]
+      }
+    ]
+  },
+
+  "nikaya": {
+    "truong_bo": {
+      "id": "truong-bo",
+      "title": "Trường Bộ Kinh",
+      "titlePali": "Dīgha Nikāya",
+      "abbreviation": "DN",
+      "description": "Bộ kinh gồm 34 bài kinh dài, chứa đựng những bài thuyết pháp quan trọng nhất của Đức Phật.",
+      "thumbnail": "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=400",
+      "totalSuttas": 34,
+      "suttas": [
+        {
+          "id": "dn-01",
+          "number": 1,
+          "title": "Kinh Phạm Võng",
+          "titlePali": "Brahmajāla Sutta",
+          "titleVietnamese": "Brahmajāla Sutta",
+          "description": "Đức Phật phân tích 62 tà kiến về bản ngã và thế giới, chỉ ra sự sai lầm của các quan điểm này và con đường thoát khỏi chúng.",
+          "keywords": ["tà kiến", "bản ngã", "thế giới", "tri kiến"],
+          "sections": [
+            {
+              "id": "dn-01-s1",
+              "title": "Giới Thiệu",
+              "content": "Như vầy tôi nghe. Một thời Thế Tôn đang du hành trên con đường Rājagaha (Vương Xá) và Nālandā, cùng với đại chúng Tỷ-kheo. Bấy giờ có du sĩ Suppiya cũng đang đi trên con đường ấy cùng với đệ tử của mình là thanh niên Brahmadatta."
+            },
+            {
+              "id": "dn-01-s2",
+              "title": "Giới Nhỏ",
+              "content": "Này các Tỷ-kheo, có những pháp nhỏ nhặt, ti tiện, thuộc giới hạnh mà kẻ phàm phu tán thán Như Lai. Này các Tỷ-kheo, thế nào là những pháp nhỏ nhặt, ti tiện, thuộc giới hạnh mà kẻ phàm phu tán thán Như Lai? Từ bỏ sát sinh, này các Tỷ-kheo, Sa-môn Gotama sống từ bỏ sát sinh, đặt gậy xuống, đặt kiếm xuống, sống khiêm tốn, từ bi, thương xót tất cả chúng sinh có mạng sống.",
+              "keywords": ["giới hạnh", "bất sát", "từ bi", "Sa-môn Gotama"]
+            },
+            {
+              "id": "dn-01-s3",
+              "title": "Sáu Mươi Hai Tà Kiến",
+              "content": "Này các Tỷ-kheo, có những Sa-môn, Bà-la-môn luận giải về quá khứ, có những Sa-môn, Bà-la-môn luận giải về tương lai, có những Sa-môn, Bà-la-môn luận giải về quá khứ và tương lai, chủ trương nhiều quan điểm sai biệt. Họ nêu lên 62 luận điểm... Này các Tỷ-kheo, Như Lai hiểu rõ chúng. Và nếu chứng đắc, hiểu rõ hơn như vậy, Như Lai không chấp thủ và vì không chấp thủ, Như Lai tự mình chứng được Niết-bàn.",
+              "keywords": ["tà kiến", "62 kiến", "chấp thủ", "Niết-bàn"]
+            }
+          ]
+        },
+        {
+          "id": "dn-09",
+          "number": 9,
+          "title": "Kinh Potthapāda",
+          "titlePali": "Poṭṭhapāda Sutta",
+          "description": "Đức Phật thảo luận về bản chất của tưởng (perception) và không trả lời các câu hỏi siêu hình vô ích.",
+          "keywords": ["tưởng", "vô ký", "siêu hình", "im lặng cao quý"],
+          "sections": [
+            {
+              "id": "dn-09-s1",
+              "title": "Cuộc Gặp Gỡ Với Potthapāda",
+              "content": "Một thời Thế Tôn trú ở Sāvatthī (Xá-vệ), tại Pubbārāma (Đông Viên), lầu của Migāramātu (Lộc Mẫu). Bấy giờ du sĩ Potthapāda đang trú tại giảng đường của Tinduka (Bà-la-môn), bờ hồ Kummāsadamma (Hồ Nghĩa)."
+            }
+          ]
+        },
+        {
+          "id": "dn-22",
+          "number": 22,
+          "title": "Kinh Đại Niệm Xứ",
+          "titlePali": "Mahāsatipaṭṭhāna Sutta",
+          "description": "Bài kinh quan trọng nhất về thiền định, trình bày đầy đủ về bốn lĩnh vực quán niệm: thân, thọ, tâm, pháp.",
+          "keywords": ["thiền định", "chánh niệm", "Tứ Niệm Xứ", "Vipassana"],
+          "sections": [
+            {
+              "id": "dn-22-s1",
+              "title": "Con Đường Độc Nhất",
+              "content": "Này các Tỷ-kheo, đây là con đường độc nhất đưa đến thanh tịnh cho chúng sinh, vượt khỏi sầu não, diệt trừ khổ ưu, thành tựu Chánh lý, chứng ngộ Niết-bàn. Đó là Bốn Niệm Xứ."
+            },
+            {
+              "id": "dn-22-s2",
+              "title": "Quán Thân Trên Thân",
+              "content": "Và này các Tỷ-kheo, thế nào là Tỷ-kheo sống quán thân trên thân? Ở đây, này các Tỷ-kheo, Tỷ-kheo đi đến rừng, hay đến gốc cây, hay đến ngôi nhà trống và ngồi kiết già, lưng thẳng và an trú chánh niệm trước mặt. Tỉnh giác, vị ấy thở vào; tỉnh giác, vị ấy thở ra.",
+              "keywords": ["thân niệm xứ", "hơi thở", "thiền định", "kiết già"]
+            },
+            {
+              "id": "dn-22-s3",
+              "title": "Quán Thọ Trên Thọ",
+              "content": "Và này các Tỷ-kheo, thế nào là Tỷ-kheo sống quán thọ trên các thọ? Ở đây, này các Tỷ-kheo, khi cảm thọ lạc thọ, Tỷ-kheo tuệ tri: 'Tôi cảm thọ lạc thọ'; khi cảm thọ khổ thọ, tuệ tri: 'Tôi cảm thọ khổ thọ'; khi cảm thọ bất khổ bất lạc thọ, tuệ tri: 'Tôi cảm thọ bất khổ bất lạc thọ'.",
+              "keywords": ["thọ niệm xứ", "lạc thọ", "khổ thọ", "xả thọ"]
+            }
+          ]
+        }
+      ]
+    },
+
+    "trung_bo": {
+      "id": "trung-bo",
+      "title": "Trung Bộ Kinh",
+      "titlePali": "Majjhima Nikāya",
+      "abbreviation": "MN",
+      "description": "Bộ kinh gồm 152 bài kinh trung bình, đề cập đến nhiều khía cạnh của giáo lý và con đường tu tập.",
+      "thumbnail": "https://images.unsplash.com/photo-1604537372136-89b3dae196e3?w=400",
+      "totalSuttas": 152,
+      "suttas": [
+        {
+          "id": "mn-01",
+          "number": 1,
+          "title": "Kinh Pháp Môn Căn Bản",
+          "titlePali": "Mūlapariyāya Sutta",
+          "description": "Phân tích sự khác biệt giữa cách nhận thức của người phàm phu, bậc hữu học và bậc A-la-hán đối với tất cả pháp.",
+          "keywords": ["căn bản", "nhận thức", "A-la-hán", "phàm phu"],
+          "sections": [
+            {
+              "id": "mn-01-s1",
+              "title": "Mở Đầu",
+              "content": "Như vầy tôi nghe. Một thời Thế Tôn trú ở Ukkaṭṭhā, tại Subhagavana (Thắng Lâm), dưới gốc cây sāla vương. Ở đây Thế Tôn gọi các Tỷ-kheo: 'Này các Tỷ-kheo.' Các Tỷ-kheo ấy đáp lại: 'Thưa vâng, Thế Tôn.' Thế Tôn giảng như sau."
+            },
+            {
+              "id": "mn-01-s2",
+              "title": "Nhận Thức Của Phàm Phu",
+              "content": "Ở đây, này các Tỷ-kheo, kẻ vô văn phàm phu không thấy rõ các bậc Thánh, không thuần thục pháp các bậc Thánh, không tu tập pháp các bậc Thánh; không thấy rõ các bậc Chân nhân, không thuần thục pháp các bậc Chân nhân, không tu tập pháp các bậc Chân nhân; nhận thức đất là đất. Sau khi nhận thức đất là đất, vị ấy nghĩ đến đất, nghĩ đến (vật) trên đất, nghĩ đến (vật) từ đất, nghĩ: 'Đất là của ta', vị ấy hoan hỷ trong đất. Vì sao vậy? Ta nói rằng vị ấy không giác ngộ thấu đáo.",
+              "keywords": ["phàm phu", "vô minh", "chấp thủ", "bản ngã"]
+            }
+          ]
+        },
+        {
+          "id": "mn-10",
+          "number": 10,
+          "title": "Kinh Niệm Xứ",
+          "titlePali": "Satipaṭṭhāna Sutta",
+          "description": "Phiên bản ngắn hơn của Kinh Đại Niệm Xứ, trình bày bốn nền tảng của chánh niệm.",
+          "keywords": ["Tứ Niệm Xứ", "chánh niệm", "thiền Vipassana", "tu tập"],
+          "sections": [
+            {
+              "id": "mn-10-s1",
+              "title": "Con Đường Duy Nhất",
+              "content": "Này các Tỷ-kheo, đây là con đường độc nhất đưa đến thanh tịnh cho chúng sinh, vượt khỏi sầu não, diệt trừ khổ ưu, thành tựu Chánh lý, chứng ngộ Niết-bàn. Đó là Bốn Niệm Xứ. Thế nào là bốn? Này các Tỷ-kheo, ở đây Tỷ-kheo sống quán thân trên thân, nhiệt tâm, tỉnh giác, chánh niệm, để chế ngự tham ưu ở đời..."
+            }
+          ]
+        },
+        {
+          "id": "mn-36",
+          "number": 36,
+          "title": "Kinh Đại Saccaka",
+          "titlePali": "Mahāsaccaka Sutta",
+          "description": "Đức Phật thuật lại cuộc tìm kiếm giác ngộ của mình, từ khổ hạnh đến giác ngộ dưới cội Bồ-đề.",
+          "keywords": ["giác ngộ", "Bồ-đề", "khổ hạnh", "tự thuật"],
+          "sections": [
+            {
+              "id": "mn-36-s1",
+              "title": "Gặp Gỡ Aggivessana",
+              "content": "Như vầy tôi nghe. Một thời Thế Tôn trú ở Vesāli, tại rừng Mahāvana, ở ngôi nhà có nóc nhọn. Rồi du sĩ Saccaka, con trai của Nigaṇṭha, bộ hành đến Vesāli để tập thể dục vào buổi sáng."
+            },
+            {
+              "id": "mn-36-s2",
+              "title": "Con Đường Tìm Giác Ngộ",
+              "content": "Này Aggivessana, trước khi Ta giác ngộ, khi còn là Bồ-tát chưa giác ngộ, Ta suy nghĩ: 'Tại gia bị ô nhiễm, xuất gia như hư không. Sống tại gia, thật không dễ sống đời hoàn toàn đầy đủ, hoàn toàn thanh tịnh, trắng như vỏ ốc.' Và rồi Ta, sau khi cạo bỏ râu tóc, đắp áo cà sa, xuất gia từ bỏ gia đình, sống không gia đình.",
+              "keywords": ["Bồ-tát", "xuất gia", "tìm cầu giải thoát", "quyết tâm"]
+            }
+          ]
+        }
+      ]
+    },
+
+    "tuong_ung_bo": {
+      "id": "tuong-ung-bo",
+      "title": "Tương Ưng Bộ Kinh",
+      "titlePali": "Saṃyutta Nikāya",
+      "abbreviation": "SN",
+      "description": "Bộ kinh gồm 2.889 bài kinh nhóm theo chủ đề, từ Tứ Diệu Đế đến các pháp tu cụ thể.",
+      "thumbnail": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400",
+      "totalSuttas": 2889,
+      "suttas": [
+        {
+          "id": "sn-56-11",
+          "number": "56.11",
+          "title": "Kinh Chuyển Pháp Luân",
+          "titlePali": "Dhammacakkappavattana Sutta",
+          "description": "Bài Pháp đầu tiên - xem chi tiết trong mục 'Kinh Chuyển Pháp Luân' để đọc đầy đủ.",
+          "keywords": ["Tứ Diệu Đế", "Bát Chánh Đạo", "Kondanna", "chuyển pháp luân"],
+          "linkedContent": "chuyen_phap_luan"
+        },
+        {
+          "id": "sn-12-1",
+          "number": "12.1",
+          "title": "Kinh Duyên Khởi",
+          "titlePali": "Paṭicca-samuppāda Sutta",
+          "description": "Mười hai chi phần Duyên Khởi - lý thuyết trung tâm của Phật giáo về nguyên nhân và kết quả.",
+          "keywords": ["Duyên khởi", "12 nhân duyên", "vô minh", "khổ đau"],
+          "sections": [
+            {
+              "id": "sn-12-1-s1",
+              "title": "Mười Hai Chi Duyên Khởi",
+              "content": "Này các Tỷ-kheo, thế nào là lý Duyên khởi? Do vô minh duyên, hành sinh; do hành duyên, thức sinh; do thức duyên, danh sắc sinh; do danh sắc duyên, sáu xứ sinh; do sáu xứ duyên, xúc sinh; do xúc duyên, thọ sinh; do thọ duyên, ái sinh; do ái duyên, thủ sinh; do thủ duyên, hữu sinh; do hữu duyên, sinh sinh; do sinh duyên, lão tử, sầu, bi, khổ, ưu, não sinh. Như vậy là sự tập khởi của toàn bộ khổ uẩn này.",
+              "keywords": ["vô minh", "hành", "thức", "danh sắc", "sáu xứ", "ái", "thủ", "hữu"]
+            },
+            {
+              "id": "sn-12-1-s2",
+              "title": "Đoạn Diệt Duyên Khởi",
+              "content": "Do vô minh diệt tận, không có dư tàn, hành diệt; do hành diệt, thức diệt; do thức diệt, danh sắc diệt; do danh sắc diệt, sáu xứ diệt; do sáu xứ diệt, xúc diệt; do xúc diệt, thọ diệt; do thọ diệt, ái diệt; do ái diệt, thủ diệt; do thủ diệt, hữu diệt; do hữu diệt, sinh diệt; do sinh diệt, lão tử, sầu, bi, khổ, ưu, não diệt. Như vậy là sự đoạn diệt của toàn bộ khổ uẩn này.",
+              "keywords": ["đoạn diệt", "giải thoát", "Niết-bàn", "vô minh diệt"]
+            }
+          ]
+        }
+      ]
+    },
+
+    "tang_chi_bo": {
+      "id": "tang-chi-bo",
+      "title": "Tăng Chi Bộ Kinh",
+      "titlePali": "Aṅguttara Nikāya",
+      "abbreviation": "AN",
+      "description": "Bộ kinh được sắp xếp theo số thứ tự từ 1 đến 11, tổng cộng 9.557 bài kinh ngắn về các pháp môn tu tập thực tiễn.",
+      "thumbnail": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400",
+      "totalSuttas": 9557,
+      "suttas": [
+        {
+          "id": "an-3-65",
+          "number": "3.65",
+          "title": "Kinh Kālāmā",
+          "titlePali": "Kālāma Sutta",
+          "description": "Bài kinh nổi tiếng về tự do tư tưởng và kinh nghiệm thực chứng, đôi khi được gọi là 'Hiến Chương Phật Giáo về Tự Do Tư Tưởng'.",
+          "keywords": ["tự do tư tưởng", "kinh nghiệm", "phán xét", "Kālāmā"],
+          "sections": [
+            {
+              "id": "an-3-65-s1",
+              "title": "Đừng Tin Chỉ Vì...",
+              "content": "Này các Kālāmā, đừng tin vì nghe truyền thuyết; đừng tin vì theo truyền thống; đừng tin vì nghe tin đồn; đừng tin vì được ghi trong kinh điển; đừng tin vì lý luận; đừng tin vì suy diễn; đừng tin vì suy xét về lý do; đừng tin vì chấp nhận một quan điểm sau khi cân nhắc; đừng tin vì vị ấy có vẻ có năng lực; đừng tin vì nghĩ 'Đây là Thầy của ta'.",
+              "keywords": ["tự do tư tưởng", "không mù quáng", "phán xét độc lập", "kiểm nghiệm"]
+            },
+            {
+              "id": "an-3-65-s2",
+              "title": "Tiêu Chuẩn Để Tin",
+              "content": "Này các Kālāmā, khi nào các ông tự biết: 'Các pháp này là bất thiện, các pháp này là có tội, các pháp này bị người trí chỉ trích, các pháp này nếu được thực hiện và chấp nhận sẽ đưa đến bất lợi và khổ đau'; thì các ông hãy từ bỏ chúng, này các Kālāmā. Và khi nào các ông tự biết: 'Các pháp này là thiện, không có tội, được người trí tán thán, nếu thực hiện và chấp nhận sẽ đưa đến lợi ích và an lạc'; thì hãy chứng đạt và an trú.",
+              "keywords": ["thiện pháp", "bất thiện pháp", "trí tuệ", "thực chứng"]
+            }
+          ]
+        },
+        {
+          "id": "an-4-36",
+          "number": "4.36",
+          "title": "Kinh Dona",
+          "titlePali": "Dona Sutta",
+          "description": "Đức Phật giải thích Ngài là ai: không phải thiên nhân, không phải Gandharva, không phải Dạ-xoa, không phải người - Ngài là Phật.",
+          "keywords": ["Phật là gì", "giác ngộ", "bản chất Phật", "vượt trên thiên nhân"],
+          "sections": [
+            {
+              "id": "an-4-36-s1",
+              "title": "Cuộc Gặp Gỡ Với Brahmana Dona",
+              "content": "Rồi Bà-la-môn Doṇa thấy trên những dấu chân của Thế Tôn có hình bánh xe với đầy đủ một ngàn căm, vành xe và trục xe... Bà-la-môn Doṇa đến gặp Thế Tôn và hỏi: 'Thưa Tôn giả, có phải Tôn giả sẽ là một thiên nhân (deva)?'"
+            },
+            {
+              "id": "an-4-36-s2",
+              "title": "Ta Là Phật",
+              "content": "Thế Tôn đáp: 'Này Bà-la-môn, không phải Ta sẽ là thiên nhân... Những lậu hoặc chưa đoạn tận mà do đó Ta có thể là thiên nhân - những lậu hoặc ấy đã được đoạn tận, cắt đứt từ gốc rễ... Này Bà-la-môn, hãy nhớ Ta là Phật (Buddho ti maṃ dhārehi).'",
+              "keywords": ["Buddha", "lậu hoặc", "giác ngộ hoàn toàn", "vô lậu"]
+            }
+          ]
+        }
+      ]
+    },
+
+    "tieu_bo": {
+      "id": "tieu-bo",
+      "title": "Tiểu Bộ Kinh",
+      "titlePali": "Khuddaka Nikāya",
+      "abbreviation": "KN",
+      "description": "Bộ kinh gồm 18 tác phẩm đa dạng, từ Pháp Cú, Kinh Phật Tự Thuyết đến Bổn Sinh và Thiên Cung Sự.",
+      "thumbnail": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400",
+      "totalSuttas": 18,
+      "suttas": [
+        {
+          "id": "kn-dhp",
+          "number": "KN 2",
+          "title": "Kinh Pháp Cú",
+          "titlePali": "Dhammapada",
+          "description": "423 kệ ngôn tinh túy của Đức Phật - xem chi tiết trong mục 'Kinh Pháp Cú'.",
+          "keywords": ["Pháp Cú", "kệ ngôn", "thơ Phật giáo", "triết lý"],
+          "linkedContent": "phap_cu"
+        },
+        {
+          "id": "kn-ud-8-6",
+          "number": "Ud 8.6",
+          "title": "Kinh Phật Tự Thuyết - Niết Bàn",
+          "titlePali": "Udāna 8.6",
+          "description": "Đức Phật mô tả về Niết-bàn theo nhiều khía cạnh khác nhau.",
+          "keywords": ["Niết-bàn", "vô vi", "giải thoát", "bất sinh"],
+          "sections": [
+            {
+              "id": "kn-ud-8-6-s1",
+              "title": "Niết Bàn Là Gì",
+              "content": "Này các Tỷ-kheo, có cái không sinh, không hiện hữu, không được tạo ra, không được tác thành. Này các Tỷ-kheo, nếu không có cái không sinh, không hiện hữu, không được tạo ra, không được tác thành ấy, thì không thể biết được sự xuất ly khỏi cái sinh, hiện hữu, được tạo ra, được tác thành. Nhưng vì có cái không sinh, không hiện hữu, không được tạo ra, không được tác thành, nên biết được sự xuất ly khỏi cái sinh, hiện hữu, được tạo ra, được tác thành.",
+              "keywords": ["Niết-bàn", "bất sinh", "vô vi", "xuất ly"]
+            }
+          ]
+        },
+        {
+          "id": "kn-sn-1-1",
+          "title": "Kinh Tập - Metta Sutta",
+          "titlePali": "Metta Sutta (Sn 1.8)",
+          "description": "Bài kinh về Từ Bi, là bài kinh phổ biến nhất trong việc thực hành rải lòng từ.",
+          "keywords": ["từ bi", "metta", "lòng từ", "rải từ"],
+          "sections": [
+            {
+              "id": "kn-sn-1-1-s1",
+              "title": "Karaṇīyametta Sutta",
+              "content": "Điều cần làm bởi người biết lợi ích, người khéo thực hành con đường an tịnh: Hãy có năng lực, thẳng thắn và rất thẳng thắn; dễ dạy, nhu mì, không kiêu mạn. Tri túc, dễ nuôi, ít bận rộn; sống thanh đạm, các căn tịch lặng; thông minh, không khinh suất, không quyến luyến gia đình. Không làm điều gì nhỏ nhặt mà bậc trí có thể chê. Hạnh phúc an lành cho tất cả chúng sinh! Hãy giữ tâm từ bi rải khắp tất cả.",
+              "keywords": ["lòng từ", "chúng sinh", "tu tập", "an lành"]
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  "search_index": {
+    "_description": "Flattened search index for fast client-side full-text search",
+    "entries": [
+      { "id": "pc-1-1", "type": "verse", "source": "phap_cu", "title": "Pháp Cú 1 - Phẩm Song Yếu", "text": "Tâm dẫn đầu các pháp, tâm làm chủ, tâm tạo tác. Nếu với tâm ô nhiễm, nói lên hay hành động, khổ não bước theo sau.", "keywords": "tâm nghiệp đau khổ hành động" },
+      { "id": "pc-1-5", "type": "verse", "source": "phap_cu", "title": "Pháp Cú 5 - Hận diệt hận thù", "text": "Với hận diệt hận thù, đời này không có được. Không hận diệt hận thù, là định luật ngàn thu.", "keywords": "từ bi hận thù tình thương" },
+      { "id": "pc-2-21", "type": "verse", "source": "phap_cu", "title": "Pháp Cú 21 - Không phóng dật", "text": "Không phóng dật, đường sống; phóng dật là đường chết. Người không phóng dật, sống; kẻ phóng dật như chết.", "keywords": "tinh tấn không phóng dật chánh niệm" },
+      { "id": "cpl-04", "type": "section", "source": "chuyen_phap_luan", "title": "Tứ Diệu Đế - Kinh Chuyển Pháp Luân", "text": "Khổ Thánh đế Khổ Tập Thánh đế Khổ Diệt Thánh đế Bát Chánh Đạo Trung Đạo tham ái Niết-bàn", "keywords": "Tứ Diệu Đế khổ tập diệt đạo" },
+      { "id": "dn-22", "type": "sutta", "source": "nikaya.truong_bo", "title": "Kinh Đại Niệm Xứ (DN 22)", "text": "Con đường độc nhất thiền định chánh niệm Tứ Niệm Xứ thân thọ tâm pháp Vipassana", "keywords": "thiền định chánh niệm niệm xứ Vipassana" },
+      { "id": "an-3-65", "type": "sutta", "source": "nikaya.tang_chi_bo", "title": "Kinh Kālāmā (AN 3.65)", "text": "Đừng tin vì nghe truyền thuyết truyền thống kinh điển tự do tư tưởng kiểm nghiệm thực chứng", "keywords": "tự do tư tưởng không mù quáng kiểm nghiệm" },
+      { "id": "sn-12-1", "type": "sutta", "source": "nikaya.tuong_ung_bo", "title": "Kinh Duyên Khởi (SN 12.1)", "text": "Mười hai chi phần duyên khởi vô minh hành thức danh sắc sáu xứ xúc thọ ái thủ hữu sinh lão tử", "keywords": "duyên khởi 12 nhân duyên vô minh" },
+      { "id": "kn-ud-8-6", "type": "sutta", "source": "nikaya.tieu_bo", "title": "Niết Bàn - Phật Tự Thuyết", "text": "Không sinh không hiện hữu không được tạo ra không được tác thành vô vi giải thoát Niết-bàn bất tử", "keywords": "Niết-bàn vô vi bất sinh giải thoát" },
+      { "id": "mn-10", "type": "sutta", "source": "nikaya.trung_bo", "title": "Kinh Niệm Xứ (MN 10)", "text": "Bốn niệm xứ chánh niệm thân thọ tâm pháp nhiệt tâm tỉnh giác", "keywords": "chánh niệm thiền tứ niệm xứ" }
+    ]
+  }
+}

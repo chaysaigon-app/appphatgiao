@@ -1,170 +1,1468 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thư Viện Tự Học Phật - Học Chánh Pháp</title>
-    <style>
-        :root {
-            --den: #000000; --nen-the: #1a1a1a; --vang-chanh: #ccff00; 
-            --chu-trang: #ffffff; --xanh: #2e7d32; --cam: #e65100; --do: #c62828; --tim: #7b1fa2;
-        }
-        body { background: var(--den); color: var(--chu-trang); font-family: Arial, sans-serif; margin: 0; padding-bottom: 80px; font-size: 20px; }
-        header { text-align: center; padding: 30px; border-bottom: 3px solid var(--vang-chanh); background: #0a0a0a; }
-        h1 { font-size: 34px; color: var(--vang-chanh); text-transform: uppercase; margin: 0; }
-        .search-box { padding: 20px; display: flex; justify-content: center; }
-        #searchInput { width: 90%; max-width: 600px; padding: 12px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 20px; background: #000; color: #fff; text-align: center; }
-        .vung-chu-de { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #333; }
-        .topic-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; }
-        .chip { background: #263238; color: white; padding: 10px 20px; border-radius: 40px; border: 2px solid var(--vang-chanh); font-size: 18px; white-space: nowrap; cursor: pointer; }
-        .phan-muc { padding: 25px 15px; }
-        .phan-tieu-de { font-size: 28px; color: var(--vang-chanh); border-left: 8px solid; padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; }
-        .vach-kinh { border-color: var(--xanh); }
-        .vach-info { border-color: var(--cam); }
-        .vach-video { border-color: var(--do); }
-        .vach-audio { border-color: var(--tim); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
-        .the-916 { display: flex; background: var(--nen-the); border-radius: 15px; overflow: hidden; height: 220px; border: 1px solid #333; }
-        .anh-the { width: 130px; min-width: 130px; background-size: cover; background-position: center; }
-        .noi-dung-the { flex: 1; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-        .the-title { margin: 0; font-size: 21px; color: #fff; font-weight: bold; line-height: 1.3; text-transform: capitalize !important; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
-        .nut-hoc { background: var(--vang-chanh); color: black; border: none; padding: 10px; border-radius: 8px; font-size: 18px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: fit-content; margin-top: 5px; }
-        .grid-video { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .the-video { background: var(--nen-the); border-radius: 15px; overflow: hidden; border: 2px solid var(--do); }
-        .video-box { position: relative; width: 100%; padding-bottom: 177.7%; height: 0; background: #000; }
-        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .video-title { padding: 12px; text-align: center; font-size: 21px; font-weight: bold; color: #fff; text-transform: capitalize !important; }
-        .the-audio { background: #121212; border-radius: 15px; overflow: hidden; border: 2px solid var(--tim); padding: 5px; }
-        .audio-title { padding: 10px; font-size: 18px; font-weight: bold; color: var(--tim); text-align: center; text-transform: capitalize; }
-        #modalDoc { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--den); z-index: 99999; overflow-y: scroll; }
-        .modal-body-content { max-width: 800px; margin: 0 auto; padding: 40px 20px 100px; text-align: center; }
-        .btn-dong { position: sticky; top: 20px; right: 0; z-index: 100000; float: right; padding: 12px 25px; background: var(--vang-chanh); color: #000; border: none; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
-        .img-popup { width: 100%; max-width: 450px; border-radius: 15px; margin: 25px 0; border: 2px solid var(--vang-chanh); }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tự Học Phật – Học Phật Pháp Mỗi Ngày</title>
+  <meta name="description" content="Nền tảng phi lợi nhuận học Phật Pháp trực tuyến. Kinh Nikaya, Pháp Cú, Pháp Thoại Video và Audio." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
-        /* Bình luận */
-        #commentSection { margin-top: 50px; border-top: 2px dashed #333; padding-top: 30px; text-align: left; }
-        .cmt-item { background: #111; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--vang-chanh); }
-        .cmt-reply { margin-left: 40px; background: #1a1a1a; border-left: 3px solid var(--xanh); border-radius: 8px; padding: 10px; margin-top: 10px; }
-        .btn-reply { color: var(--xanh); cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: underline; float: right; }
-        textarea { width: 100%; padding: 12px; border-radius: 8px; background: #000; color: #fff; border: 1px solid #444; font-size: 18px; box-sizing: border-box; }
-        .btn-gui { background: var(--xanh); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; }
-    </style>
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #1a1a1a;
+      --surface: #1e1e1e;
+      --surface2: #252525;
+      --border: rgba(255,255,255,0.08);
+      --gold: #ccff00;
+      --gold-dim: rgba(204,255,0,0.15);
+      --gold-glow: rgba(204,255,0,0.3);
+      --green: #22c55e;
+      --text: #f0f0f0;
+      --text2: #a0a0a0;
+      --text3: #606060;
+      --danger: #ef4444;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+      --shadow: 0 4px 24px rgba(0,0,0,0.5);
+      --shadow-gold: 0 0 20px rgba(204,255,0,0.2);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+    /* ===== KEYFRAMES ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(204,255,0,0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(204,255,0,0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ===== HEADER ===== */
+    #header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      position: relative;
+    }
+    .logo-icon svg { width: 100%; height: 100%; }
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .logo-text span { color: var(--gold); }
+
+    /* Search in header */
+    .header-search {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+    }
+    .header-search input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      padding: 9px 40px 9px 16px;
+      outline: none;
+      transition: var(--transition);
+    }
+    .header-search input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-dim);
+    }
+    .header-search input::placeholder { color: var(--text3); }
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text3);
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+
+    /* Auth */
+    .header-auth { flex-shrink: 0; }
+    #btn-login {
+      background: var(--gold);
+      color: #000;
+      font-weight: 500;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: 40px;
+      transition: var(--transition);
+    }
+    #btn-login:hover { opacity: 0.85; }
+    #user-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      cursor: pointer;
+      object-fit: cover;
+      display: none;
+      transition: var(--transition);
+    }
+    #user-avatar:hover { box-shadow: var(--shadow-gold); }
+
+    /* Search Results Dropdown */
+    #search-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0; right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 200;
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.2s ease;
+    }
+    #search-dropdown.active { display: block; }
+    .search-result-item {
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: background var(--transition);
+      border-bottom: 1px solid var(--border);
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--surface2); }
+    .sri-badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--gold-dim);
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .sri-badge.video { background: rgba(239,68,68,0.15); color: #f87171; }
+    .sri-badge.audio { background: rgba(34,197,94,0.15); color: var(--green); }
+    .sri-text { flex: 1; }
+    .sri-title { font-size: 0.9rem; font-weight: 500; }
+    .sri-sub { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+    .search-empty { padding: 24px; text-align: center; color: var(--text3); font-size: 0.9rem; }
+
+    /* ===== MAIN LAYOUT ===== */
+    main { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+    /* ===== SECTION HEADERS ===== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 40px 0 20px;
+      gap: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .icon { font-size: 1.2rem; }
+    .section-badge {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text3);
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+
+    /* ===== CARD GRID ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card-grid.tight { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      animation: fadeUp 0.4s ease both;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(204,255,0,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), var(--shadow-gold);
+    }
+    .card-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--bg3);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .card:hover .card-thumb img { transform: scale(1.05); }
+    .card-thumb .play-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.4);
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .card:hover .play-overlay { opacity: 1; }
+    .play-btn-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      color: #000;
+      font-size: 1.2rem;
+    }
+    .card-progress {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: rgba(255,255,255,0.1);
+    }
+    .card-progress-bar { height: 100%; background: var(--gold); transition: width 0.3s; }
+    .card-body { padding: 14px; }
+    .card-source {
+      font-size: 0.7rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text2);
+      margin-top: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      gap: 8px;
+    }
+    .btn-learn {
+      background: var(--gold-dim);
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+    .btn-learn:hover {
+      background: var(--gold);
+      color: #000;
+    }
+    .card-read-badge {
+      font-size: 0.7rem;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Skeleton loader */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--radius-sm);
+    }
+    .card-skeleton { border-radius: var(--radius); overflow: hidden; }
+    .card-skeleton .sk-thumb { height: 160px; }
+    .card-skeleton .sk-body { padding: 14px; }
+    .card-skeleton .sk-line { height: 12px; margin-bottom: 8px; }
+    .card-skeleton .sk-line.w60 { width: 60%; }
+    .card-skeleton .sk-line.w80 { width: 80%; }
+
+    /* ===== HORIZONTAL SCROLL for Shorts ===== */
+    .scroll-row { overflow-x: auto; padding-bottom: 8px; }
+    .scroll-row::-webkit-scrollbar { height: 2px; }
+    .scroll-row .card-grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
+      flex-wrap: nowrap;
+      width: max-content;
+    }
+    .card.shorts { }
+    .card.shorts .card-thumb { aspect-ratio: 9/16; max-height: 280px; }
+
+    /* ===== MODAL ===== */
+    #modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+    }
+    #modal-overlay.active { display: flex; }
+    @media (min-width: 768px) {
+      #modal-overlay { align-items: center; padding: 24px; }
+    }
+    #modal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%;
+      max-width: 800px;
+      max-height: 92vh;
+      overflow-y: auto;
+      animation: fadeUp 0.3s ease;
+      position: relative;
+    }
+    @media (min-width: 768px) {
+      #modal { border-radius: var(--radius); }
+    }
+    .modal-close {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      z-index: 2;
+    }
+    .modal-close-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text2);
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .modal-close-btn:hover { background: var(--surface2); color: var(--text); }
+    .modal-title-bar {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    #modal-body { padding: 20px; }
+
+    /* Reader styles */
+    .reader-header { margin-bottom: 24px; }
+    .reader-book { font-size: 0.8rem; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .reader-title { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 8px; }
+    .reader-pali { font-style: italic; color: var(--text2); font-size: 0.9rem; }
+    .reader-desc { color: var(--text2); font-size: 0.9rem; margin-top: 12px; line-height: 1.7; }
+
+    .verse-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color var(--transition);
+    }
+    .verse-card:hover { border-color: var(--gold-dim); }
+    .verse-number {
+      font-size: 0.75rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .verse-pali {
+      font-style: italic;
+      color: var(--text3);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .verse-vi {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+    .verse-commentary {
+      font-size: 0.85rem;
+      color: var(--text2);
+      line-height: 1.7;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .verse-commentary::before { content: '💬 '; }
+
+    .section-text {
+      line-height: 1.9;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .section-block {
+      margin-bottom: 28px;
+    }
+    .section-block h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gold-dim);
+    }
+
+    /* Video embed */
+    .video-embed {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .video-embed iframe { width: 100%; height: 100%; border: none; }
+
+    /* Spotify embed */
+    .spotify-embed {
+      width: 100%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .spotify-embed iframe { width: 100%; border: none; }
+
+    /* Progress button */
+    .btn-mark-read {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      transition: var(--transition);
+      margin-bottom: 28px;
+    }
+    .btn-mark-read.done { border-color: var(--green); color: var(--green); background: rgba(34,197,94,0.1); }
+    .btn-mark-read:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ===== COMMENTS ===== */
+    .comments-section { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .comments-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .comment-count { font-size: 0.8rem; background: var(--surface2); padding: 2px 10px; border-radius: 20px; font-family: var(--font-body); font-weight: 400; color: var(--text2); }
+    .comment-form {
+      display: flex; gap: 12px; margin-bottom: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+    .comment-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface2); flex-shrink: 0; object-fit: cover; }
+    .comment-input-area { flex: 1; }
+    .comment-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      resize: none;
+      outline: none;
+      min-height: 60px;
+    }
+    .comment-input::placeholder { color: var(--text3); }
+    .comment-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+    .btn-comment-submit {
+      background: var(--gold);
+      color: #000;
+      font-weight: 500;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: 20px;
+      transition: var(--transition);
+    }
+    .btn-comment-submit:hover { opacity: 0.85; }
+    .btn-comment-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+    .comment-login-prompt {
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      color: var(--text2);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .comment-login-prompt a { color: var(--gold); cursor: pointer; }
+    .comment-item {
+      display: flex; gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.3s ease;
+    }
+    .comment-item:last-child { border-bottom: none; }
+    .ci-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .ci-content { flex: 1; }
+    .ci-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .ci-name { font-weight: 500; font-size: 0.9rem; }
+    .ci-time { font-size: 0.75rem; color: var(--text3); }
+    .ci-text { font-size: 0.9rem; color: var(--text2); line-height: 1.6; }
+    .comments-loading { text-align: center; padding: 24px; color: var(--text3); }
+
+    /* ===== USER MENU DROPDOWN ===== */
+    #user-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-width: 200px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 300;
+      animation: fadeUp 0.2s ease;
+    }
+    #user-menu.active { display: block; }
+    .user-menu-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    .user-menu-name { font-weight: 500; font-size: 0.9rem; }
+    .user-menu-email { font-size: 0.78rem; color: var(--text3); }
+    .user-menu-item {
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text2);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .user-menu-item:hover { background: var(--surface2); color: var(--text); }
+    .user-menu-item.danger:hover { color: var(--danger); }
+
+    /* ===== TOAST ===== */
+    #toast-container {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow);
+      animation: slideIn 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 220px;
+    }
+    .toast.success { border-color: var(--green); }
+    .toast.error { border-color: var(--danger); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+      border-top: 1px solid var(--border);
+      color: var(--text3);
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+    footer .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    footer .footer-logo span { color: var(--gold); }
+
+    /* ===== SPINNER ===== */
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .header-search { max-width: none; }
+      .logo-text { display: none; }
+      .card-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    }
+    @media (min-width: 768px) {
+      #header { padding: 14px 28px; }
+      main { padding: 0 28px; }
+    }
+  </style>
 </head>
 <body>
-<header><h1>THƯ VIỆN TỰ HỌC PHẬT</h1></header>
-<div class="search-box"><input type="text" id="searchInput" placeholder="Tìm kiếm bài học..." onkeyup="locBai()"></div>
-<div class="vung-chu-de"><div class="topic-scroll" id="topicList"></div></div>
-<div class="phan-muc"><div class="phan-tieu-de vach-kinh">📜 I. BẢN GỐC KINH NIKAYA</div><div id="gridKinh" class="grid"></div></div>
-<div class="phan-muc"><div class="phan-tieu-de vach-info">🎨 II. TÓM TẮT HÌNH ẢNH</div><div id="gridInfo" class="grid"></div></div>
-<div class="phan-muc"><div class="phan-tieu-de vach-video">📽️ III. BÀI GIẢNG VIDEO</div><div id="gridVideo" class="grid-video"></div></div>
-<div class="phan-muc"><div class="phan-tieu-de vach-audio">🎧 IV. BÀI GIẢNG AUDIO</div><div id="gridAudio" class="grid-video"></div></div>
-<footer style="text-align:center; padding:40px 0 20px;"><div style="opacity:0.1; cursor:pointer;" onclick="location.href='quanlybl.html'">⚙️</div></footer>
-<div id="modalDoc">
-    <div class="modal-body-content">
-        <button onclick="dongBaiHoc()" class="btn-dong">X ĐÓNG BÀI</button>
-        <h2 id="mTitle" style="color:var(--vang-chanh); font-size:36px; margin-top:60px; border-bottom:3px solid #333; padding-bottom:15px; text-transform: capitalize !important;"></h2>
-        <img id="mImg" src="" class="img-popup">
-        <div id="mBody" style="font-size:26px; line-height:1.8; text-align:justify; white-space: pre-wrap; color:#fff;"></div>
-        <div id="commentSection">
-            <h3 style="color:var(--vang-chanh)">💬 THẢO LUẬN</h3>
-            <div id="commentList"></div>
-            <div style="margin-top:20px;">
-                <b id="replyText" style="display:none; color:var(--xanh)">Đang trả lời... <span onclick="huyReply()" style="color:red; cursor:pointer">[Hủy]</span></b>
-                <textarea id="txtCmt" placeholder="Nhập thảo luận..."></textarea>
-                <button class="btn-gui" onclick="guiCmt()">GỬI BÌNH LUẬN</button>
-            </div>
-        </div>
+
+<!-- ===== HEADER ===== -->
+<header id="header">
+  <div class="header-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="17" stroke="#ccff00" stroke-width="1.5"/>
+        <ellipse cx="18" cy="22" rx="9" ry="6" fill="none" stroke="#ccff00" stroke-width="1.2"/>
+        <ellipse cx="18" cy="22" rx="9" ry="6" fill="none" stroke="#ccff00" stroke-width="1.2" transform="rotate(60 18 22)"/>
+        <ellipse cx="18" cy="22" rx="9" ry="6" fill="none" stroke="#ccff00" stroke-width="1.2" transform="rotate(-60 18 22)"/>
+        <circle cx="18" cy="13" r="3" fill="#ccff00"/>
+        <line x1="18" y1="16" x2="18" y2="10" stroke="#ccff00" stroke-width="1"/>
+      </svg>
     </div>
+    <span class="logo-text">Tự <span>Học Phật</span></span>
+  </div>
+
+  <div class="header-search">
+    <input type="search" id="search-input" placeholder="Tìm kinh, pháp thoại, kệ ngôn…" autocomplete="off" />
+    <span class="search-icon">🔍</span>
+    <div id="search-dropdown"></div>
+  </div>
+
+  <div class="header-auth" style="position:relative;">
+    <button id="btn-login">Đăng nhập</button>
+    <img id="user-avatar" src="" alt="Avatar" />
+    <div id="user-menu">
+      <div class="user-menu-header">
+        <div class="user-menu-name" id="user-name">—</div>
+        <div class="user-menu-email" id="user-email">—</div>
+      </div>
+      <div class="user-menu-item" onclick="App.viewProgress()">📖 Tiến độ học</div>
+      <div class="user-menu-item danger" onclick="App.logout()">🚪 Đăng xuất</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main>
+
+  <!-- Shorts -->
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">⚡</span> Pháp Thoại Ngắn <span class="section-badge">Shorts</span></h2>
+  </div>
+  <div class="scroll-row">
+    <div class="card-grid" id="grid-shorts"></div>
+  </div>
+
+  <!-- Video dài -->
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">🎬</span> Pháp Thoại Video</h2>
+  </div>
+  <div class="card-grid" id="grid-videos"></div>
+
+  <!-- Audio Spotify -->
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">🎧</span> Trạm Nghe Pháp</h2>
+  </div>
+  <div class="card-grid" id="grid-audio"></div>
+
+  <!-- Pháp Cú & Chuyển Pháp Luân -->
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">📜</span> Kinh Điển Nền Tảng</h2>
+  </div>
+  <div class="card-grid" id="grid-core"></div>
+
+  <!-- 5 Bộ Nikaya -->
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">📚</span> Năm Bộ Kinh Nikaya</h2>
+  </div>
+  <div class="card-grid" id="grid-nikaya"></div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">Tự <span>Học Phật</span></div>
+  <p>Phi lợi nhuận · Dịch: HT. Thích Minh Châu · Nguồn: VPTH Việt Nam</p>
+  <p style="margin-top:8px;">Hồi hướng công đức đến tất cả chúng sinh 🙏</p>
+</footer>
+
+<!-- ===== MODAL ===== -->
+<div id="modal-overlay" onclick="Modal.closeIfOutside(event)">
+  <div id="modal">
+    <div class="modal-close">
+      <div class="modal-title-bar" id="modal-title-bar"></div>
+      <button class="modal-close-btn" onclick="Modal.close()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
 </div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div id="toast-container"></div>
+
+<!-- ===== FIREBASE ===== -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-    const firebaseConfig = {
-        apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
-        authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
-        projectId: "thuvienphatgiao-fd07e",
-        databaseURL: "https://thuvienphatgiao-fd07e-default-rtdb.asia-southeast1.firebasedatabase.app"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const rtdb = getDatabase(app);
-    window.baiHocData = {};
-    window.curId = null;
-    window.pId = null;
-    let lastSend = 0;
-    const badWords = ["sex", "porn", "naked", "fuck", "bitch", "shit", "adult", "casino", "gamble", "ai", "openai", "tình dục", "khỏa thân", "đồi trụy", "phim người lớn", "tài xỉu", "cờ bạc", "ngu", "dốt", "đm", "vcl"];
-    async function loadAll() {
-        const fetchCol = async (name, gridId) => {
-            const snap = await getDocs(collection(db, name));
-            const grid = document.getElementById(gridId); grid.innerHTML = "";
-            snap.forEach(doc => {
-                const id = doc.id; const d = doc.data();
-                if (d.hidden !== true) {
-                    window.baiHocData[id] = d;
-                    const title = (d.title || "").toLowerCase();
-                    if (name === "Video_Shorts") {
-                        grid.innerHTML += `<div class="the-video item-the"><div class="video-box"><iframe src="https://www.youtube.com/embed/${d.youtube_id}" allowfullscreen></iframe></div><div class="video-title">${title}</div></div>`;
-                    } else if (name === "Audio_Lectures") {
-                        grid.innerHTML += `<div class="the-audio item-the"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/${d.spotify_id}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" loading="lazy"></iframe><div class="audio-title">${title}</div></div>`;
-                    } else {
-                        grid.innerHTML += `<div class="the-916 item-the"><div class="anh-the" style="background-image: url('${d.img}')"></div><div class="noi-dung-the"><h3 class="the-title">${title}</h3><button class="nut-hoc" onclick="moBaiHoc('${id}')">Học Ngay</button></div></div>`;
-                    }
-                }
-            });
-        };
-        await fetchCol("Nikaya_Texts", "gridKinh"); await fetchCol("Infographics_Library", "gridInfo"); await fetchCol("Video_Shorts", "gridVideo"); await fetchCol("Audio_Lectures", "gridAudio");
+// ──────────────────────────────────────────────
+// FIREBASE CONFIG – thay bằng config thật của bạn
+// ──────────────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, query, orderBy, limit, addDoc, doc, getDoc, setDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getDatabase, ref, push, onValue, set, get }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const rtdb = getDatabase(app);
+
+// ──────────────────────────────────────────────
+// BAD WORDS FILTER
+// ──────────────────────────────────────────────
+const BAD_WORDS = [
+  'spam','lừa đảo','quảng cáo','chửi','đm','vcl','dmm','cút','địt','đụ',
+  'fuck','shit','bitch','ass','hate','kill','murder','stupid','idiot'
+];
+function filterBadWords(text) {
+  const lower = text.toLowerCase();
+  return BAD_WORDS.some(w => lower.includes(w));
+}
+
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let currentUser = null;
+let staticData = null;
+let userProgress = {};
+
+// ──────────────────────────────────────────────
+// UI UTILS
+// ──────────────────────────────────────────────
+function toast(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  el.innerHTML = `<span>${icons[type]||'ℹ️'}</span> ${msg}`;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+function skeletonCards(n = 4) {
+  return Array.from({length: n}, () => `
+    <div class="card card-skeleton">
+      <div class="card-thumb sk-thumb skeleton"></div>
+      <div class="sk-body">
+        <div class="sk-line skeleton w60"></div>
+        <div class="sk-line skeleton w80"></div>
+        <div class="sk-line skeleton w60"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const sec = Math.floor((Date.now() - d) / 1000);
+  if (sec < 60) return 'Vừa xong';
+  if (sec < 3600) return `${Math.floor(sec/60)} phút trước`;
+  if (sec < 86400) return `${Math.floor(sec/3600)} giờ trước`;
+  return `${Math.floor(sec/86400)} ngày trước`;
+}
+
+// ──────────────────────────────────────────────
+// MODAL MODULE
+// ──────────────────────────────────────────────
+window.Modal = {
+  open(title, bodyHTML) {
+    document.getElementById('modal-title-bar').textContent = title;
+    document.getElementById('modal-body').innerHTML = bodyHTML;
+    document.getElementById('modal-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  },
+  close() {
+    document.getElementById('modal-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  },
+  closeIfOutside(e) {
+    if (e.target === document.getElementById('modal-overlay')) this.close();
+  }
+};
+
+// ──────────────────────────────────────────────
+// STATIC DATA LOADER
+// ──────────────────────────────────────────────
+async function loadStaticData() {
+  try {
+    const r = await fetch('./data/data.json');
+    staticData = await r.json();
+  } catch(e) {
+    console.warn('data.json not found, using mock data', e);
+    staticData = { phap_cu: {title:'Kinh Pháp Cú',chapters:[]}, chuyen_phap_luan:{title:'Kinh Chuyển Pháp Luân',sections:[]}, nikaya:{} };
+  }
+}
+
+// ──────────────────────────────────────────────
+// PROGRESS TRACKING
+// ──────────────────────────────────────────────
+async function loadProgress() {
+  if (!currentUser) return;
+  try {
+    const snap = await getDoc(doc(db, 'progress', currentUser.uid));
+    if (snap.exists()) userProgress = snap.data();
+  } catch(e) {}
+}
+
+async function markRead(contentId) {
+  if (!currentUser) { toast('Hãy đăng nhập để lưu tiến độ', 'error'); return; }
+  userProgress[contentId] = true;
+  try {
+    await setDoc(doc(db, 'progress', currentUser.uid), userProgress, { merge: true });
+    toast('Đã đánh dấu hoàn thành 🎉', 'success');
+    // Update UI
+    document.querySelectorAll(`[data-id="${contentId}"]`).forEach(el => {
+      el.classList.add('done');
+      el.textContent = '✅ Đã học';
+    });
+  } catch(e) { toast('Lỗi lưu tiến độ', 'error'); }
+}
+
+// ──────────────────────────────────────────────
+// AUTH MODULE
+// ──────────────────────────────────────────────
+document.getElementById('btn-login').addEventListener('click', async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  } catch(e) { toast('Đăng nhập thất bại', 'error'); }
+});
+
+document.getElementById('user-avatar').addEventListener('click', (e) => {
+  e.stopPropagation();
+  document.getElementById('user-menu').classList.toggle('active');
+});
+
+document.addEventListener('click', () => {
+  document.getElementById('user-menu').classList.remove('active');
+});
+
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  const btnLogin = document.getElementById('btn-login');
+  const avatar = document.getElementById('user-avatar');
+  if (user) {
+    btnLogin.style.display = 'none';
+    avatar.style.display = 'block';
+    avatar.src = user.photoURL || '';
+    document.getElementById('user-name').textContent = user.displayName || 'Người dùng';
+    document.getElementById('user-email').textContent = user.email || '';
+    await loadProgress();
+    renderAll(); // Re-render to show progress badges
+  } else {
+    btnLogin.style.display = '';
+    avatar.style.display = 'none';
+  }
+});
+
+window.App = {
+  logout: async () => { await signOut(auth); toast('Đã đăng xuất', 'info'); },
+  viewProgress: () => {
+    const done = Object.keys(userProgress).filter(k => userProgress[k]);
+    Modal.open('📖 Tiến Độ Học Của Bạn', `
+      <div style="padding:8px 0">
+        <p style="color:var(--text2);margin-bottom:16px">Bạn đã hoàn thành <strong style="color:var(--gold)">${done.length}</strong> bài học.</p>
+        ${done.length ? done.map(id => `<div style="padding:8px 12px;background:var(--surface);border-radius:8px;margin-bottom:8px;font-size:0.88rem">✅ ${id}</div>`).join('') : '<p style="color:var(--text3)">Chưa có bài học nào. Hãy bắt đầu học hôm nay! 🙏</p>'}
+      </div>
+    `);
+  }
+};
+
+// ──────────────────────────────────────────────
+// COMMENTS MODULE
+// ──────────────────────────────────────────────
+function renderCommentForm(contentId) {
+  if (!currentUser) {
+    return `<div class="comment-login-prompt">Hãy <a onclick="document.getElementById('btn-login').click()">đăng nhập</a> để tham gia thảo luận 🙏</div>`;
+  }
+  return `
+    <div class="comment-form">
+      <img class="comment-avatar" src="${currentUser.photoURL||''}" alt="Avatar" />
+      <div class="comment-input-area">
+        <textarea class="comment-input" id="comment-input-${contentId}" placeholder="Chia sẻ suy nghĩ của bạn về bài học này…" rows="2"></textarea>
+        <div class="comment-actions">
+          <button class="btn-comment-submit" onclick="submitComment('${contentId}')">Gửi 🙏</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.submitComment = async (contentId) => {
+  if (!currentUser) return;
+  const input = document.getElementById(`comment-input-${contentId}`);
+  const text = input.value.trim();
+  if (!text) return;
+
+  const hasBadWord = filterBadWords(text);
+  const commentData = {
+    uid: currentUser.uid,
+    name: currentUser.displayName || 'Ẩn danh',
+    avatar: currentUser.photoURL || '',
+    text,
+    timestamp: Date.now(),
+    contentId,
+    isHidden: hasBadWord,
+    needsApproval: hasBadWord
+  };
+
+  try {
+    await push(ref(rtdb, `comments/${contentId}`), commentData);
+    input.value = '';
+    if (hasBadWord) {
+      toast('Bình luận của bạn đang chờ kiểm duyệt 🙏', 'info');
+    } else {
+      toast('Đã gửi bình luận 🙏', 'success');
     }
-    loadAll();
-    window.loadComments = function(id) {
-        onValue(ref(rtdb, `comments/${id}`), (snap) => {
-            const list = document.getElementById('commentList'); list.innerHTML = "";
-            const data = snap.val();
-            if (!data) return;
-            Object.keys(data).forEach(k => {
-                const c = data[k];
-                if (!c.parentId && !c.isHidden) {
-                    let reps = "";
-                    Object.values(data).forEach(r => { if (r.parentId === k && !r.isHidden) reps += `<div class="cmt-reply"><b>${r.isAdmin?'🛡️ Admin':'👤'}:</b> ${r.text}</div>`; });
-                    list.innerHTML += `<div class="cmt-item"><b>👤 Người học:</b><span class="btn-reply" onclick="setReply('${k}')">Trả lời</span><div>${c.text}</div>${reps}</div>`;
-                }
-            });
-        });
+  } catch(e) { toast('Lỗi gửi bình luận', 'error'); }
+};
+
+function listenComments(contentId) {
+  const commentsRef = ref(rtdb, `comments/${contentId}`);
+  onValue(commentsRef, (snap) => {
+    const list = document.getElementById(`comments-list-${contentId}`);
+    if (!list) return;
+    const data = snap.val();
+    if (!data) { list.innerHTML = '<div class="comments-loading" style="font-size:0.88rem">Chưa có bình luận nào. Hãy là người đầu tiên! 🌱</div>'; return; }
+    const comments = Object.entries(data)
+      .map(([k, v]) => ({...v, _key: k}))
+      .filter(c => !c.isHidden)
+      .sort((a,b) => b.timestamp - a.timestamp);
+    list.innerHTML = comments.map(c => `
+      <div class="comment-item">
+        <img class="ci-avatar" src="${c.avatar||''}" alt="${c.name}" onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(c.name)}'" />
+        <div class="ci-content">
+          <div class="ci-header">
+            <span class="ci-name">${escapeHtml(c.name)}</span>
+            <span class="ci-time">${timeAgo({toDate:()=>new Date(c.timestamp)})}</span>
+          </div>
+          <div class="ci-text">${escapeHtml(c.text)}</div>
+        </div>
+      </div>
+    `).join('') || '<div class="comments-loading" style="font-size:0.88rem">Chưa có bình luận nào 🌱</div>';
+    document.querySelector(`#comments-${contentId} .comment-count`).textContent = comments.length;
+  });
+}
+
+function escapeHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function commentsHTML(contentId) {
+  return `
+    <div class="comments-section" id="comments-${contentId}">
+      <h3 class="comments-title">💬 Thảo Luận <span class="comment-count">0</span></h3>
+      ${renderCommentForm(contentId)}
+      <div id="comments-list-${contentId}"><div class="comments-loading"><div class="spinner" style="margin:auto"></div></div></div>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────
+// RENDERERS
+// ──────────────────────────────────────────────
+function makeCard({ id, title, desc, thumb, source, type, isShort, action }) {
+  const isDone = userProgress[id];
+  return `
+    <div class="card${isShort?' shorts':''}" onclick="${action}" style="animation-delay:${Math.random()*0.3}s">
+      <div class="card-thumb">
+        <img src="${thumb||'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=400'}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400'" />
+        <div class="play-overlay"><div class="play-btn-icon">${type==='audio'?'♪':'▶'}</div></div>
+        <div class="card-progress"><div class="card-progress-bar" style="width:${isDone?'100':'0'}%"></div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-source">${source||''}</div>
+        <div class="card-title">${title}</div>
+        ${desc ? `<div class="card-desc">${desc}</div>` : ''}
+        <div class="card-footer">
+          <button class="btn-learn">Học Ngay →</button>
+          ${isDone ? '<span class="card-read-badge">✅ Hoàn thành</span>' : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Render Firestore videos
+async function renderVideos() {
+  const grids = { shorts: document.getElementById('grid-shorts'), videos: document.getElementById('grid-videos') };
+  grids.shorts.innerHTML = skeletonCards(5);
+  grids.videos.innerHTML = skeletonCards(4);
+
+  try {
+    const [shortsSnap, videosSnap] = await Promise.all([
+      getDocs(query(collection(db, 'shorts'), orderBy('createdAt', 'desc'), limit(10))),
+      getDocs(query(collection(db, 'videos'), orderBy('createdAt', 'desc'), limit(8)))
+    ]);
+
+    // Shorts
+    const shortsHTML = shortsSnap.docs.map(d => {
+      const v = d.data();
+      return makeCard({
+        id: d.id, title: v.title, source: v.teacher || 'Pháp Thoại',
+        thumb: `https://i.ytimg.com/vi/${v.youtube_id}/hqdefault.jpg`,
+        type: 'video', isShort: true,
+        action: `App.openVideo('${v.youtube_id}','${v.title.replace(/'/g,"\\'")}','${d.id}',true)`
+      });
+    }).join('') || '<p style="color:var(--text3);padding:20px;font-size:0.9rem">Chưa có video Shorts. Admin hãy thêm nội dung.</p>';
+    grids.shorts.innerHTML = shortsHTML;
+
+    // Videos dài
+    const videosHTML = videosSnap.docs.map(d => {
+      const v = d.data();
+      return makeCard({
+        id: d.id, title: v.title, desc: v.description, source: v.teacher || 'Pháp Thoại',
+        thumb: `https://i.ytimg.com/vi/${v.youtube_id}/hqdefault.jpg`,
+        type: 'video',
+        action: `App.openVideo('${v.youtube_id}','${v.title.replace(/'/g,"\\'")}','${d.id}',false)`
+      });
+    }).join('') || '<p style="color:var(--text3);padding:20px;font-size:0.9rem">Chưa có video. Admin hãy thêm nội dung.</p>';
+    grids.videos.innerHTML = videosHTML;
+
+  } catch(e) {
+    grids.shorts.innerHTML = '<p style="color:var(--text3);padding:20px">Không thể tải video. Kiểm tra Firebase config.</p>';
+    grids.videos.innerHTML = grids.shorts.innerHTML;
+  }
+}
+
+// Render Firestore audio
+async function renderAudio() {
+  const grid = document.getElementById('grid-audio');
+  grid.innerHTML = skeletonCards(4);
+  try {
+    const snap = await getDocs(query(collection(db, 'audio'), orderBy('createdAt', 'desc'), limit(8)));
+    grid.innerHTML = snap.docs.map(d => {
+      const v = d.data();
+      return makeCard({
+        id: d.id, title: v.title, desc: v.description, source: 'Spotify · ' + (v.teacher || ''),
+        thumb: v.thumbnail || 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400',
+        type: 'audio',
+        action: `App.openAudio('${v.spotify_id}','${v.title.replace(/'/g,"\\'")}','${d.id}')`
+      });
+    }).join('') || '<p style="color:var(--text3);padding:20px;font-size:0.9rem">Chưa có audio. Admin hãy thêm nội dung.</p>';
+  } catch(e) {
+    grid.innerHTML = '<p style="color:var(--text3);padding:20px">Không thể tải audio.</p>';
+  }
+}
+
+// Render static core texts
+function renderCoreTexts() {
+  if (!staticData) return;
+  const grid = document.getElementById('grid-core');
+  const items = [
+    {
+      id: 'phap-cu', title: staticData.phap_cu?.title || 'Kinh Pháp Cú',
+      desc: staticData.phap_cu?.description || '',
+      thumb: staticData.phap_cu?.thumbnail || '',
+      source: 'Tiểu Bộ Kinh',
+      action: "App.openPhapcú()"
+    },
+    {
+      id: 'chuyen-phap-luan', title: staticData.chuyen_phap_luan?.title || 'Kinh Chuyển Pháp Luân',
+      desc: staticData.chuyen_phap_luan?.description || '',
+      thumb: staticData.chuyen_phap_luan?.thumbnail || '',
+      source: 'Tương Ưng Bộ Kinh · SN 56.11',
+      action: "App.openChuyenPL()"
     }
-    window.guiCmt = function() {
-        const txt = document.getElementById('txtCmt').value;
-        const now = Date.now();
-        if (!txt.trim() || now - lastSend < 10000) return alert("Vui lòng chờ 10 giây!");
-        const isSpam = badWords.some(w => txt.toLowerCase().includes(w));
-        push(ref(rtdb, `comments/${window.curId}`), { text: txt, parentId: window.pId || null, timestamp: now, isAdmin: false, isHidden: isSpam });
-        if (isSpam) alert("Bình luận chứa từ khóa nhạy cảm và sẽ được Admin kiểm duyệt.");
-        document.getElementById('txtCmt').value = ""; lastSend = now; huyReply();
-    }
-</script>
-<script>
-    function moBaiHoc(id) {
-        const d = window.baiHocData[id];
-        if (d) {
-            window.curId = id;
-            document.getElementById('mTitle').innerText = d.title;
-            document.getElementById('mImg').src = d.img || "";
-            document.getElementById('mBody').innerText = d.content_full || "";
-            document.getElementById('modalDoc').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            window.loadComments(id);
+  ];
+  grid.innerHTML = items.map(i => makeCard({...i, type:'text'})).join('');
+}
+
+// Render Nikaya grid
+function renderNikaya() {
+  if (!staticData?.nikaya) return;
+  const grid = document.getElementById('grid-nikaya');
+  const map = {
+    truong_bo: { thumb: 'https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=400', action:"App.openNikaya('truong_bo')" },
+    trung_bo:  { thumb: 'https://images.unsplash.com/photo-1604537372136-89b3dae196e3?w=400', action:"App.openNikaya('trung_bo')" },
+    tuong_ung_bo: { thumb: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400', action:"App.openNikaya('tuong_ung_bo')" },
+    tang_chi_bo:  { thumb: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400', action:"App.openNikaya('tang_chi_bo')" },
+    tieu_bo:   { thumb: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400', action:"App.openNikaya('tieu_bo')" }
+  };
+  grid.innerHTML = Object.entries(staticData.nikaya).map(([key, bộ]) =>
+    makeCard({
+      id: bộ.id, title: bộ.title, desc: bộ.description,
+      thumb: map[key]?.thumb || '', source: `${bộ.titlePali} · ${bộ.totalSuttas} kinh`,
+      type: 'text', action: map[key]?.action || ''
+    })
+  ).join('');
+}
+
+async function renderAll() {
+  renderCoreTexts();
+  renderNikaya();
+  await Promise.all([renderVideos(), renderAudio()]);
+}
+
+// ──────────────────────────────────────────────
+// APP ACTIONS (content openers)
+// ──────────────────────────────────────────────
+Object.assign(window.App, {
+  openVideo(youtubeId, title, contentId, isShort) {
+    const embedUrl = isShort
+      ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`
+      : `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+    const body = `
+      <div class="video-embed">
+        <iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>
+      </div>
+      <button class="btn-mark-read ${userProgress[contentId]?'done':''}" data-id="${contentId}" onclick="markRead('${contentId}')">
+        ${userProgress[contentId]?'✅ Đã học':'📌 Đánh dấu đã xem'}
+      </button>
+      ${commentsHTML(contentId)}
+    `;
+    Modal.open(`🎬 ${title}`, body);
+    setTimeout(() => listenComments(contentId), 100);
+  },
+
+  openAudio(spotifyId, title, contentId) {
+    const body = `
+      <div class="spotify-embed">
+        <iframe src="https://open.spotify.com/embed/episode/${spotifyId}?utm_source=generator&theme=0"
+          height="232" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      </div>
+      <button class="btn-mark-read ${userProgress[contentId]?'done':''}" data-id="${contentId}" onclick="markRead('${contentId}')">
+        ${userProgress[contentId]?'✅ Đã nghe':'📌 Đánh dấu đã nghe'}
+      </button>
+      ${commentsHTML(contentId)}
+    `;
+    Modal.open(`🎧 ${title}`, body);
+    setTimeout(() => listenComments(contentId), 100);
+  },
+
+  openPhapcú() {
+    if (!staticData?.phap_cu) return;
+    const pc = staticData.phap_cu;
+    const chaptersHTML = pc.chapters.map(ch => `
+      <div class="section-block">
+        <h3>${ch.chapter}. ${ch.title} <em style="font-size:0.85rem;color:var(--text3)">(${ch.titlePali})</em></h3>
+        <p style="color:var(--text2);font-size:0.85rem;margin-bottom:16px">${ch.description}</p>
+        ${ch.verses.map(v => `
+          <div class="verse-card">
+            <div class="verse-number">Kệ ${v.number}</div>
+            ${v.pali ? `<div class="verse-pali">${v.pali}</div>` : ''}
+            <div class="verse-vi">${v.vietnamese}</div>
+            ${v.commentary ? `<div class="verse-commentary">${v.commentary}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+    const body = `
+      <div class="reader-header">
+        <div class="reader-book">📜 Tiểu Bộ Kinh (Khuddaka Nikāya)</div>
+        <h1 class="reader-title">${pc.title}</h1>
+        <div class="reader-pali">${pc.titlePali}</div>
+        <p class="reader-desc">${pc.description}</p>
+      </div>
+      <button class="btn-mark-read ${userProgress['phap-cu']?'done':''}" data-id="phap-cu" onclick="markRead('phap-cu')">
+        ${userProgress['phap-cu']?'✅ Đã học':'📌 Đánh dấu đã đọc'}
+      </button>
+      ${chaptersHTML}
+      ${commentsHTML('phap-cu')}
+    `;
+    Modal.open('📜 ' + pc.title, body);
+    setTimeout(() => listenComments('phap-cu'), 100);
+  },
+
+  openChuyenPL() {
+    if (!staticData?.chuyen_phap_luan) return;
+    const cpl = staticData.chuyen_phap_luan;
+    const sectionsHTML = cpl.sections.map(s => `
+      <div class="section-block">
+        <h3>${s.title}</h3>
+        <div class="section-text">${s.content}</div>
+      </div>
+    `).join('');
+    const body = `
+      <div class="reader-header">
+        <div class="reader-book">📿 Tương Ưng Bộ Kinh · ${cpl.titleSource}</div>
+        <h1 class="reader-title">${cpl.title}</h1>
+        <div class="reader-pali">${cpl.titlePali}</div>
+        <p class="reader-desc">${cpl.description}</p>
+      </div>
+      <button class="btn-mark-read ${userProgress['chuyen-phap-luan']?'done':''}" data-id="chuyen-phap-luan" onclick="markRead('chuyen-phap-luan')">
+        ${userProgress['chuyen-phap-luan']?'✅ Đã học':'📌 Đánh dấu đã đọc'}
+      </button>
+      ${sectionsHTML}
+      ${commentsHTML('chuyen-phap-luan')}
+    `;
+    Modal.open('📿 ' + cpl.title, body);
+    setTimeout(() => listenComments('chuyen-phap-luan'), 100);
+  },
+
+  openNikaya(key) {
+    if (!staticData?.nikaya?.[key]) return;
+    const bo = staticData.nikaya[key];
+    const suttaList = (bo.suttas || []).map((s,i) => `
+      <div class="card" style="animation-delay:${i*0.05}s" onclick="App.openSutta('${key}','${s.id}')">
+        <div class="card-body">
+          <div class="card-source">${bo.abbreviation} ${s.number || ''}</div>
+          <div class="card-title">${s.title}</div>
+          ${s.description ? `<div class="card-desc">${s.description}</div>` : ''}
+          <div class="card-footer">
+            <button class="btn-learn">Đọc →</button>
+            ${userProgress[s.id]?'<span class="card-read-badge">✅ Đã đọc</span>':''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+    Modal.open('📚 ' + bo.title, `
+      <div class="reader-header">
+        <div class="reader-book">${bo.titlePali}</div>
+        <h1 class="reader-title">${bo.title}</h1>
+        <p class="reader-desc">${bo.description}</p>
+        <p style="margin-top:8px;font-size:0.85rem;color:var(--text3)">Hiển thị ${bo.suttas?.length||0} / ${bo.totalSuttas} kinh mẫu</p>
+      </div>
+      <div class="card-grid">${suttaList}</div>
+    `);
+  },
+
+  openSutta(nikayanKey, suttaId) {
+    const bo = staticData?.nikaya?[nikayanKey];
+    if (!bo) return;
+    const sutta = bo.suttas?.find(s => s.id === suttaId);
+    if (!sutta) return;
+    const sectionsHTML = (sutta.sections||[]).map(s => `
+      <div class="section-block">
+        <h3>${s.title}</h3>
+        <div class="section-text">${s.content}</div>
+      </div>
+    `).join('');
+    const body = `
+      <div class="reader-header">
+        <div class="reader-book">📚 ${bo.title} · ${bo.titlePali}</div>
+        <h1 class="reader-title">${sutta.title}</h1>
+        <div class="reader-pali">${sutta.titlePali||''}</div>
+        <p class="reader-desc">${sutta.description||''}</p>
+      </div>
+      <button class="btn-mark-read ${userProgress[suttaId]?'done':''}" data-id="${suttaId}" onclick="markRead('${suttaId}')">
+        ${userProgress[suttaId]?'✅ Đã học':'📌 Đánh dấu đã đọc'}
+      </button>
+      ${sutta.linkedContent ? `<p style="color:var(--text2);font-size:0.9rem;padding:12px;background:var(--surface);border-radius:8px;margin-bottom:16px">👉 Nội dung đầy đủ trong mục: <strong style="color:var(--gold)">${sutta.linkedContent}</strong></p>` : ''}
+      ${sectionsHTML}
+      ${commentsHTML(suttaId)}
+    `;
+    Modal.open(sutta.title, body);
+    setTimeout(() => listenComments(suttaId), 100);
+  }
+});
+
+// ──────────────────────────────────────────────
+// UNIVERSAL SEARCH
+// ──────────────────────────────────────────────
+let searchTimeout;
+const searchInput = document.getElementById('search-input');
+const dropdown = document.getElementById('search-dropdown');
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  const q = searchInput.value.trim();
+  if (!q || q.length < 2) { dropdown.classList.remove('active'); return; }
+  searchTimeout = setTimeout(() => performSearch(q), 250);
+});
+
+searchInput.addEventListener('focus', () => {
+  if (searchInput.value.trim().length >= 2) dropdown.classList.add('active');
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.header-search')) dropdown.classList.remove('active');
+});
+
+async function performSearch(query) {
+  const q = query.toLowerCase();
+  let results = [];
+
+  // Search static data
+  if (staticData?.search_index?.entries) {
+    results.push(...staticData.search_index.entries
+      .filter(e => e.title.toLowerCase().includes(q) || e.text.toLowerCase().includes(q) || (e.keywords||'').toLowerCase().includes(q))
+      .slice(0, 5)
+      .map(e => ({ ...e, _source: 'kinh' }))
+    );
+  }
+
+  // Search Firestore (parallel)
+  try {
+    const [vSnap, aSnap, sSnap] = await Promise.all([
+      getDocs(collection(db, 'videos')),
+      getDocs(collection(db, 'audio')),
+      getDocs(collection(db, 'shorts'))
+    ]);
+    const fsResults = [];
+    for (const snap of [vSnap, aSnap, sSnap]) {
+      snap.docs.forEach(d => {
+        const v = d.data();
+        if (!v.visible && v.visible !== undefined) return;
+        const text = `${v.title} ${v.description||''}`.toLowerCase();
+        if (text.includes(q)) {
+          fsResults.push({ id: d.id, title: v.title, type: snap === aSnap ? 'audio' : 'video', _source: 'firebase', data: v });
         }
+      });
     }
-    function dongBaiHoc() { document.getElementById('modalDoc').style.display = 'none'; document.body.style.overflow = 'auto'; }
-    function setReply(id) { window.pId = id; document.getElementById('replyText').style.display = 'block'; document.getElementById('txtCmt').focus(); }
-    function huyReply() { window.pId = null; document.getElementById('replyText').style.display = 'none'; }
-    function locBai() {
-        let k = document.getElementById('searchInput').value.toLowerCase();
-        let items = document.getElementsByClassName('item-the');
-        for (let i of items) { i.style.display = i.innerText.toLowerCase().includes(k) ? "block" : "none"; }
-    }
-    const topics = ["Chánh Kiến", "Làm Giàu", "Báo Hiếu", "Sức Khỏe", "Nhân Quả", "Vợ Chồng", "Nuôi Con", "Giận Dữ", "Tết Hỷ Lạc"];
-    document.getElementById('topicList').innerHTML = topics.map(t => `<div class="chip" onclick="filterTopic('${t}')">🪷 ${t}</div>`).join('');
-    function filterTopic(t) { document.getElementById('searchInput').value = t; locBai(); }
+    results.push(...fsResults.slice(0, 4));
+  } catch(e) {}
+
+  renderSearchDropdown(results, query);
+}
+
+function renderSearchDropdown(results, query) {
+  if (!results.length) {
+    dropdown.innerHTML = `<div class="search-empty">Không tìm thấy kết quả cho "<strong>${query}</strong>"</div>`;
+    dropdown.classList.add('active');
+    return;
+  }
+  dropdown.innerHTML = results.map(r => {
+    const badgeClass = r.type === 'audio' ? 'audio' : r.type === 'video' ? 'video' : '';
+    const badge = r.type === 'audio' ? 'Audio' : r.type === 'video' ? 'Video' : 'Kinh';
+    let action = '';
+    if (r._source === 'kinh') action = `onclick="dropdown.classList.remove('active');searchInput.value='';App.openSuttaById('${r.id}')"`;
+    else if (r.type === 'video') action = `onclick="dropdown.classList.remove('active');searchInput.value='';App.openVideo('${r.data?.youtube_id}','${r.title.replace(/'/g,"\\'")}','${r.id}',false)"`;
+    else if (r.type === 'audio') action = `onclick="dropdown.classList.remove('active');searchInput.value='';App.openAudio('${r.data?.spotify_id}','${r.title.replace(/'/g,"\\'")}','${r.id}')"`;
+    return `
+      <div class="search-result-item" ${action}>
+        <span class="sri-badge ${badgeClass}">${badge}</span>
+        <div class="sri-text">
+          <div class="sri-title">${r.title}</div>
+          <div class="sri-sub">${r.text ? r.text.substring(0,60)+'…' : r.data?.description?.substring(0,60)||''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  dropdown.classList.add('active');
+}
+
+window.App.openSuttaById = (id) => {
+  if (!staticData) return;
+  // Try core texts
+  if (id === 'phap-cu' || id.startsWith('pc-')) { App.openPhapcú(); return; }
+  if (id.startsWith('cpl-')) { App.openChuyenPL(); return; }
+  // Try nikaya
+  for (const [key, bo] of Object.entries(staticData.nikaya || {})) {
+    const s = bo.suttas?.find(s => s.id === id);
+    if (s) { App.openSutta(key, id); return; }
+  }
+};
+
+// ──────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────
+async function init() {
+  await loadStaticData();
+  renderAll();
+}
+
+init();
 </script>
 </body>
 </html>
