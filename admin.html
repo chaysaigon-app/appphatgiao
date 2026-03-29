@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Tự Học Phật</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg:#080808;--bg2:#101010;--bg3:#181818;
+      --surface:#1c1c1c;--surface2:#242424;
+      --border:rgba(255,255,255,0.08);
+      --gold:#ccff00;--gold-dim:rgba(204,255,0,0.12);
+      --green:#22c55e;--red:#ef4444;--orange:#f97316;
+      --text:#f0f0f0;--text2:#a0a0a0;--text3:#555;
+      --font-display:'Cormorant Garamond',serif;
+      --font:'DM Sans',sans-serif;
+      --radius:10px;--tr:0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+    button{cursor:pointer;font-family:var(--font);border:none;background:none}
+    input,textarea,select{font-family:var(--font)}
+
+    /* ── AUTH GATE ── */
+    #auth-gate{
+      position:fixed;inset:0;z-index:999;background:var(--bg);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .auth-box{
+      background:var(--surface);border:1px solid var(--border);border-radius:16px;
+      padding:40px;width:360px;text-align:center;
+    }
+    .auth-box h1{font-family:var(--font-display);font-size:1.8rem;margin-bottom:6px}
+    .auth-box h1 span{color:var(--gold)}
+    .auth-box p{color:var(--text2);font-size:.88rem;margin-bottom:26px}
+    .btn-google{
+      width:100%;background:var(--surface2);border:1px solid var(--border);
+      color:var(--text);font-weight:500;font-size:.92rem;
+      padding:12px;border-radius:8px;transition:var(--tr);
+      display:flex;align-items:center;justify-content:center;gap:9px;
+    }
+    .btn-google:hover{border-color:var(--gold);color:var(--gold)}
+    .auth-err{color:var(--red);font-size:.83rem;margin-top:12px;display:none}
+
+    /* ── LAYOUT ── */
+    #admin-app{display:none;min-height:100vh}
+    #sidebar{
+      position:fixed;left:0;top:0;bottom:0;width:218px;
+      background:var(--bg2);border-right:1px solid var(--border);
+      display:flex;flex-direction:column;z-index:100;
+    }
+    .sb-logo{padding:18px 16px;border-bottom:1px solid var(--border)}
+    .sb-logo h1{font-family:var(--font-display);font-size:1.15rem;font-weight:600}
+    .sb-logo h1 span{color:var(--gold)}
+    .sb-logo p{font-size:.68rem;color:var(--text3);margin-top:2px}
+    .sb-nav{flex:1;padding:10px 7px}
+    .nav-label{font-size:.66rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:8px 10px 4px}
+    .nav-item{
+      display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
+      font-size:.86rem;color:var(--text2);cursor:pointer;transition:var(--tr);
+      margin-bottom:2px;position:relative;
+    }
+    .nav-item:hover{background:var(--surface);color:var(--text)}
+    .nav-item.active{background:var(--gold-dim);color:var(--gold)}
+    .nav-badge{
+      position:absolute;right:9px;background:var(--red);color:#fff;
+      font-size:.63rem;padding:1px 6px;border-radius:10px;min-width:17px;text-align:center;display:none;
+    }
+    .nav-badge.show{display:block}
+    .sb-foot{padding:10px 7px;border-top:1px solid var(--border)}
+    .sb-user{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px}
+    .sb-user img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+    .sb-uname{font-size:.83rem;font-weight:500}
+    .sb-urole{font-size:.7rem;color:var(--gold)}
+    .btn-logout{
+      width:100%;padding:7px;text-align:center;font-size:.78rem;color:var(--text3);
+      border-radius:8px;transition:var(--tr);margin-top:4px;
+    }
+    .btn-logout:hover{color:var(--red);background:rgba(239,68,68,.08)}
+
+    /* ── MAIN CONTENT ── */
+    #main{margin-left:218px;padding:26px;min-height:100vh}
+    .page-head{margin-bottom:26px}
+    .page-head h2{font-family:var(--font-display);font-size:1.75rem;font-weight:600}
+    .page-head p{color:var(--text2);font-size:.88rem;margin-top:3px}
+
+    /* tabs */
+    .tab-bar{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:3px;margin-bottom:22px;width:fit-content}
+    .tab-btn{padding:7px 17px;border-radius:7px;font-size:.86rem;color:var(--text2);transition:var(--tr)}
+    .tab-btn.active{background:var(--gold-dim);color:var(--gold)}
+    .tab-btn:hover:not(.active){color:var(--text)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
+    /* panel */
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:18px}
+    .panel h3{font-size:.95rem;font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+
+    /* stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px;margin-bottom:22px}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:17px}
+    .stat-label{font-size:.75rem;color:var(--text3);margin-bottom:5px}
+    .stat-val{font-family:var(--font-display);font-size:1.9rem;font-weight:600;color:var(--gold)}
+
+    /* form */
+    .form-group{margin-bottom:14px}
+    .form-label{display:block;font-size:.8rem;color:var(--text2);margin-bottom:5px}
+    .form-input{
+      width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+      color:var(--text);padding:9px 13px;font-size:.88rem;outline:none;transition:var(--tr);
+    }
+    .form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim)}
+    .form-input::placeholder{color:var(--text3)}
+    .form-hint{font-size:.72rem;color:var(--text3);margin-top:3px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+
+    /* id preview */
+    .id-preview{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 13px;font-size:.83rem;color:var(--text2);margin-bottom:13px;display:none;align-items:center;gap:10px;flex-wrap:wrap}
+    .id-preview.show{display:flex}
+    .id-preview strong{color:var(--gold)}
+    .id-preview img{height:46px;border-radius:4px;object-fit:cover}
+
+    /* buttons */
+    .btn{padding:8px 18px;border-radius:8px;font-size:.86rem;font-weight:500;transition:var(--tr)}
+    .btn-gold{background:var(--gold);color:#000}
+    .btn-gold:hover{opacity:.83}
+    .btn-outline{border:1px solid var(--border);color:var(--text2)}
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-danger{background:rgba(239,68,68,.13);color:var(--red);border:1px solid rgba(239,68,68,.28)}
+    .btn-danger:hover{background:rgba(239,68,68,.22)}
+    .btn-success{background:rgba(34,197,94,.13);color:var(--green);border:1px solid rgba(34,197,94,.28)}
+    .btn-success:hover{background:rgba(34,197,94,.22)}
+    .btn-sm{padding:4px 11px;font-size:.78rem}
+    .btn-icon{width:30px;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center}
+
+    /* table */
+    .tbl-wrap{overflow-x:auto}
+    .data-table{width:100%;border-collapse:collapse;font-size:.86rem}
+    .data-table th{text-align:left;padding:9px 11px;background:var(--bg3);color:var(--text3);font-weight:400;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border)}
+    .data-table td{padding:11px;border-bottom:1px solid var(--border);vertical-align:middle}
+    .data-table tr:last-child td{border-bottom:none}
+    .data-table tr:hover td{background:rgba(255,255,255,.015)}
+    .tbl-thumb{width:58px;height:34px;object-fit:cover;border-radius:4px;background:var(--bg3)}
+    .tbl-title{font-weight:500;max-width:210px}
+    .tbl-sub{font-size:.75rem;color:var(--text3);margin-top:2px;font-weight:400}
+    .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:500}
+    .bg{background:rgba(34,197,94,.13);color:var(--green)}
+    .br{background:rgba(239,68,68,.13);color:var(--red)}
+    .bo{background:rgba(249,115,22,.13);color:var(--orange)}
+    .bgr{background:var(--surface2);color:var(--text3)}
+    .act-cell{display:flex;gap:5px;align-items:center}
+    .inline-inp{background:var(--bg3);border:1px solid var(--gold);border-radius:6px;color:var(--text);padding:4px 9px;font-size:.86rem;outline:none;width:100%}
+
+    /* comment card */
+    .cmt-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:11px}
+    .cmt-card .cc-head{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+    .cmt-card img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+    .cmt-card .cc-name{font-weight:500;font-size:.86rem}
+    .cmt-card .cc-meta{font-size:.73rem;color:var(--text3)}
+    .cmt-card .cc-body{font-size:.88rem;color:var(--text2);line-height:1.6;padding:9px 11px;background:var(--surface);border-radius:6px;margin-bottom:11px}
+    .cmt-card .cc-flags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+    .cmt-card .cc-acts{display:flex;gap:7px}
+
+    /* toast */
+    #toast{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px}
+    .ti{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:.86rem;animation:si .25s ease;display:flex;align-items:center;gap:7px}
+    @keyframes si{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner{width:15px;height:15px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .55s linear infinite;display:inline-block}
+
+    .empty{padding:36px;text-align:center;color:var(--text3)}
+    .empty .ei{font-size:2.2rem;margin-bottom:10px}
+
+    @media(max-width:760px){
+      #sidebar{width:50px}
+      .sb-logo h1,.sb-urole,.sb-uname,.nav-label,.nav-item span:not(.nav-badge),.btn-logout,.sb-logo p{display:none}
+      #main{margin-left:50px;padding:14px}
+      .form-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <div class="auth-box">
+    <h1>⚙️ <span>Admin</span></h1>
+    <p>Trang quản trị Tự Học Phật</p>
+    <button class="btn-google" id="btn-google">
+      <svg width="18" height="18" viewBox="0 0 18 18">
+        <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
+        <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
+        <path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/>
+        <path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/>
+      </svg>
+      Đăng nhập bằng Google
+    </button>
+    <div class="auth-err" id="auth-err">Tài khoản không có quyền Admin.</div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app">
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sb-logo">
+      <h1>⚙️ <span>Admin</span></h1>
+      <p>Tự Học Phật</p>
+    </div>
+    <div class="sb-nav">
+      <div class="nav-label">Dashboard</div>
+      <div class="nav-item active" data-tab="tab-dash">📊<span>Tổng quan</span></div>
+      <div class="nav-label">Nội dung</div>
+      <div class="nav-item" data-tab="tab-shorts">⚡<span>Shorts</span></div>
+      <div class="nav-item" data-tab="tab-videos">🎬<span>Videos</span></div>
+      <div class="nav-item" data-tab="tab-audio">🎧<span>Audio</span></div>
+      <div class="nav-label">Kiểm duyệt</div>
+      <div class="nav-item" data-tab="tab-cmts">💬<span>Bình luận</span><span class="nav-badge" id="badge-cmts">0</span></div>
+    </div>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <img id="sb-av" src="" alt="admin" />
+        <div><div class="sb-uname" id="sb-name">Admin</div><div class="sb-urole">🔑 Quản trị viên</div></div>
+      </div>
+      <button class="btn-logout" id="btn-logout">🚪 Đăng xuất</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div id="main">
+
+    <!-- DASHBOARD -->
+    <div class="tab-panel active" id="tab-dash">
+      <div class="page-head"><h2>📊 Tổng Quan</h2><p>Thống kê nội dung hệ thống</p></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Video Shorts</div><div class="stat-val" id="st-shorts">—</div></div>
+        <div class="stat-card"><div class="stat-label">Video Dài</div><div class="stat-val" id="st-videos">—</div></div>
+        <div class="stat-card"><div class="stat-label">Audio</div><div class="stat-val" id="st-audio">—</div></div>
+        <div class="stat-card"><div class="stat-label">Chờ duyệt</div><div class="stat-val" id="st-pending" style="color:var(--red)">—</div></div>
+      </div>
+      <div class="panel">
+        <h3>🕐 Hoạt động gần đây</h3>
+        <div id="recent">Đang tải…</div>
+      </div>
+    </div>
+
+    <!-- SHORTS -->
+    <div class="tab-panel" id="tab-shorts">
+      <div class="page-head"><h2>⚡ Quản Lý Shorts</h2><p>Video Pháp Thoại ngắn (YouTube Shorts)</p></div>
+      <div class="panel">
+        <h3>➕ Thêm Shorts Mới</h3>
+        <div class="form-group">
+          <label class="form-label">Link YouTube Shorts</label>
+          <input class="form-input" id="shorts-link" placeholder="https://youtube.com/shorts/... hoặc youtu.be/..." oninput="parseLink('shorts')" />
+          <div class="form-hint">Hỗ trợ: youtube.com/shorts/ID · youtu.be/ID · youtube.com/watch?v=ID</div>
+        </div>
+        <div class="id-preview" id="shorts-prev"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Tiêu đề</label><input class="form-input" id="shorts-title" placeholder="Tên bài pháp thoại…" /></div>
+          <div class="form-group"><label class="form-label">Pháp sư / Thầy</label><input class="form-input" id="shorts-teacher" placeholder="HT. Thích Nhất Hạnh…" /></div>
+        </div>
+        <button class="btn btn-gold" onclick="addContent('shorts')">➕ Thêm Shorts</button>
+      </div>
+      <div class="panel"><h3>📋 Danh Sách</h3><div id="tbl-shorts"><div class="empty"><div class="ei">⏳</div><p>Đang tải…</p></div></div></div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="tab-panel" id="tab-videos">
+      <div class="page-head"><h2>🎬 Quản Lý Videos</h2><p>Video Pháp Thoại dài</p></div>
+      <div class="panel">
+        <h3>➕ Thêm Video Mới</h3>
+        <div class="form-group">
+          <label class="form-label">Link YouTube</label>
+          <input class="form-input" id="videos-link" placeholder="https://youtube.com/watch?v=... hoặc youtu.be/..." oninput="parseLink('videos')" />
+          <div class="form-hint">Hỗ trợ tất cả định dạng link YouTube</div>
+        </div>
+        <div class="id-preview" id="videos-prev"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Tiêu đề</label><input class="form-input" id="videos-title" placeholder="Tên bài pháp thoại…" /></div>
+          <div class="form-group"><label class="form-label">Pháp sư / Thầy</label><input class="form-input" id="videos-teacher" placeholder="HT. Thích Nhất Hạnh…" /></div>
+        </div>
+        <div class="form-group"><label class="form-label">Mô tả ngắn</label><textarea class="form-input" id="videos-desc" rows="2" placeholder="Mô tả nội dung bài giảng…"></textarea></div>
+        <button class="btn btn-gold" onclick="addContent('videos')">➕ Thêm Video</button>
+      </div>
+      <div class="panel"><h3>📋 Danh Sách</h3><div id="tbl-videos"><div class="empty"><div class="ei">⏳</div><p>Đang tải…</p></div></div></div>
+    </div>
+
+    <!-- AUDIO -->
+    <div class="tab-panel" id="tab-audio">
+      <div class="page-head"><h2>🎧 Quản Lý Audio</h2><p>Trạm Nghe Pháp (Spotify)</p></div>
+      <div class="panel">
+        <h3>➕ Thêm Audio Mới</h3>
+        <div class="form-group">
+          <label class="form-label">Link Spotify</label>
+          <input class="form-input" id="audio-link" placeholder="https://open.spotify.com/episode/... hoặc /track/..." oninput="parseLink('audio')" />
+          <div class="form-hint">Hỗ trợ: spotify.com/episode/ID · spotify.com/track/ID · spotify: URI</div>
+        </div>
+        <div class="id-preview" id="audio-prev"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Tiêu đề</label><input class="form-input" id="audio-title" placeholder="Tên bài nghe pháp…" /></div>
+          <div class="form-group"><label class="form-label">Pháp sư / Thầy</label><input class="form-input" id="audio-teacher" placeholder="HT. Thích Minh Châu…" /></div>
+        </div>
+        <div class="form-group"><label class="form-label">URL Thumbnail (tùy chọn)</label><input class="form-input" id="audio-thumb" placeholder="https://…" /></div>
+        <button class="btn btn-gold" onclick="addContent('audio')">➕ Thêm Audio</button>
+      </div>
+      <div class="panel"><h3>📋 Danh Sách</h3><div id="tbl-audio"><div class="empty"><div class="ei">⏳</div><p>Đang tải…</p></div></div></div>
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="tab-panel" id="tab-cmts">
+      <div class="page-head"><h2>💬 Kiểm Duyệt Bình Luận</h2><p>Bình luận vi phạm từ ngữ đang chờ xử lý</p></div>
+      <div id="cmt-list"><div class="empty"><div class="ei">⏳</div><p>Đang tải…</p></div></div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /admin-app -->
+
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     FIREBASE 9 COMPAT CDN — không cần bundler, chạy thẳng trên trình duyệt
+════════════════════════════════════════════════════════ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+/* ════════════════════════════════════════════
+   CONFIG & INIT
+════════════════════════════════════════════ */
+firebase.initializeApp({
+  apiKey: "AIzaSyDalHL1frXS_kkuTbg-HuFf7cd4UxKWOwE",
+  authDomain: "thuvienphatgiao-fd07e.firebaseapp.com",
+  databaseURL: "https://thuvienphatgiao-fd07e-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "thuvienphatgiao-fd07e",
+  storageBucket: "thuvienphatgiao-fd07e.firebasestorage.app",
+  messagingSenderId: "342500331725",
+  appId: "1:342500331725:web:32795cf0146210f8019984"
+});
+
+var auth = firebase.auth();
+var db   = firebase.firestore();
+var rtdb = firebase.database();
+
+/* ════════════════════════════════════════════
+   ADMIN WHITELIST
+════════════════════════════════════════════ */
+var ADMIN_EMAILS = [
+  'chaysaigon@gmail.com'
+  // Thêm email admin khác ở đây nếu cần
+];
+
+/* ════════════════════════════════════════════
+   LINK PARSERS – Regex nhận dạng YouTube & Spotify
+════════════════════════════════════════════ */
+var YT_PATTERNS = [
+  /(?:youtube\.com\/watch\?(?:[^&]*&)*v=)([a-zA-Z0-9_-]{11})/,
+  /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+  /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+  /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+  /(?:youtube\.com\/v\/)([a-zA-Z0-9_-]{11})/,
+  /(?:youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/
+];
+var SP_PATTERNS = [
+  /open\.spotify\.com\/episode\/([a-zA-Z0-9]{22})/,
+  /open\.spotify\.com\/track\/([a-zA-Z0-9]{22})/,
+  /spotify:episode:([a-zA-Z0-9]{22})/,
+  /spotify:track:([a-zA-Z0-9]{22})/
+];
+
+function parseYT(url){
+  for(var i=0;i<YT_PATTERNS.length;i++){
+    var m=url.match(YT_PATTERNS[i]);
+    if(m) return m[1];
+  }
+  return null;
+}
+function parseSP(url){
+  for(var i=0;i<SP_PATTERNS.length;i++){
+    var m=url.match(SP_PATTERNS[i]);
+    if(m) return m[1];
+  }
+  return null;
+}
+function isShortUrl(url){ return /youtube\.com\/shorts\//i.test(url); }
+
+/* ════════════════════════════════════════════
+   PARSE LINK – gọi khi user gõ link vào input
+════════════════════════════════════════════ */
+function parseLink(type){
+  var linkEl = document.getElementById(type+'-link');
+  var prevEl = document.getElementById(type+'-prev');
+  var url    = linkEl ? linkEl.value.trim() : '';
+
+  if(type==='audio'){
+    var id = parseSP(url);
+    if(id){
+      prevEl.className='id-preview show';
+      prevEl.innerHTML='✅ Spotify ID nhận dạng được: <strong>'+id+'</strong>';
+    } else if(url.length>5){
+      prevEl.className='id-preview show';
+      prevEl.innerHTML='⚠️ Chưa nhận dạng. Kiểm tra lại định dạng link Spotify.';
+    } else {
+      prevEl.className='id-preview';
+    }
+  } else {
+    var ytId = parseYT(url);
+    if(ytId){
+      var isS = isShortUrl(url);
+      prevEl.className='id-preview show';
+      prevEl.innerHTML='✅ YouTube ID: <strong>'+ytId+'</strong>'
+        +(isS?' · <span style="color:var(--orange)">Shorts</span>':'')
+        +' <img src="https://i.ytimg.com/vi/'+ytId+'/default.jpg" />';
+    } else if(url.length>5){
+      prevEl.className='id-preview show';
+      prevEl.innerHTML='⚠️ Chưa nhận dạng. Kiểm tra lại link YouTube.';
+    } else {
+      prevEl.className='id-preview';
+    }
+  }
+}
+
+/* ════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════ */
+function toast(msg, type){
+  type=type||'i';
+  var icons={s:'✅',e:'❌',i:'ℹ️'};
+  var el=document.createElement('div');
+  el.className='ti';
+  el.innerHTML=(icons[type]||'ℹ️')+' '+msg;
+  document.getElementById('toast').appendChild(el);
+  setTimeout(function(){el.remove();},3200);
+}
+
+/* ════════════════════════════════════════════
+   AUTH
+════════════════════════════════════════════ */
+document.getElementById('btn-google').onclick = function(){
+  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    .catch(function(){ document.getElementById('auth-err').style.display='block'; });
+};
+
+document.getElementById('btn-logout').onclick = function(){
+  auth.signOut().then(function(){ showGate(); });
+};
+
+auth.onAuthStateChanged(function(user){
+  if(!user){ showGate(); return; }
+  if(ADMIN_EMAILS.indexOf(user.email)===-1){
+    document.getElementById('auth-err').style.display='block';
+    auth.signOut();
+    return;
+  }
+  // Authenticated admin
+  document.getElementById('auth-gate').style.display='none';
+  document.getElementById('admin-app').style.display='block';
+  document.getElementById('sb-av').src   = user.photoURL||'';
+  document.getElementById('sb-name').textContent = user.displayName||'Admin';
+  initAdmin();
+});
+
+function showGate(){
+  document.getElementById('auth-gate').style.display='flex';
+  document.getElementById('admin-app').style.display='none';
+}
+
+/* ════════════════════════════════════════════
+   TAB NAVIGATION
+════════════════════════════════════════════ */
+document.querySelectorAll('.nav-item[data-tab]').forEach(function(item){
+  item.onclick = function(){
+    var tabId = item.getAttribute('data-tab');
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+    document.getElementById(tabId).classList.add('active');
+    item.classList.add('active');
+  };
+});
+
+/* ════════════════════════════════════════════
+   ADD CONTENT
+════════════════════════════════════════════ */
+function addContent(type){
+  var isAudio = type==='audio';
+  var link    = (document.getElementById(type+'-link')||{}).value||'';
+  var title   = (document.getElementById(type+'-title')||{}).value||'';
+  var teacher = (document.getElementById(type+'-teacher')||{}).value||'';
+  link=link.trim(); title=title.trim(); teacher=teacher.trim();
+
+  if(!link||!title){ toast('Vui lòng nhập link và tiêu đề','e'); return; }
+
+  var data = { title:title, teacher:teacher, visible:true, createdAt:firebase.firestore.FieldValue.serverTimestamp() };
+
+  if(isAudio){
+    var spId = parseSP(link);
+    if(!spId){ toast('Link Spotify không hợp lệ','e'); return; }
+    data.spotify_id  = spId;
+    data.thumbnail   = ((document.getElementById('audio-thumb')||{}).value||'').trim();
+    data.description = '';
+  } else {
+    var ytId = parseYT(link);
+    if(!ytId){ toast('Link YouTube không hợp lệ','e'); return; }
+    data.youtube_id  = ytId;
+    data.description = ((document.getElementById(type+'-desc')||{}).value||'').trim();
+  }
+
+  toast('Đang lưu…','i');
+  db.collection(type).add(data).then(function(){
+    toast('Đã thêm thành công! 🎉','s');
+    ['link','title','teacher','desc','thumb'].forEach(function(f){
+      var el=document.getElementById(type+'-'+f);
+      if(el) el.value='';
+    });
+    var prev=document.getElementById(type+'-prev');
+    if(prev) prev.className='id-preview';
+    loadTable(type);
+    loadStats();
+  }).catch(function(e){ toast('Lỗi: '+e.message,'e'); });
+}
+
+/* ════════════════════════════════════════════
+   LOAD TABLE
+════════════════════════════════════════════ */
+function esc(t){ return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function loadTable(type){
+  var c = document.getElementById('tbl-'+type);
+  c.innerHTML='<div class="empty"><div class="spinner" style="width:22px;height:22px;margin:auto"></div></div>';
+
+  db.collection(type).orderBy('createdAt','desc').get().then(function(snap){
+    if(snap.empty){ c.innerHTML='<div class="empty"><div class="ei">📭</div><p>Chưa có nội dung nào</p></div>'; return; }
+    var rows='';
+    snap.docs.forEach(function(d){
+      var v=d.data();
+      var isYT = type!=='audio';
+      var thumb = isYT
+        ? '<img class="tbl-thumb" src="https://i.ytimg.com/vi/'+v.youtube_id+'/default.jpg" alt="" />'
+        : '<div class="tbl-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.1rem">🎧</div>';
+      var idVal = isYT ? (v.youtube_id||'—') : (v.spotify_id||'—');
+      var vis   = v.visible!==false;
+      rows += '<tr id="row-'+d.id+'">'
+        +'<td>'+thumb+'</td>'
+        +'<td class="tbl-title"><div id="td-'+d.id+'">'+esc(v.title)+'</div>'
+        +'<div class="tbl-sub">'+esc(v.teacher||'')+'&nbsp;·&nbsp;<code style="font-size:.7rem">'+esc(idVal)+'</code></div></td>'
+        +'<td><span class="badge '+(vis?'bg':'bgr')+'">'+(vis?'Hiện':'Ẩn')+'</span></td>'
+        +'<td><div class="act-cell">'
+        +'<button class="btn btn-outline btn-sm btn-icon" title="Sửa tiêu đề" onclick="startEdit(\''+d.id+'\',\''+esc(v.title).replace(/'/g,'&#39;')+'\')">✏️</button>'
+        +'<button class="btn btn-outline btn-sm btn-icon" title="'+(vis?'Ẩn':'Hiện')+'" onclick="toggleVis(\''+type+'\',\''+d.id+'\','+vis+')">'+(vis?'👁':'🙈')+'</button>'
+        +'<button class="btn btn-danger btn-sm" onclick="delContent(\''+type+'\',\''+d.id+'\')">🗑 Xóa</button>'
+        +'</div></td></tr>';
+    });
+    c.innerHTML='<div class="tbl-wrap"><table class="data-table"><thead><tr><th>Thumb</th><th>Tiêu đề</th><th>Trạng thái</th><th>Hành động</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }).catch(function(e){
+    c.innerHTML='<div class="empty"><p>Lỗi tải dữ liệu: '+esc(e.message)+'</p></div>';
+  });
+}
+
+/* ── Inline Edit ── */
+function startEdit(id, cur){
+  var td = document.getElementById('td-'+id);
+  td.innerHTML = '<div style="display:flex;gap:5px;align-items:center">'
+    +'<input class="inline-inp" id="ei-'+id+'" value="'+esc(cur)+'" />'
+    +'<button class="btn btn-gold btn-sm" onclick="saveEdit(\''+id+'\')">✓</button>'
+    +'<button class="btn btn-outline btn-sm" onclick="cancelEdit(\''+id+'\',\''+esc(cur).replace(/'/g,'&#39;')+'\')">✕</button>'
+    +'</div>';
+  var inp=document.getElementById('ei-'+id);
+  if(inp) inp.focus();
+}
+
+function saveEdit(id){
+  var inp=document.getElementById('ei-'+id);
+  var val=(inp?inp.value:'').trim();
+  if(!val){ toast('Tiêu đề không được trống','e'); return; }
+  // Try all collections
+  var cols=['shorts','videos','audio'];
+  function tryNext(i){
+    if(i>=cols.length){ toast('Lỗi cập nhật','e'); return; }
+    db.collection(cols[i]).doc(id).update({title:val})
+      .then(function(){
+        document.getElementById('td-'+id).textContent=val;
+        toast('Đã cập nhật','s');
+      })
+      .catch(function(){ tryNext(i+1); });
+  }
+  tryNext(0);
+}
+
+function cancelEdit(id, cur){
+  var td=document.getElementById('td-'+id);
+  if(td) td.textContent=cur;
+}
+
+function toggleVis(type, id, cur){
+  db.collection(type).doc(id).update({visible:!cur})
+    .then(function(){ toast(cur?'Đã ẩn':'Đã hiện','s'); loadTable(type); })
+    .catch(function(){ toast('Lỗi','e'); });
+}
+
+function delContent(type, id){
+  if(!confirm('Xác nhận xóa vĩnh viễn bài học này?')) return;
+  db.collection(type).doc(id).delete()
+    .then(function(){
+      toast('Đã xóa','s');
+      var row=document.getElementById('row-'+id);
+      if(row) row.remove();
+      loadStats();
+    })
+    .catch(function(e){ toast('Lỗi xóa: '+e.message,'e'); });
+}
+
+/* ════════════════════════════════════════════
+   STATS
+════════════════════════════════════════════ */
+function loadStats(){
+  ['shorts','videos','audio'].forEach(function(col, i){
+    var ids=['st-shorts','st-videos','st-audio'];
+    db.collection(col).get()
+      .then(function(s){ document.getElementById(ids[i]).textContent=s.size; })
+      .catch(function(){});
+  });
+}
+
+/* ════════════════════════════════════════════
+   RECENT ACTIVITY
+════════════════════════════════════════════ */
+function loadRecent(){
+  var el = document.getElementById('recent');
+  var promises = [
+    db.collection('shorts').orderBy('createdAt','desc').limit(3).get(),
+    db.collection('videos').orderBy('createdAt','desc').limit(3).get(),
+    db.collection('audio').orderBy('createdAt','desc').limit(3).get()
+  ];
+  var icons=['⚡','🎬','🎧'];
+  var names=['Shorts','Videos','Audio'];
+  Promise.all(promises).then(function(snaps){
+    var items=[];
+    snaps.forEach(function(snap,i){
+      snap.docs.forEach(function(d){
+        var v=d.data();
+        items.push({icon:icons[i],col:names[i],title:v.title,teacher:v.teacher,ts:v.createdAt&&v.createdAt.seconds?v.createdAt.seconds:0});
+      });
+    });
+    items.sort(function(a,b){return b.ts-a.ts;});
+    if(!items.length){ el.innerHTML='<p style="color:var(--text3);font-size:.86rem">Chưa có hoạt động nào</p>'; return; }
+    el.innerHTML=items.slice(0,8).map(function(it){
+      return '<div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)">'
+        +'<span style="font-size:1.1rem">'+it.icon+'</span>'
+        +'<div><div style="font-size:.86rem;font-weight:500">'+esc(it.title)+'</div>'
+        +'<div style="font-size:.73rem;color:var(--text3)">'+esc(it.teacher||'')+'&nbsp;·&nbsp;'+it.col+'</div></div>'
+        +'</div>';
+    }).join('');
+  }).catch(function(){ el.innerHTML='<p style="color:var(--text3)">Lỗi tải hoạt động</p>'; });
+}
+
+/* ════════════════════════════════════════════
+   COMMENT MODERATION (Realtime DB)
+════════════════════════════════════════════ */
+function listenPendingComments(){
+  rtdb.ref('comments').on('value', function(snap){
+    var data = snap.val();
+    var listEl = document.getElementById('cmt-list');
+    var badge  = document.getElementById('badge-cmts');
+    var stPend = document.getElementById('st-pending');
+
+    if(!data){
+      listEl.innerHTML='<div class="empty"><div class="ei">✅</div><p>Không có bình luận vi phạm nào 🙏</p></div>';
+      badge.textContent='0'; badge.className='nav-badge';
+      if(stPend) stPend.textContent='0';
+      return;
+    }
+
+    var pending=[];
+    Object.keys(data).forEach(function(cid){
+      var cmts=data[cid];
+      Object.keys(cmts).forEach(function(key){
+        var c=cmts[key];
+        if(c.needsApproval) pending.push(Object.assign({},c,{_cid:cid,_key:key}));
+      });
+    });
+
+    badge.textContent=pending.length;
+    badge.className='nav-badge'+(pending.length>0?' show':'');
+    if(stPend) stPend.textContent=pending.length;
+
+    if(!pending.length){
+      listEl.innerHTML='<div class="empty"><div class="ei">✅</div><p>Không có bình luận vi phạm nào đang chờ duyệt 🙏</p></div>';
+      return;
+    }
+
+    listEl.innerHTML=pending.map(function(c){
+      return '<div class="cmt-card" id="cc-'+c._key+'">'
+        +'<div class="cc-head">'
+        +'<img src="'+esc(c.avatar||'')+'" alt="'+esc(c.name||'')
+        +'" onerror="this.src=\'https://api.dicebear.com/7.x/initials/svg?seed='+encodeURIComponent(c.name||'?')+'\'" />'
+        +'<div><div class="cc-name">'+esc(c.name||'Ẩn danh')+'</div>'
+        +'<div class="cc-meta">Bài: <strong>'+esc(c._cid)+'</strong> · '+new Date(c.timestamp||Date.now()).toLocaleString('vi-VN')+'</div></div>'
+        +'</div>'
+        +'<div class="cc-body">'+esc(c.text||'')+'</div>'
+        +'<div class="cc-flags"><span class="badge br">⚠️ Vi phạm từ ngữ</span><span class="badge bo">Chờ duyệt</span></div>'
+        +'<div class="cc-acts">'
+        +'<button class="btn btn-success btn-sm" onclick="approveComment(\''+c._cid+'\',\''+c._key+'\')">✅ Duyệt & Hiển thị</button>'
+        +'<button class="btn btn-danger btn-sm" onclick="deleteComment(\''+c._cid+'\',\''+c._key+'\')">🗑 Xóa vĩnh viễn</button>'
+        +'</div></div>';
+    }).join('');
+  });
+}
+
+function approveComment(cid, key){
+  rtdb.ref('comments/'+cid+'/'+key).update({isHidden:false,needsApproval:false})
+    .then(function(){ toast('Đã duyệt bình luận','s'); })
+    .catch(function(){ toast('Lỗi','e'); });
+}
+
+function deleteComment(cid, key){
+  if(!confirm('Xóa vĩnh viễn bình luận này?')) return;
+  rtdb.ref('comments/'+cid+'/'+key).remove()
+    .then(function(){
+      toast('Đã xóa','s');
+      var el=document.getElementById('cc-'+key);
+      if(el) el.remove();
+    })
+    .catch(function(){ toast('Lỗi xóa','e'); });
+}
+
+/* ════════════════════════════════════════════
+   INIT ADMIN
+════════════════════════════════════════════ */
+function initAdmin(){
+  loadStats();
+  loadRecent();
+  loadTable('shorts');
+  loadTable('videos');
+  loadTable('audio');
+  listenPendingComments();
+}
+</script>
+</body>
+</html>
