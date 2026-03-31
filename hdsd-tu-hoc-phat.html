@@ -1,67 +1,71 @@
 <style>
-  /* ── CSS DÀNH RIÊNG CHO TRANG HƯỚNG DẪN ── */
+  /* ── CSS MỚI: MÀU SẮC ĐỘC LẬP, RÕ RÀNG ── */
   .guide-wrapper {
     max-width: 860px;
     margin: 0 auto;
     padding: 40px 16px;
-    font-family: var(--fn), 'DM Sans', sans-serif;
-    color: var(--text2, #a0a0a0);
+    font-family: 'DM Sans', sans-serif;
+    color: #4a4a4a; /* Chữ màu xám đậm, rất rõ trên nền sáng */
     line-height: 1.7;
+    background-color: transparent;
   }
   
-  /* Căn chỉnh ảnh banner mới thêm */
   .guide-banner {
     width: 100%;
     height: auto;
     border-radius: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
     object-fit: cover;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   }
 
   .guide-title {
-    font-family: var(--fd), 'Cormorant Garamond', serif;
-    color: var(--gold, #ccff00);
+    font-family: 'Cormorant Garamond', serif;
+    color: #8c7322; /* Màu vàng rêu sang trọng, dễ đọc */
     font-size: clamp(2rem, 5vw, 2.6rem);
     text-align: center;
     margin-bottom: 16px;
     font-weight: 600;
     line-height: 1.2;
   }
+  
   .guide-intro {
     text-align: center;
     font-size: 1.05rem;
     margin-bottom: 40px;
     padding: 0 10px;
+    color: #555;
   }
-  .guide-intro strong { color: #fff; font-weight: 500; }
+  .guide-intro strong { color: #8c7322; font-weight: 600; }
   
   .guide-card {
-    background: var(--surface, #1e1e1e);
-    border: 1px solid var(--border, rgba(255,255,255,0.08));
-    border-radius: var(--r, 12px);
+    background: #fdfdfc; /* Nền thẻ hơi ngà, cực kỳ dịu mắt */
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
     padding: 24px 28px;
-    margin-bottom: 20px;
-    transition: transform var(--tr, 0.3s ease), border-color var(--tr, 0.3s ease), box-shadow var(--tr, 0.3s ease);
-    animation: fadeUp 0.4s ease forwards;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
   }
   .guide-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(204,255,0,0.3);
-    box-shadow: var(--sh-g, 0 0 22px rgba(204,255,0,.18));
+    transform: translateY(-3px);
+    border-color: #d4c59a;
+    box-shadow: 0 8px 24px rgba(140, 115, 34, 0.1);
   }
+  
   .guide-card h3 {
-    font-family: var(--fd), 'Cormorant Garamond', serif;
-    font-size: 1.45rem;
-    color: #fff;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: #333; /* Tiêu đề thẻ màu đen xám, cực rõ */
     margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-bottom: 1px solid #eee;
     padding-bottom: 12px;
     font-weight: 600;
   }
+  
   .guide-card ul {
     list-style: none;
     padding: 0;
@@ -69,12 +73,13 @@
   }
   .guide-card li {
     position: relative;
-    padding-left: 22px;
+    padding-left: 24px;
     margin-bottom: 12px;
+    color: #4a4a4a;
   }
   .guide-card li::before {
     content: '✦';
-    color: var(--gold, #ccff00);
+    color: #8c7322;
     position: absolute;
     left: 0;
     top: 0;
@@ -83,26 +88,29 @@
   }
   .guide-card li:last-child { margin-bottom: 0; }
   .guide-card strong {
-    color: #fff;
-    font-weight: 500;
+    color: #222; /* Các từ khóa in đậm rõ ràng */
+    font-weight: 600;
   }
+  
   .guide-badge-done {
-    background: rgba(34,197,94,0.13);
-    color: var(--green, #22c55e);
+    background: #e6f4ea;
+    color: #16a34a;
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 0.8rem;
     display: inline-block;
-    font-weight: 500;
+    font-weight: 600;
+    border: 1px solid #bbf7d0;
   }
+  
   .guide-footer {
     text-align: center;
     margin-top: 40px;
     padding-top: 24px;
-    border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-top: 1px solid #eee;
     font-style: italic;
     font-size: 0.95rem;
-    color: var(--text3, #555);
+    color: #777;
   }
 </style>
 
@@ -115,7 +123,7 @@
     Chào mừng bạn bước vào <strong>Tự Học Phật</strong> – một không gian tu học kỹ thuật số bình an, phi lợi nhuận và hoàn toàn miễn phí. Dưới đây là hướng dẫn giúp bạn tận dụng tối đa mọi tiện ích của trang web!
   </div>
 
-  <div class="guide-card" style="animation-delay: 0.1s;">
+  <div class="guide-card">
     <h3>🔑 1. Bước Qua Cửa Thiền: Đăng Nhập & Hồ Sơ</h3>
     <p style="margin-bottom: 12px;">Bạn hoàn toàn có thể đọc kinh và nghe pháp ẩn danh. Tuy nhiên, để có trải nghiệm trọn vẹn nhất, hãy dành 3 giây để <strong>Đăng nhập</strong>:</p>
     <ul>
@@ -125,7 +133,7 @@
     </ul>
   </div>
 
-  <div class="guide-card" style="animation-delay: 0.2s;">
+  <div class="guide-card">
     <h3>📚 2. Khám Phá Kho Tàng Pháp Bảo</h3>
     <p style="margin-bottom: 12px;">Trang chủ được chia thành 4 khu vực nội dung chính, đáp ứng mọi nhu cầu và thời gian của bạn:</p>
     <ul>
@@ -136,7 +144,7 @@
     </ul>
   </div>
 
-  <div class="guide-card" style="animation-delay: 0.3s;">
+  <div class="guide-card">
     <h3>🧘 3. Trải Nghiệm Học Tập Thông Minh & Tùy Biến</h3>
     <ul>
       <li><strong>Chế độ Đọc Kinh:</strong> Đổi màu nền (🌙 Tối, 📜 Vàng Sepia, ☀️ Sáng) và dễ dàng tăng/giảm cỡ chữ (A- / A+) cho phù hợp với thị lực.</li>
@@ -145,7 +153,7 @@
     </ul>
   </div>
 
-  <div class="guide-card" style="animation-delay: 0.4s;">
+  <div class="guide-card">
     <h3>🔍 4. Tìm Kiếm "Thần Tốc"</h3>
     <ul>
       <li>Sử dụng thanh tìm kiếm trên cùng để tra cứu bài kinh hoặc vị Thầy.</li>
@@ -153,15 +161,15 @@
     </ul>
   </div>
 
-  <div class="guide-card" style="animation-delay: 0.5s;">
+  <div class="guide-card">
     <h3>🗓️ 5. Lịch Âm Dương & Ngày Thập Trai</h3>
     <ul>
       <li>Kéo xuống gần cuối trang, bạn sẽ thấy công cụ Lịch thông minh xem ngày Âm - Dương song song.</li>
-      <li><strong>Nhắc nhở ăn chay:</strong> Các <strong>Ngày Thập Trai</strong> (10 ngày chay trong tháng) được đánh dấu chấm vàng kim nổi bật. Click vào ngày đó để xem giải thích chi tiết, nhắc nhở thọ giới và tụng kinh tích phước.</li>
+      <li><strong>Nhắc nhở ăn chay:</strong> Các <strong>Ngày Thập Trai</strong> (10 ngày chay trong tháng) được đánh dấu chấm vàng nổi bật. Click vào ngày đó để xem giải thích chi tiết, nhắc nhở thọ giới và tụng kinh tích phước.</li>
     </ul>
   </div>
 
-  <div class="guide-card" style="animation-delay: 0.6s;">
+  <div class="guide-card">
     <h3>🔗 6. Chia Sẻ & Kết Nối</h3>
     <ul>
       <li><strong>Chia sẻ dễ dàng:</strong> Nút <strong>"🔗 Chia sẻ"</strong> có mặt ở mọi bài học. Bấm một phát là copy link hoặc gọi menu chia sẻ qua Zalo/Facebook ngay lập tức.</li>
