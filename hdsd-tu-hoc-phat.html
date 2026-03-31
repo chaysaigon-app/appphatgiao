@@ -1,0 +1,177 @@
+<style>
+  /* ── CSS DÀNH RIÊNG CHO TRANG HƯỚNG DẪN ── */
+  .guide-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 16px;
+    font-family: var(--fn), 'DM Sans', sans-serif;
+    color: var(--text2, #a0a0a0);
+    line-height: 1.7;
+  }
+  
+  /* Căn chỉnh ảnh banner mới thêm */
+  .guide-banner {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    margin-bottom: 28px;
+    object-fit: cover;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+
+  .guide-title {
+    font-family: var(--fd), 'Cormorant Garamond', serif;
+    color: var(--gold, #ccff00);
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    text-align: center;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .guide-intro {
+    text-align: center;
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+    padding: 0 10px;
+  }
+  .guide-intro strong { color: #fff; font-weight: 500; }
+  
+  .guide-card {
+    background: var(--surface, #1e1e1e);
+    border: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-radius: var(--r, 12px);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    transition: transform var(--tr, 0.3s ease), border-color var(--tr, 0.3s ease), box-shadow var(--tr, 0.3s ease);
+    animation: fadeUp 0.4s ease forwards;
+  }
+  .guide-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(204,255,0,0.3);
+    box-shadow: var(--sh-g, 0 0 22px rgba(204,255,0,.18));
+  }
+  .guide-card h3 {
+    font-family: var(--fd), 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    color: #fff;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
+    padding-bottom: 12px;
+    font-weight: 600;
+  }
+  .guide-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .guide-card li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 12px;
+  }
+  .guide-card li::before {
+    content: '✦';
+    color: var(--gold, #ccff00);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+  .guide-card li:last-child { margin-bottom: 0; }
+  .guide-card strong {
+    color: #fff;
+    font-weight: 500;
+  }
+  .guide-badge-done {
+    background: rgba(34,197,94,0.13);
+    color: var(--green, #22c55e);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .guide-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--text3, #555);
+  }
+</style>
+
+<div class="guide-wrapper">
+  
+  <img class="guide-banner" src="https://res.cloudinary.com/dym7dwnji/image/upload/v1774944241/HDSD_Tu_Hoc_Phat_r4oepp.jpg" alt="Hướng Dẫn Sử Dụng Tự Học Phật" />
+
+  <h1 class="guide-title">🌿 Cẩm Nang Tu Học</h1>
+  <div class="guide-intro">
+    Chào mừng bạn bước vào <strong>Tự Học Phật</strong> – một không gian tu học kỹ thuật số bình an, phi lợi nhuận và hoàn toàn miễn phí. Dưới đây là hướng dẫn giúp bạn tận dụng tối đa mọi tiện ích của trang web!
+  </div>
+
+  <div class="guide-card" style="animation-delay: 0.1s;">
+    <h3>🔑 1. Bước Qua Cửa Thiền: Đăng Nhập & Hồ Sơ</h3>
+    <p style="margin-bottom: 12px;">Bạn hoàn toàn có thể đọc kinh và nghe pháp ẩn danh. Tuy nhiên, để có trải nghiệm trọn vẹn nhất, hãy dành 3 giây để <strong>Đăng nhập</strong>:</p>
+    <ul>
+      <li><strong>Cách thức:</strong> Nhấn vào nút "Đăng nhập" ở góc phải màn hình. Hệ thống sử dụng tài khoản Google cực kỳ nhanh và bảo mật.</li>
+      <li><strong>Đặc quyền:</strong> Lưu lại tiến độ học tập cá nhân (bài nào đã đọc, video nào đã xem) và tham gia bình luận, chia sẻ góc nhìn dưới mỗi bài học.</li>
+      <li><strong>Góc cá nhân:</strong> Click vào ảnh đại diện của bạn, chọn <strong>"📖 Tiến độ học"</strong> để xem lại bảng vàng thành tích tu học của mình nhé!</li>
+    </ul>
+  </div>
+
+  <div class="guide-card" style="animation-delay: 0.2s;">
+    <h3>📚 2. Khám Phá Kho Tàng Pháp Bảo</h3>
+    <p style="margin-bottom: 12px;">Trang chủ được chia thành 4 khu vực nội dung chính, đáp ứng mọi nhu cầu và thời gian của bạn:</p>
+    <ul>
+      <li><strong>⚡ Pháp Thoại Ngắn (Shorts):</strong> Những đoạn video nhân quả, triết lý ngắn gọn. Giao diện thả dọc mượt mà giúp bạn dễ dàng lướt xem.</li>
+      <li><strong>🎬 Pháp Thoại Video:</strong> Các bài giảng dài, chuyên sâu từ các bậc tôn túc.</li>
+      <li><strong>🎧 Trạm Nghe Pháp (Audio):</strong> Nơi bạn cắm tai nghe và thưởng thức các bài Pháp âm (tích hợp chuẩn mượt mà từ YouTube và Spotify).</li>
+      <li><strong>📜 Kinh Điển:</strong> Thư viện kinh văn được tổ chức thông minh. Bấm vào bìa sách (Tập/Bộ Kinh) sẽ mở ra danh sách các bài kinh chi tiết bên trong.</li>
+    </ul>
+  </div>
+
+  <div class="guide-card" style="animation-delay: 0.3s;">
+    <h3>🧘 3. Trải Nghiệm Học Tập Thông Minh & Tùy Biến</h3>
+    <ul>
+      <li><strong>Chế độ Đọc Kinh:</strong> Đổi màu nền (🌙 Tối, 📜 Vàng Sepia, ☀️ Sáng) và dễ dàng tăng/giảm cỡ chữ (A- / A+) cho phù hợp với thị lực.</li>
+      <li><strong>Ghim Tiến Độ:</strong> Bấm vào nút <strong>"📌 Đánh dấu đã học"</strong>, bài học sẽ được chuyển sang trạng thái <span class="guide-badge-done">✅ Đã học</span> và lưu thẳng vào hồ sơ của bạn.</li>
+      <li><strong>Thảo Luận Văn Minh:</strong> Khung bình luận bên dưới mỗi bài là nơi chia sẻ tâm đắc. Hệ thống có bộ lọc ngôn từ tự động, đảm bảo môi trường thanh tịnh.</li>
+    </ul>
+  </div>
+
+  <div class="guide-card" style="animation-delay: 0.4s;">
+    <h3>🔍 4. Tìm Kiếm "Thần Tốc"</h3>
+    <ul>
+      <li>Sử dụng thanh tìm kiếm trên cùng để tra cứu bài kinh hoặc vị Thầy.</li>
+      <li><strong>Đặc biệt:</strong> Bạn <strong>gõ tiếng Việt không dấu</strong> (Ví dụ: "kinh phap cu") hệ thống vẫn hiểu và trả về kết quả chính xác ngay lập tức.</li>
+    </ul>
+  </div>
+
+  <div class="guide-card" style="animation-delay: 0.5s;">
+    <h3>🗓️ 5. Lịch Âm Dương & Ngày Thập Trai</h3>
+    <ul>
+      <li>Kéo xuống gần cuối trang, bạn sẽ thấy công cụ Lịch thông minh xem ngày Âm - Dương song song.</li>
+      <li><strong>Nhắc nhở ăn chay:</strong> Các <strong>Ngày Thập Trai</strong> (10 ngày chay trong tháng) được đánh dấu chấm vàng kim nổi bật. Click vào ngày đó để xem giải thích chi tiết, nhắc nhở thọ giới và tụng kinh tích phước.</li>
+    </ul>
+  </div>
+
+  <div class="guide-card" style="animation-delay: 0.6s;">
+    <h3>🔗 6. Chia Sẻ & Kết Nối</h3>
+    <ul>
+      <li><strong>Chia sẻ dễ dàng:</strong> Nút <strong>"🔗 Chia sẻ"</strong> có mặt ở mọi bài học. Bấm một phát là copy link hoặc gọi menu chia sẻ qua Zalo/Facebook ngay lập tức.</li>
+      <li><strong>Đồng hành:</strong> Khám phá khu vực <strong>Nhà Tài Trợ</strong> và <strong>Liên Kết Hữu Ích</strong> ở cuối trang. Click vào các thẻ hình ảnh đẹp mắt để xem thông tin chi tiết và website của các đơn vị đồng hành.</li>
+    </ul>
+  </div>
+
+  <div class="guide-footer">
+    Tự Học Phật không chỉ là một website, mà là một ngôi chùa nhỏ gọn nằm trong túi bạn.<br>
+    Chúc bạn có những phút giây tu học an lạc, tỉnh thức và gặt hái được nhiều tuệ giác! 🙏
+  </div>
+
+</div>
