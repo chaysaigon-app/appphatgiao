@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0MQHYMMNB9"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0MQHYMMNB9"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -515,7 +514,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
 </head>
 <body>
 
-<!-- BANNER THÔNG BÁO -->
 <div id="banner-tb">
   <div class="banner-inner">
     <span class="banner-icon">📢</span>
@@ -523,7 +521,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   </div>
 </div>
 
-<!-- HEADER -->
 <header id="header">
   <div class="hl">
     <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -551,7 +548,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   </div>
 </header>
 
-<!-- MAIN -->
 <main>
   <div class="sec-h"><h2 class="sec-t"><span>⚡</span>Pháp Thoại Ngắn <span class="sec-b">Shorts</span></h2></div>
   <div class="sr"><div class="cg" id="g-shorts"></div></div>
@@ -566,15 +562,13 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   <div id="g-kinh-van"></div>
 </main>
 
-<!-- SPONSORS -->
 <div style="max-width:1200px;margin:0 auto;padding:0 16px">
   <section id="sponsors">
-    <div class="sp-label">Đồng hành &amp; Tài trợ</div>
+    <div class="sp-label">Đồng hành & Tài trợ</div>
     <div class="sp-row" id="sp-row"><div class="spinner" style="margin:auto"></div></div>
   </section>
 </div>
 
-<!-- LIÊN KẾT HỮU ÍCH -->
 <div style="max-width:1200px;margin:0 auto;padding:0 16px">
   <section id="links">
     <div class="sp-label">Liên Kết Hữu Ích</div>
@@ -582,31 +576,78 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   </section>
 </div>
 
-<!-- LỊCH ÂM DƯƠNG -->
 <div id="lich-section">
-  <div class="sec-h" style="padding:0"><h2 class="sec-t"><span>🗓️</span>Lịch Âm Dương</h2></div>
-  <div class="lich-wrap">
-    <div class="lich-nav">
-      <div>
-        <div class="lich-nav-title" id="lich-title">Tháng …</div>
-        <div class="lich-nav-sub" id="lich-sub"></div>
-      </div>
-      <div class="lich-nav-btns">
-        <button class="lich-nav-btn" id="lich-prev" title="Tháng trước">◀</button>
-        <button class="lich-nav-btn" id="lich-today" title="Hôm nay" style="font-size:.72rem;width:auto;border-radius:6px;padding:0 10px">Hôm nay</button>
-        <button class="lich-nav-btn" id="lich-next" title="Tháng sau">▶</button>
-      </div>
-    </div>
-    <div class="lich-weekdays">
-      <div class="lich-wd">CN</div><div class="lich-wd">Thứ 2</div><div class="lich-wd">Thứ 3</div>
-      <div class="lich-wd">Thứ 4</div><div class="lich-wd">Thứ 5</div><div class="lich-wd">Thứ 6</div><div class="lich-wd">Thứ 7</div>
-    </div>
-    <div class="lich-grid" id="lich-grid"></div>
-    <div class="lich-detail" id="lich-detail"></div>
+  <div class="month-nav">
+    <button id="btn-prev-month" class="nav-btn" aria-label="Tháng trước">‹</button>
+    <h2 id="month-title" class="month-title">Tháng 1 · 2025</h2>
+    <button id="btn-next-month" class="nav-btn" aria-label="Tháng sau">›</button>
   </div>
+
+  <section class="calendar-section" aria-label="Lịch tháng">
+    <div class="weekday-header">
+      <div class="weekday-label">T2</div>
+      <div class="weekday-label">T3</div>
+      <div class="weekday-label">T4</div>
+      <div class="weekday-label">T5</div>
+      <div class="weekday-label">T6</div>
+      <div class="weekday-label">T7</div>
+      <div class="weekday-label">CN</div>
+    </div>
+    <div id="calendar-grid" class="calendar-grid" role="grid" aria-label="Lịch"></div>
+  </section>
+
+  <div class="bottom-actions">
+    <button id="btn-today" class="btn-today">⬤ Hôm nay</button>
+  </div>
+
+  <section class="day-detail-section" aria-label="Chi tiết ngày">
+    <div class="day-detail-header">
+      <div class="solar-big">
+        <div id="detail-thu" class="detail-thu">Thứ Hai</div>
+        <div id="detail-solar-day" class="detail-solar-day">1</div>
+        <div id="detail-solar-month-year" class="detail-solar-month-year">Tháng 1 · 2025</div>
+      </div>
+
+      <div class="divider-v"></div>
+
+      <div class="lunar-info">
+        <div id="detail-lunar-day" class="detail-lunar-day">Ngày 1</div>
+        <div id="detail-lunar-month" class="detail-lunar-month">Tháng Giêng · Năm Ất Tỵ</div>
+      </div>
+    </div>
+
+    <div class="day-detail-body">
+      <div id="thap-trai-badge" class="thap-trai-badge" role="status" style="display: none;">
+        <span class="badge-icon">🪷</span>
+        <div>
+          <div class="badge-text">Hôm nay là ngày Thập Trai</div>
+          <div class="badge-sub">Ngày trai giới trong tháng theo truyền thống</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="phapcu-section" aria-label="Kinh Pháp Cú hàng ngày">
+    <div class="phapcu-header">
+      <span class="phapcu-icon">📿</span>
+      <div>
+        <div class="phapcu-title">Kinh Pháp Cú Hôm Nay</div>
+        <div class="phapcu-subtitle">Dhammapada · Daily Verse</div>
+      </div>
+    </div>
+    <div class="phapcu-body">
+      <div id="phapcu-pham" class="phapcu-pham">Phẩm Song Yếu — Kệ 1</div>
+
+      <blockquote id="phapcu-ke-ngon" class="phapcu-ke-ngon"></blockquote>
+
+      <div class="phapcu-divider"></div>
+
+      <div class="phapcu-y-nghia-label">Ý Nghĩa</div>
+      <p id="phapcu-y-nghia" class="phapcu-y-nghia"></p>
+    </div>
+  </section>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="ft-l">Tự <span>Học Phật</span></div>
   <div>Phi lợi nhuận · Dịch: HT. Thích Minh Châu · Nguồn: Viện Nghiên Cứu PHVN</div>
@@ -614,7 +655,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   <div class="ft-by">Phát triển bởi <a href="#" target="_blank">Veggie Saigon</a>.</div>
 </footer>
 
-<!-- SHORTS OVERLAY -->
 <div id="shorts-overlay">
   <button class="so-close" id="so-close">✕</button>
   <div class="so-inner"><iframe id="shorts-iframe" allowfullscreen allow="autoplay; accelerometer; gyroscope"></iframe></div>
@@ -625,7 +665,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   <div class="so-info"><div class="so-info-inner"><div class="so-title" id="so-title"></div><div class="so-teacher" id="so-teacher"></div></div></div>
 </div>
 
-<!-- MODAL CHÍNH -->
 <div id="overlay">
   <div id="modal">
     <div class="mbar"><div class="mbar-t" id="mtitle"></div><button class="mx" id="mx">✕</button></div>
@@ -633,7 +672,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   </div>
 </div>
 
-<!-- KINH VĂN – TRANG CẤP 2 (SPA) -->
 <div id="kinh-page">
   <div class="kv-page-header">
     <button class="kv-back-btn" onclick="showHomePage()">🔙 Quay lại Trang Chủ</button>
@@ -645,7 +683,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
   <div class="kv-bai-grid" id="kv-bai-grid"></div>
 </div>
 
-<!-- SPONSOR / LIÊN KẾT MODAL (dùng chung) -->
 <div id="sp-modal-overlay">
   <div id="sp-modal">
     <img class="spm-logo" id="spm-logo" src="" alt="logo"/>
@@ -665,7 +702,6 @@ footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);co
 
 <div id="tw"></div>
 
-<!-- FIREBASE 10 modular CDN -->
 <script type="module">
 import { initializeApp }                              from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
@@ -701,7 +737,7 @@ let FONT_SZ = parseInt(localStorage.getItem('rd_sz')||'15');
 let READ_THEME = localStorage.getItem('rd_theme')||'dark';
 
 /* ═══ UTILS ═══ */
-const esc=t=>String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const esc=t=>String(t||'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
 
 // Chuẩn hóa không dấu để tìm kiếm
 const noAccent=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -928,7 +964,7 @@ async function renderVideos(){
     g.innerHTML=list.length?list.map(d=>{const v=d.data();return makeCard({
       id:d.id,title:v.title,desc:v.description,src:v.teacher||'Pháp Thoại',
       thumb:ytThumb(v.youtube_id),type:'video',
-      action:`openVideo('${esc(v.youtube_id)}','${esc(v.title).replace(/'/g,"&#39;")}','${d.id}')`
+      action:`openVideo('${esc(v.youtube_id)}','${esc(v.title).replace(/'/g,"'")}','${d.id}')`
     });}).join(''):'<p style="color:var(--text3);padding:18px;font-size:.88rem">Chưa có Video.</p>';
   }catch(e){g.innerHTML='<p style="color:var(--text3);padding:18px">Không thể tải Video.</p>';}
 }
@@ -943,7 +979,7 @@ async function renderAudio(){
       id:d.id,title:v.title,desc:v.description,src:'🎧 '+(v.teacher||'Pháp Âm'),
       thumb:v.thumbnail||'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400',
       type:'audio',
-      action:`openAudio('${esc(v.spotify_id||v.audio_id||'')}','${esc(v.title).replace(/'/g,"&#39;")}','${d.id}','${esc(v.audio_type||'spotify')}')`
+      action:`openAudio('${esc(v.spotify_id||v.audio_id||'')}','${esc(v.title).replace(/'/g,"'")}','${d.id}','${esc(v.audio_type||'spotify')}')`
     });}).join(''):'<p style="color:var(--text3);padding:18px;font-size:.88rem">Chưa có Audio.</p>';
   }catch(e){g.innerHTML='<p style="color:var(--text3);padding:18px">Không thể tải Audio.</p>';}
 }
@@ -993,7 +1029,7 @@ async function renderKinhVan(){
 
     // Render grid bìa sách cấp 1 – KHÔNG hiển thị danh_muc
     wrap.innerHTML=`<div class="kv-tap-grid">${sorted.map((t,i)=>`
-      <div class="kv-tap-card" onclick="openKvTap('${esc(t.tap).replace(/'/g,"&#39;")}')" style="animation-delay:${(i*.05).toFixed(2)}s">
+      <div class="kv-tap-card" onclick="openKvTap('${esc(t.tap).replace(/'/g,"'")}')" style="animation-delay:${(i*.05).toFixed(2)}s">
         <div class="kv-tap-ct">
           <img class="kv-tap-img"
                src="${esc(t.anh||'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=400')}"
@@ -1077,7 +1113,7 @@ window.openVideo=(ytId,title,cid)=>{
     `<div class="vw"><iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0" allowfullscreen allow="autoplay"></iframe></div>`
     +`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:26px">`
     +`<button class="btn-mark${PROG[cid]?' done':''}" style="margin-bottom:0" data-mark="${cid}" onclick="markRead('${cid}')">${PROG[cid]?'✅ Đã học':'📌 Đánh dấu đã xem'}</button>`
-    +`<button class="rt-share" onclick="shareContent('${cid}','${esc(title).replace(/'/g,"&#39;")}','video')">🔗 Chia sẻ</button>`
+    +`<button class="rt-share" onclick="shareContent('${cid}','${esc(title).replace(/'/g,"'")}','video')">🔗 Chia sẻ</button>`
     +`</div>`
     +cmtHTML(cid));
   setTimeout(()=>startCmt(cid),80);
@@ -1091,7 +1127,7 @@ window.openAudio=(aid,title,cid,atype)=>{
     embed
     +`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:26px">`
     +`<button class="btn-mark${PROG[cid]?' done':''}" style="margin-bottom:0" data-mark="${cid}" onclick="markRead('${cid}')">${PROG[cid]?'✅ Đã nghe':'📌 Đánh dấu đã nghe'}</button>`
-    +`<button class="rt-share" onclick="shareContent('${cid}','${esc(title).replace(/'/g,"&#39;")}','audio')">🔗 Chia sẻ</button>`
+    +`<button class="rt-share" onclick="shareContent('${cid}','${esc(title).replace(/'/g,"'")}','audio')">🔗 Chia sẻ</button>`
     +`</div>`
     +cmtHTML(cid));
   setTimeout(()=>startCmt(cid),80);
@@ -1227,8 +1263,8 @@ function renderDrop(results,q){
   }else{
     DROP.innerHTML=results.map(r=>{
       let badge='Kinh',bCls='',action='',sub='';
-      if(r.type==='video'){badge='Video';bCls='v';action=`closeDrop();openVideo('${esc(r.data?.youtube_id||'')}','${esc(r.title).replace(/'/g,"&#39;")}','${r.id}')`;sub=r.data?.description||'';}
-      else if(r.type==='audio'){badge='Audio';bCls='a';action=`closeDrop();openAudio('${esc(r.data?.spotify_id||r.data?.audio_id||'')}','${esc(r.title).replace(/'/g,"&#39;")}','${r.id}','${esc(r.data?.audio_type||'spotify')}')`;sub=r.data?.description||'';}
+      if(r.type==='video'){badge='Video';bCls='v';action=`closeDrop();openVideo('${esc(r.data?.youtube_id||'')}','${esc(r.title).replace(/'/g,"'")}','${r.id}')`;sub=r.data?.description||'';}
+      else if(r.type==='audio'){badge='Audio';bCls='a';action=`closeDrop();openAudio('${esc(r.data?.spotify_id||r.data?.audio_id||'')}','${esc(r.title).replace(/'/g,"'")}','${r.id}','${esc(r.data?.audio_type||'spotify')}')`;sub=r.data?.description||'';}
       else if(r.type==='shorts'){badge='Shorts';bCls='v';action='closeDrop();';}
       else{badge=r.data?.danh_muc||'Kinh';action=`closeDrop();openKinhVanBai('${r.id}')`;sub=(r.data?.noi_dung||'').substring(0,60);}
       return`<div class="sri" onclick="${action}"><span class="sri-b ${bCls}">${esc(badge)}</span><div><div class="sri-t">${esc(r.title)}</div><div class="sri-s">${esc(sub)}${sub.length>=60?'…':''}</div></div></div>`;
@@ -1238,171 +1274,6 @@ function renderDrop(results,q){
 }
 window.closeDrop=()=>{DROP.classList.remove('open');SI.value='';};
 
-/* ═══ LỊCH ÂM DƯƠNG ═══ */
-// Thuật toán chuyển đổi âm dương (Hồ Ngọc Đức)
-const LICH={
-  jdFromDate:(dd,mm,yy)=>{
-    let a=Math.floor((14-mm)/12),y=yy+4800-a,m=mm+12*a-3;
-    let jd=dd+Math.floor((153*m+2)/5)+365*y+Math.floor(y/4)-Math.floor(y/100)+Math.floor(y/400)-32045;
-    if(jd<2299161){jd=dd+Math.floor((153*m+2)/5)+365*y+Math.floor(y/4)-32083;}
-    return jd;
-  },
-  jdToDate:(jd)=>{
-    let a,b,c,d,e,m;
-    if(jd>2299160){a=jd+32044;b=Math.floor((4*a+3)/146097);c=a-Math.floor(146097*b/4);}
-    else{b=0;c=jd+32082;}
-    d=Math.floor((4*c+3)/1461);e=c-Math.floor(1461*d/4);m=Math.floor((5*e+2)/153);
-    const day=e-Math.floor((153*m+2)/5)+1;
-    const month=m+3-12*Math.floor(m/10);
-    const year=100*b+d-4800+Math.floor(m/10);
-    return[day,month,year];
-  },
-  newMoon:(k)=>{
-    const T=k/1236.85,T2=T*T,T3=T2*T,Jd1=2415020.75933+29.53058868*k+0.0001178*T2-0.000000155*T3+0.00033*Math.sin((166.56+132.87*T-0.009173*T2)*Math.PI/180);
-    const M=359.2242+29.10535608*k-0.0000333*T2-0.00000347*T3,Mpr=306.0253+385.81691806*k+0.0107306*T2+0.00001236*T3,F=21.2964+390.67050646*k-0.0016528*T2-0.00000239*T3;
-    let C1=(0.1734-0.000393*T)*Math.sin(M*Math.PI/180)+0.0021*Math.sin(2*M*Math.PI/180)-0.4068*Math.sin(Mpr*Math.PI/180)+0.0161*Math.sin(2*Mpr*Math.PI/180)-0.0004*Math.sin(3*Mpr*Math.PI/180)+0.0104*Math.sin(2*F*Math.PI/180)-0.0051*Math.sin((M+Mpr)*Math.PI/180)-0.0074*Math.sin((M-Mpr)*Math.PI/180)+0.0004*Math.sin((2*F+M)*Math.PI/180)-0.0004*Math.sin((2*F-M)*Math.PI/180)-0.0006*Math.sin((2*F+Mpr)*Math.PI/180)+0.0010*Math.sin((2*F-Mpr)*Math.PI/180)+0.0005*Math.sin((M+2*Mpr)*Math.PI/180);
-    return Jd1+C1;
-  },
-  sunLongitude:(jdn)=>{
-    const T=(jdn-2451545.0)/36525,T2=T*T;
-    let dr=Math.PI/180,M=357.5291+35999.0503*T-0.0001559*T2-0.00000048*T*T2;
-    let L0=280.46646+36000.76983*T+0.0003032*T2,DL=1.9146-0.004817*T-0.000014*T2;
-    const L=L0+DL*Math.sin(M*dr)+0.020*Math.sin(2*M*dr)-0.0001*T*Math.sin(M*dr);
-    return Math.floor(L/30)%12;
-  },
-  getLunarMonth11:(yy,tz)=>{
-    const off=(LICH.jdFromDate(31,12,yy)-2415021.076998695)/(29.530588853);
-    let k=Math.floor(off),nm=LICH.newMoon(k);
-    const sunLon=LICH.sunLongitude(nm);
-    if(sunLon>=9)nm=LICH.newMoon(k-1);
-    return nm;
-  },
-  getLeapMonthOffset:(a11,tz)=>{
-    let k=Math.floor(0.5+((a11-2415021.076998695)/29.530588853)),last,i=1,arc;
-    do{last=arc;arc=LICH.sunLongitude(LICH.newMoon(k+i));i++;}while(arc!==last&&i<14);
-    return i-1;
-  },
-  solar2lunar:(dd,mm,yy,tz)=>{
-    const dayNumber=LICH.jdFromDate(dd,mm,yy);
-    let k=Math.floor((dayNumber-2415021.076998695)/29.530588853);
-    let monthStart=Math.floor(LICH.newMoon(k+1));
-    if(monthStart>dayNumber)monthStart=Math.floor(LICH.newMoon(k));
-    let a11=LICH.getLunarMonth11(yy,tz),b11=a11;
-    let lunarYear,lunarMonth,lunarDay,lunarLeap;
-    if(a11>=monthStart){lunarYear=yy-1;a11=LICH.getLunarMonth11(yy-1,tz);}
-    else{lunarYear=yy;b11=LICH.getLunarMonth11(yy+1,tz);}
-    lunarDay=dayNumber-monthStart+1;
-    const diff=Math.floor((monthStart-a11)/29);
-    lunarLeap=false;lunarMonth=diff+11;
-    if(b11-a11>365){
-      const leapMonthDiff=LICH.getLeapMonthOffset(a11,tz);
-      if(diff>=leapMonthDiff){lunarMonth=diff+10;if(diff===leapMonthDiff)lunarLeap=true;}
-    }
-    if(lunarMonth>12)lunarMonth-=12;
-    if(lunarMonth>=11&&diff<4)lunarYear--;
-    return[lunarDay,lunarMonth,lunarYear,lunarLeap];
-  }
-};
-
-const TZ=7;
-const CAN=['Giáp','Ất','Bính','Đinh','Mậu','Kỷ','Canh','Tân','Nhâm','Quý'];
-const CHI=['Tý','Sửu','Dần','Mão','Thìn','Tỵ','Ngọ','Mùi','Thân','Dậu','Tuất','Hợi'];
-const THAP_TRAI=[1,8,14,15,18,23,24,28,29,30];
-const GIO_HOANG_DAO=['Tý','Sửu','Dần','Mão','Thìn','Tỵ','Ngọ','Mùi','Thân','Dậu','Tuất','Hợi'];
-
-let lichDate={y:new Date().getFullYear(),m:new Date().getMonth()+1};
-let selectedDay=null;
-
-function getLunar(d,m,y){return LICH.solar2lunar(d,m,y,TZ);}
-function canChiYear(y){return CAN[(y+6)%10]+'  '+CHI[(y+8)%12];}
-function formatLunar(d,m){const t=d===1?'Mùng 1':d===2?'Mùng 2':d===3?'Mùng 3':d+'';return t+'/'+m;}
-
-function renderLich(){
-  const {y,m}=lichDate;
-  const today=new Date();
-  document.getElementById('lich-title').textContent=`Tháng ${m} năm ${y}`;
-  document.getElementById('lich-sub').textContent=`Năm ${canChiYear(y)}`;
-
-  const firstDay=new Date(y,m-1,1).getDay();
-  const daysInMonth=new Date(y,m,0).getDate();
-  const daysInPrev=new Date(y,m-1,0).getDate();
-
-  let html='';
-  // Ô trống đầu tháng (tháng trước)
-  for(let i=0;i<firstDay;i++){
-    const d=daysInPrev-firstDay+i+1;
-    const [ld,lm]=getLunar(d,m===1?12:m-1,m===1?y-1:y);
-    html+=`<div class="lich-day other-month"><div class="ld-solar">${d}</div><div class="ld-lunar">${formatLunar(ld,lm)}</div></div>`;
-  }
-  // Các ngày trong tháng
-  for(let d=1;d<=daysInMonth;d++){
-    const [ld,lm,ly,ll]=getLunar(d,m,y);
-    const dow=new Date(y,m-1,d).getDay();
-    const isToday=d===today.getDate()&&m===today.getMonth()+1&&y===today.getFullYear();
-    const isSel=selectedDay&&selectedDay.d===d&&selectedDay.m===m&&selectedDay.y===y;
-    const isTrai=THAP_TRAI.includes(ld);
-    let cls='lich-day';
-    if(dow===0)cls+=' sunday';if(dow===6)cls+=' saturday';
-    if(isToday)cls+=' today';if(isSel)cls+=' selected';
-    html+=`<div class="${cls}" onclick="selectDay(${d},${m},${y})">
-      <div class="ld-solar">${d}</div>
-      <div class="ld-lunar">${formatLunar(ld,lm)}</div>
-      ${isTrai?'<div class="ld-trai"></div>':''}
-    </div>`;
-  }
-  // Ô trống cuối tháng
-  const total=firstDay+daysInMonth;
-  const tail=total%7===0?0:7-(total%7);
-  for(let i=1;i<=tail;i++){
-    const [ld,lm]=getLunar(i,m===12?1:m+1,m===12?y+1:y);
-    html+=`<div class="lich-day other-month"><div class="ld-solar">${i}</div><div class="ld-lunar">${formatLunar(ld,lm)}</div></div>`;
-  }
-  document.getElementById('lich-grid').innerHTML=html;
-
-  // Chọn ngày hôm nay mặc định
-  if(!selectedDay)selectDay(today.getDate(),today.getMonth()+1,today.getFullYear());
-}
-
-window.selectDay=(d,m,y)=>{
-  selectedDay={d,m,y};
-  const [ld,lm,ly,ll]=getLunar(d,m,y);
-  const dow=['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'][new Date(y,m-1,d).getDay()];
-  const isTrai=THAP_TRAI.includes(ld);
-  const traiIdx=THAP_TRAI.indexOf(ld);
-  const tenTrai=['Mùng 1','Mùng 8','Rằm','16','18','23','24','28','29','30'][traiIdx]||'';
-  const ngayCC=CAN[(LICH.jdFromDate(d,m,y)+9)%10]+'  '+CHI[(LICH.jdFromDate(d,m,y)+1)%12];
-
-  document.getElementById('lich-detail').innerHTML=`
-    <div class="lich-d-date">${dow}, ${d} tháng ${m} năm ${y}</div>
-    <div class="lich-d-meta">
-      Âm lịch: <strong>${ld} tháng ${lm}${ll?' (nhuận)':''} năm ${canChiYear(ly)}</strong>
-      · Ngày <strong>${ngayCC}</strong>
-    </div>
-    <div class="lich-d-trai ${isTrai?'show':''}">
-      <div class="lich-d-trai-title">🌿 Ngày Thập Trai${tenTrai?' – '+tenTrai:''}</div>
-      <div class="lich-d-trai-txt">Đây là một trong mười ngày trai trong tháng. Phật tử thường thọ giới, ăn chay, tụng kinh, lễ Phật vào ngày này để tích luỹ công đức.</div>
-    </div>`;
-
-  // Re-render lưới để cập nhật selected
-  const {y:cy,m:cm}=lichDate;
-  document.querySelectorAll('.lich-day.selected').forEach(el=>el.classList.remove('selected'));
-  if(m===cm&&y===cy){
-    const cells=document.querySelectorAll('.lich-day:not(.other-month)');
-    if(cells[d-1])cells[d-1].classList.add('selected');
-  }
-};
-
-document.getElementById('lich-prev').onclick=()=>{
-  if(lichDate.m===1){lichDate.m=12;lichDate.y--;}else lichDate.m--;
-  renderLich();
-};
-document.getElementById('lich-next').onclick=()=>{
-  if(lichDate.m===12){lichDate.m=1;lichDate.y++;}else lichDate.m++;
-  renderLich();
-};
-document.getElementById('lich-today').onclick=()=>{
-  const t=new Date();lichDate={y:t.getFullYear(),m:t.getMonth()+1};selectedDay=null;renderLich();
-};
 
 /* ═══ INIT ═══ */
 async function renderAll(){
@@ -1410,7 +1281,6 @@ async function renderAll(){
     renderShorts(),renderVideos(),renderAudio(),
     renderKinhVan(),renderSponsors(),renderLinks()
   ]);
-  renderLich();
   loadBanner();
   // Deep link: chạy sau khi KV_ALL đã được load
   handleDeepLink();
@@ -1464,5 +1334,9 @@ function handleDeepLink(){
 }
 renderAll();
 </script>
+
+<script src="data.js"></script>
+<script src="lunar.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
